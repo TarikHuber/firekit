@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { initialize } from 'redux-form';
-import withFirebase  from '../withFirebase';
 
 class FireForm extends Component {
 
-  constructor(props, context){
+  constructor(){
     super();
-    this.context=context;
-    console.log(context);
     this.state={
       initialized: false
     }
@@ -42,42 +39,36 @@ class FireForm extends Component {
 
 
   handleSubmit =(values) => {
-    const { path, uid, onSubmitSuccess, firebaseApp} = this.props;
+    const { history , path, uid} = this.props;
 
     if(uid){
-      firebaseApp.database().ref().child(`${path}${uid}`).update(this.getUpdateValues(this.clean(values))).then(()=>{
-        if(onSubmitSuccess && onSubmitSuccess instanceof Function){
-          onSubmitSuccess(values);
-        }
+      firebaseDb.ref().child(`${path}${uid}`).update(this.getUpdateValues(this.clean(values))).then(()=>{
+        history.goBack()
       })
     }else{
-      firebaseApp.database().ref().child(`${path}`).push(this.getCreateValues(this.clean(values))).then(()=>{
-        if(onSubmitSuccess && onSubmitSuccess instanceof Function){
-          onSubmitSuccess(values);
-        }
+      firebaseDb.ref().child(`${path}`).push(this.getCreateValues(this.clean(values))).then(()=>{
+        history.goBack()
       })
     }
 
   }
 
   handleDelete = () => {
-    const { onDelete, path, uid, firebaseApp} = this.props;
+    const { history, path, uid} = this.props;
 
     if(uid){
-      firebaseApp.database().ref().child(`${path}${uid}`).remove().then(()=>{
-        if(onDelete && onDelete instanceof Function){
-          onDelete();
-        }
+      firebaseDb.ref().child(`${path}${uid}`).remove().then(()=>{
+        history.goBack()
       })
     }
 
   }
 
   componentDidMount(){
-    const { path, uid, name, firebaseApp} = this.props;
+    const { path, uid, name} = this.props;
 
     if(uid){
-      firebaseApp.database().ref(`${path}${uid}`).on('value',
+      firebaseDb.ref(`${path}${uid}`).on('value',
       snapshot => {
         this.setState({initialized: true}, ()=>{
           this.props.dispatch(initialize(name, snapshot.val(), true))
@@ -91,8 +82,8 @@ class FireForm extends Component {
 }
 
 componentWillUnmount(){
-  const { path, uid, firebaseApp} = this.props;
-  firebaseApp.database().ref(`${path}${uid}`).off()
+  const { path, uid} = this.props;
+  firebaseDb.ref(`${path}${uid}`).off()
 }
 
 
@@ -114,15 +105,4 @@ render() {
 }
 }
 
-FireForm.propTypes = {
-  path: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  uid: PropTypes.string,
-  onSubmitSuccess: PropTypes.func,
-  onDelete: PropTypes.func,
-  handleCreateValues: PropTypes.func,
-  handleUpdateValues: PropTypes.func,
-};
-
-
-export default withFirebase(FireForm);
+export default withRouter(FireForm);
