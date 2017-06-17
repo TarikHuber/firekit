@@ -52,14 +52,40 @@ const getPayload = (snapshot) => {
 }
 
 
+const getPath = (firebaseApp, ref) => {
+  return ref.toString().substring(firebaseApp.database().ref().root.toString().length);
+}
+
+const getRef = (firebaseApp, path) => {
+
+  if (typeof path === 'string' || path instanceof String){
+    return firebaseApp.database().ref(path);
+  }else{
+    return path;
+  }
+
+}
+
+const getLocation = (firebaseApp, path) => {
+
+  if (typeof path === 'string' || path instanceof String){
+    return path;
+  }else{
+    return getPath(firebaseApp, path);
+  }
+
+}
+
 export function watchList(firebaseApp, path) {
+
+  let ref =getRef(firebaseApp, path);
+  let location=getLocation(firebaseApp, path);
 
   return (dispatch, getState) => {
     let initialized = false;
-    const isInitialized=initSelectors.isInitialised(getState(), path);
+    const isInitialized=initSelectors.isInitialised(getState(), location);
 
     if(!isInitialized){
-      const ref=firebaseApp.database().ref(path);
 
       ref.once("value", snapshot => {
         initialized = true;
@@ -73,21 +99,21 @@ export function watchList(firebaseApp, path) {
           list[childKey]=childData;
         });
 
-        dispatch(initialize(list, path));
+        dispatch(initialize(list, location));
       });
 
       ref.on('child_added', snapshot => {
         if (initialized) {
-          dispatch(childAdded(getPayload(snapshot), path));
+          dispatch(childAdded(getPayload(snapshot), location));
         }
       });
 
       ref.on('child_changed', snapshot => {
-        dispatch(childChanged(getPayload(snapshot), path));
+        dispatch(childChanged(getPayload(snapshot), location));
       });
 
       ref.on('child_removed', snapshot => {
-        dispatch(childRemoved(getPayload(snapshot), path));
+        dispatch(childRemoved(getPayload(snapshot), location));
       });
 
     }
@@ -99,17 +125,24 @@ export function watchList(firebaseApp, path) {
 
 export function unwatchList(firebaseApp, path) {
   return dispatch => {
-    firebaseApp.database().ref(path).off();
-    dispatch(unWatch(path));
+
+    let ref =getRef(firebaseApp, path);
+    let location=getLocation(firebaseApp, path);
+
+    ref.off();
+    dispatch(unWatch(location));
   }
 
 }
 
 export function destroyList(firebaseApp, path) {
   return dispatch => {
-    firebaseApp.database().ref(path).off();
-    dispatch(unWatch(path));
-    dispatch(destroy(path));
+    let ref =getRef(firebaseApp, path);
+    let location=getLocation(firebaseApp, path);
+
+    ref.off();
+    dispatch(unWatch(location));
+    dispatch(destroy(location));
   }
 }
 

@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [nwb](https://github.com/insin/nwb)
 
-Firekit was created to help working with Firebase in React Projects that use Redux as state storage. 
+Firekit was created to help working with Firebase in React Projects that use Redux as state storage.
 
 You can find a full functional **DEMO** project (React Most Wanted) with source code [here](https://www.react-most-wanted.com/).
 
@@ -15,7 +15,7 @@ You can find a full functional **DEMO** project (React Most Wanted) with source 
 - [Usage](#usage)
   - [Accessing firebaseApp](#accessing-firebaseapp)
   - [Connection](#connection)
-  - [Lists](#lists)
+  - [Lists and Queries](#lists-and-queires)
   - [Paths](#paths)
   - [FireForm](#fireform)
 - [TO DO](#to-do)
@@ -26,7 +26,7 @@ You can find a full functional **DEMO** project (React Most Wanted) with source 
 Firekit allows you to watch firebase data and sync it to your redux store with a minimum of code to write. It uses a `Provider` to server the `firebaseApp` to all Components that need it.
 
 Some features that are unque to this firebase toolkit are:
-* **persistant watchers** - the watchers are persistant and are not linked to components. You deside when to watch a value in your firebase database and when to unwatch (turn off listeners) it. 
+* **persistant watchers** - the watchers are persistant and are not linked to components. You deside when to watch a value in your firebase database and when to unwatch (turn off listeners) it.
 
 * **your create firebaseApp** - you initialise the firebaseApp how you want and add it as prop to the firekit `FirebaseProvider` and all your components have access to the firebaseApp
 
@@ -36,7 +36,7 @@ Some features that are unque to this firebase toolkit are:
 
 * **native firebase** - you can use firebases native sdk for the web. Firekit is just listening on changes. Every change on the data you can make as it is described in the official firebase documentation
 
-* **realtime forms** - firekit has a special Warapper for `redux-forms` witch allows to sync them with the realtime database very simple and plus it is automaticaly synced on field changes in real time if they ocure while your are in the Form 
+* **realtime forms** - firekit has a special Warapper for `redux-forms` witch allows to sync them with the realtime database very simple and plus it is automaticaly synced on field changes in real time if they ocure while your are in the Form
 
 Features like populating values in the database are omited with purpose. The firebase `cloud functions` are the place where you should populate data that must be saved in multiple places.
 
@@ -110,32 +110,27 @@ import dialogs from './dialogs/reducer';
 import messaging from './messaging/reducer';
 import locale from './locale/reducer';
 import theme from './theme/reducer';
-import {
-  connectionReducer,
-  listsReducer,
-  pathsReducer,
-  initializationReducer
-} from 'firekit'; //Import the reducers
+import firekitReducers from 'firekit'; //Import the firekitReducers
+
+
+console.log(firekitReducers);
 
 const reducers = combineReducers({
   browser: responsiveStateReducer,
   responsiveDrawer,
   form: formReducer,
   auth,
-  initialization: initializationReducer,  //Add the initialisation reducer
-  connection: connectionReducer, //Add the connection reducer
-  lists: listsReducer, //Add the lists reducer
-  paths: pathsReducer, //Add the paths reducer
   dialogs,
   messaging,
   locale,
   theme,
+  ...firekitReducers //Spread the firekit reducers
 })
 
 export default reducers;
 
 ```
-In future versions the reducers will be combined in a single object that will be reducable. 
+To add all firekti reducers to your redux store just spread the firekitReducers object into your `comineReducers` object.
 
 **WARNING:** if you are using persistance take care that the reducer `initialization` is not persisted! He saves the watchers. If he would be persisted the watcher would not initialize again after a page reload. If you are using `redux-persist` just add him to the black list.
 
@@ -143,13 +138,13 @@ In future versions the reducers will be combined in a single object that will be
   persistStore(store, {blacklist:['auth', 'form', 'connection', 'initialization'] }, ()=>{}); //Add initialization to persistance blacklist if you use persistance
 ```
 
-**INFO:** the reducers are not customasable so they have to use the names as they are here in the snipped. In future we could add customatisation for this so they could have any name you want. 
+**INFO:** the reducers are not customasable. In future we could add customatisation for this so they could have any name you want.
 
 ## Usage
 
 Let us now do something with our firekit :smile:
-To use `firekit` in a component we need to tell the component to get all `firekit` props from the context. 
-We use for that a simple call `withFirebase`. It is very similar to the `react-router` call `withRouter`. The usage is exactly the same. 
+To use `firekit` in a component we need to tell the component to get all `firekit` props from the context.
+We use for that a simple call `withFirebase`. It is very similar to the `react-router` call `withRouter`. The usage is exactly the same.
 
 Let us take a look on a simple component.
 
@@ -247,7 +242,7 @@ class MyComponent extends Component {
     const { initConnection }= this.props;
     initConnection(); //Here we started watching the connection state
   }
-  
+
   componentWillUnmount() {
     const { unsubscribeConnection, }= this.props;
     unsubscribeConnection(); // Here we unsunscribe the listening to the connection state
@@ -276,9 +271,9 @@ export default connect(
 )(withFirebase(MyComponent));
 ```
 
-### Lists
+### Lists and Queries
 
-We can easely observe lists in the realtime database using the `watchList` and `unwatchList` API calls.
+We can easely observe lists in the realtime database using the `watchList` and `unwatchList` API calls. The same calls are used to observe Firebase queries. `watchList` and `unwatchList` can recieve as parameter a string to a database path or a Firebase reference to that path. If you have a simple reference to a path using just the string of the path is the right choice. But if you have a Firebase query reference you can send that reference with all its query calls as parameter.
 
 ```js
 import React, { Component }  from 'react';
@@ -289,18 +284,25 @@ import _ from 'lodash';
 class MyComponent extends Component {
 
   componentDidMount(){
-    const { watchList }= this.props;
-    watchList('users'); //Here we started watching the list
+    const { watchList, firebaseApp }= this.props;
+
+    watchList('users'); //Here we started watching the users list
+
+    //Her we watch a simple firebase query
+    let tasksRef= firebaseApp.database().ref('tasks').limitToFirst(10);
+    watchList(tasksRef);
+
   }
-  
+
   componentWillUnmount() {
     const { unwatchList, }= this.props;
     unwatchList('users'); // We can unwatch the list on unmounting the Component
+    unwatchList('tasks'); // To unwatch a query qe can use just the ref path string
   }
-  
+
   rednerList = () => {
     const {users} =this.props;
-    
+
     if(users===undefined){
       return <div></div>
     }
@@ -336,9 +338,9 @@ export default connect(
 )(withFirebase(MyComponent));
 ```
 
-Here we unwatched the list on `componentWillUnmount`. We could also leave this away and the list will change in realtime in the background and it will not load all data on revisiting the Component again. 
+Here we unwatched the list on `componentWillUnmount`. We could also leave this away and the list will change in realtime in the background and it will not load all data on revisiting the Component again.
 
-If you are using persistand watcher you would have to unwatch them in some point of your application or on application exit. 
+If you are using persistand watcher you would have to unwatch them in some point of your application or on application exit.
 Because of that there are special calls that allow us to unwatch all persistand watcher in a single call. That could be calles in the root component of your application like this:
 
 ```js
@@ -351,7 +353,7 @@ Because of that there are special calls that allow us to unwatch all persistand 
     unwatchAllLists();
     unwatchAllPaths();
   }
-  
+
 //... other code of your root Component
 
 ```
@@ -370,12 +372,12 @@ The paths watcher exactly like the lists watcher with `watchPath` and `unwatchPa
     const { watchPath }= this.props;
     watchPath('users_count'); //Here we started watching the path
   }
-  
+
   componentWillUnmount() {
     const { unwatchPath, }= this.props;
     unwatchPath('users'); // We can unwatch the path on unmounting the Component
   }
-  
+
 //...
 ```
 
@@ -395,15 +397,15 @@ And comes the cool thing. If you are in the Form working on fields and someone e
 
 //...
 
-          <FireForm
-            name={'companie'}
-            path={`${path}`}
-            onSubmitSuccess={(values)=>{history.push('/companies');}}
-            onDelete={(values)=>{history.push('/companies');}}
-            handleCreateValues={this.handleCreateValues}
-            uid={match.params.uid}>
-            <Form /> // Here is your simple form 
-          </FireForm>
+    <FireForm
+      name={'companie'}
+      path={`${path}`}
+      onSubmitSuccess={(values)=>{history.push('/companies');}}
+      onDelete={(values)=>{history.push('/companies');}}
+      handleCreateValues={this.handleCreateValues}
+      uid={match.params.uid}>
+      <Form /> // Here is your simple form
+    </FireForm>
 
 //...
 
@@ -412,11 +414,11 @@ And comes the cool thing. If you are in the Form working on fields and someone e
 
 ## TO DO
 
-- [ ] compine all reducer to one import
+- [X] compine all reducer to one import
 - [ ] integrate selectors
 - [ ] integrate firebase messaging
 - [ ] integrate firebase auth watcher
-- [ ] integrate firebase queries watcher
+- [X] integrate firebase queries watcher
 
 ## License
 

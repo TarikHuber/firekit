@@ -15,7 +15,7 @@ import {
   darkWhite,
 } from 'material-ui/styles/colors';
 import config from '../../config';
-import { withFirebase } from 'firekit';
+import { withFirebase } from '../../../../src';
 
 export class Activity extends Component {
 

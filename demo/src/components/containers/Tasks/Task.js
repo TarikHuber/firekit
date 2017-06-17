@@ -11,7 +11,7 @@ import firebase from 'firebase';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
-import { withFirebase } from 'firekit';
+import { withFirebase } from '../../src';
 
 const path='/public_tasks/';
 

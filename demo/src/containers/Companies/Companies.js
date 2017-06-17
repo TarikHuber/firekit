@@ -11,13 +11,16 @@ import FontIcon from 'material-ui/FontIcon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import {withRouter} from 'react-router-dom';
 import Avatar from 'material-ui/Avatar';
-import { withFirebase } from 'firekit';
+import { withFirebase } from '../../../../src';
 
 class Vehicles extends Component {
 
   componentDidMount() {
-    const { watchList}=this.props;
-    watchList('companies');
+    const { watchList, firebaseApp}=this.props;
+
+    let ref=firebaseApp.database().ref('companies').limitToFirst(2);
+
+    watchList(ref);
   }
 
   renderList(companies) {

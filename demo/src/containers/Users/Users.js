@@ -11,7 +11,7 @@ import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
 import {GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon} from '../../components/Icons';
 import IconButton from 'material-ui/IconButton';
-import { withFirebase } from 'firekit';
+import { withFirebase } from '../../../../src';
 
 class Users extends Component {
 

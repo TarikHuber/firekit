@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {render} from 'react-dom'
 import { Provider } from 'react-redux';
-import { FirebaseProvider } from 'firekit';
+import { FirebaseProvider } from '../../src';
 import configureStore from './store';
 import { Root } from './containers/Root';
 import { addLocalizationData } from './locales';
