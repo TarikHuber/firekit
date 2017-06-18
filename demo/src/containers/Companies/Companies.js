@@ -18,7 +18,7 @@ class Vehicles extends Component {
   componentDidMount() {
     const { watchList, firebaseApp}=this.props;
 
-    let ref=firebaseApp.database().ref('companies').limitToFirst(2);
+    let ref=firebaseApp.database().ref('companies').limitToFirst(20);
 
     watchList(ref);
   }

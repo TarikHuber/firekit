@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { Activity } from '../../containers/Activity'
-import { FireForm } from 'firekit'
 import { setDialogIsOpen } from '../../store/dialogs/actions';
 import Form from './Form';
 import { withRouter } from 'react-router-dom';
@@ -10,7 +9,7 @@ import firebase from 'firebase';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
-import { withFirebase } from '../../../../src';
+import { withFirebase, FireForm } from '../../../../src';
 
 const path='/companies/';
 
