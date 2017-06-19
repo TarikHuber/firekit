@@ -48,7 +48,7 @@ const unWatch = (path) => {
 }
 
 const getPayload = (snapshot) => {
-  return {data: snapshot.val(), key: snapshot.key };
+  return {key: snapshot.key, val: snapshot.val() };
 }
 
 
@@ -90,13 +90,13 @@ export function watchList(firebaseApp, path) {
       ref.once("value", snapshot => {
         initialized = true;
 
-        let list = {};
+        let list = [];
 
         snapshot.forEach(function(childSnapshot) {
           let childKey = childSnapshot.key;
           let childData = childSnapshot.val();
 
-          list[childKey]=childData;
+          list.push({key: childKey, val: childData});
         });
 
         dispatch(initialize(list, location));

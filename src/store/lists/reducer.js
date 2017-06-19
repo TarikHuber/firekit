@@ -1,20 +1,22 @@
+import _ from 'lodash'
 import * as types from './types';
 
 
-function list(list={}, action){
+function list(list=[], action){
   const {payload} = action;
   switch (action.type) {
 
     case types.INIIALIZE:
-    return { ...payload };
+    return payload;
 
     case types.CHILD_ADDED:
+    return [ ...list, payload]
+
     case types.CHILD_CHANGED:
-    return {...list,   [payload.key]: payload.data};
+    return list.map(child=>payload.key===child.key?payload:child);
 
     case types.CHILD_REMOVED:
-    let { [payload.key]: omit, ...rest}= list;
-    return { ...rest };
+    return list.filter(child=>payload.key!==child.key);
 
     default:
     return list;

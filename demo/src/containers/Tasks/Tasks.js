@@ -43,9 +43,10 @@ class Tasks extends Component {
   }
 
   componentDidMount() {
-    const {watchList}=this.props;
+    const {watchList, firebaseApp}=this.props;
 
-    watchList('public_tasks')
+    let tasksRef=firebaseApp.database().ref('public_tasks').orderByKey().limitToLast(20);
+    watchList(tasksRef)
     this.scrollToBottom();
   }
 
@@ -115,7 +116,10 @@ class Tasks extends Component {
       return <div></div>
     }
 
-    return _.map(tasks, (task, key) => {
+    return _.map(tasks, (row, i) => {
+
+      const task=row.val;
+      const key=row.key;
 
       return <div key={key}>
 

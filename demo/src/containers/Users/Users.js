@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import muiThemeable from 'material-ui/styles/muiThemeable';
@@ -12,6 +11,7 @@ import FontIcon from 'material-ui/FontIcon';
 import {GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon} from '../../components/Icons';
 import IconButton from 'material-ui/IconButton';
 import { withFirebase } from '../../../../src';
+import ReactList from 'react-list';
 
 class Users extends Component {
 
@@ -55,17 +55,13 @@ class Users extends Component {
     }
   }
 
-  rednerList(users) {
-    const {intl, muiTheme} =this.props;
 
+  renderItem = (index, key) => {
+    const { users, intl, muiTheme} =this.props;
 
-    if(users===undefined){
-      return <div></div>
-    }
+    const user=users[index].val;
 
-    return _.map(users, (user, key) => {
-
-      return <div key={key}>
+    return <div key={key}>
         <ListItem
           key={key}
           id={key}
@@ -106,13 +102,11 @@ class Users extends Component {
 
         </ListItem>
         <Divider inset={true}/>
-      </div>
-    });
+      </div>;
   }
 
-
   render(){
-    const {intl, users, muiTheme} =this.props;
+    const {intl, users, muiTheme, user_keys} =this.props;
 
     return (
       <Activity
@@ -122,7 +116,11 @@ class Users extends Component {
 
           <div style={{overflow: 'none', backgroundColor: muiTheme.palette.convasColor}}>
             <List  id='test' style={{height: '100%'}} ref={(field) => { this.list = field; }}>
-              {this.rednerList(users)}
+              <ReactList
+                itemRenderer={this.renderItem}
+                length={users?users.length:0}
+                type='simple'
+              />
             </List>
           </div>
 
@@ -144,6 +142,7 @@ Users.propTypes = {
 
 const mapStateToProps = (state) => {
   const { lists, auth } = state;
+
   return {
     users: lists.users,
     auth

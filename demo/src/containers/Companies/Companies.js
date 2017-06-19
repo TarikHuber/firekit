@@ -30,13 +30,13 @@ class Vehicles extends Component {
       return <div></div>
     }
 
-    return _.map(companies, (row, key) => {
+    return _.map(companies, (companie, index) => {
 
-      return <div key={key}>
+      return <div key={index}>
         <ListItem
           leftAvatar={
             <Avatar
-              src={row.photoURL}
+              src={companie.val.photoURL}
               alt="bussines"
               icon={
                 <FontIcon className="material-icons">
@@ -45,11 +45,11 @@ class Vehicles extends Component {
               }
             />
           }
-          key={key}
-          primaryText={row.name}
-          secondaryText={row.full_name}
-          onTouchTap={()=>{history.push(`/companies/edit/${key}`)}}
-          id={key}
+          key={index}
+          primaryText={companie.val.name}
+          secondaryText={companie.val.full_name}
+          onTouchTap={()=>{history.push(`/companies/edit/${companie.key}`)}}
+          id={index}
         />
         <Divider inset={true}/>
       </div>

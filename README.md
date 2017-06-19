@@ -276,6 +276,8 @@ export default connect(
 
 We can easely observe lists in the realtime database using the `watchList` and `unwatchList` API calls. The same calls are used to observe Firebase queries. `watchList` and `unwatchList` can recieve as parameter a string to a database path or a Firebase reference to that path. If you have a simple reference to a path using just the string of the path is the right choice. But if you have a Firebase query reference you can send that reference with all its query calls as parameter.
 
+**IMPORTAND:**: the list will be a Array contained of objects witch have the props `key` and `val` where the `key` is the child key in the list and `val` the value of the child. This is similar to the snapshot you get from a Firebase list `on` event.
+
 ```js
 import React, { Component }  from 'react';
 import { connect } from 'react-redux';
@@ -308,9 +310,9 @@ class MyComponent extends Component {
       return <div></div>
     }
 
-    return _.map(users, (user, key) => {
-      return <div key={key}>
-        {user.displayName}
+    return _.map(users, (user, i) => {
+      return <div key={i}>
+        {user.val.displayName}
       </div>
     });
   }  
