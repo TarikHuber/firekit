@@ -24,7 +24,7 @@ const withFirebase = (Component) => {
         unwatchPath={(path)=>{dispatch(unwatchPath(firebaseApp, path))}}
         unwatchAllPaths={()=>{dispatch(unwatchAllPaths(firebaseApp))}}
 
-        initMessaging={()=>{dispatch(initMessaging(firebaseApp, onMessageReceieved))}}
+        initMessaging={(onMessageReceieved)=>{dispatch(initMessaging(firebaseApp, onMessageReceieved))}}
 
         dispatch={dispatch}
 

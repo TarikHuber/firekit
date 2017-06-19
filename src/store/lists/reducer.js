@@ -13,7 +13,7 @@ function list(list={}, action){
     return {...list,   [payload.key]: payload.data};
 
     case types.CHILD_REMOVED:
-    let { [payload.key]: undefined, ...rest}= list;
+    let { [payload.key]: omit, ...rest}= list;
     return { ...rest };
 
     default:

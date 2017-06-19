@@ -36,7 +36,7 @@ export function initMessaging(firebaseApp, onMessageReceieved) {
 
     try{
       messaging.requestPermission()
-      .then(function(){
+      .then(()=>{
         return messaging.getToken();
       })
       .then(token=>{
@@ -51,7 +51,7 @@ export function initMessaging(firebaseApp, onMessageReceieved) {
 
     messaging.onMessage(payload => {
 
-      if(onMessageReceieved && onMessageReceieved instanceof Function){
+      if(onMessageReceieved!==undefined && onMessageReceieved instanceof Function){
         onMessageReceieved(payload);
       }
 
