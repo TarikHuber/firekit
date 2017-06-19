@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { initConnection, unsubscribeConnection } from './store/connection/actions';
 import { watchList, unwatchList, unwatchAllLists } from './store/lists/actions';
 import { watchPath, unwatchPath, unwatchAllPaths } from './store/paths/actions';
+import { initMessaging } from './store/messaging/actions';
 
 const withFirebase = (Component) => {
     const ChildComponent = (props, context) => {
@@ -22,6 +23,8 @@ const withFirebase = (Component) => {
         watchPath={(path)=>{dispatch(watchPath(firebaseApp, path))}}
         unwatchPath={(path)=>{dispatch(unwatchPath(firebaseApp, path))}}
         unwatchAllPaths={()=>{dispatch(unwatchAllPaths(firebaseApp))}}
+
+        initMessaging={()=>{dispatch(initMessaging(firebaseApp, onMessageReceieved))}}
 
         dispatch={dispatch}
 

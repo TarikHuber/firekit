@@ -1,6 +1,6 @@
 {
   "name": "firekit",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Toolkit for connecting Firebase with Redux store",
   "main": "lib/index.js",
   "module": "es/index.js",

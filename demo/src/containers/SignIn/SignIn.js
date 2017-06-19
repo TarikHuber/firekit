@@ -7,8 +7,8 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 import firebaseui from 'firebaseui';
 import {firebaseAuth} from '../../firebase';
 import config from '../../config';
-import { initMessaging } from '../../store/messaging/actions';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { withFirebase } from '../../../../src';
 
 var authUi = new firebaseui.auth.AuthUI(firebaseAuth);
 
@@ -74,5 +74,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { initMessaging}
-)(injectIntl(muiThemeable()(withRouter(SignIn))));
+)(injectIntl(muiThemeable()(withRouter(withFirebase(SignIn)))));

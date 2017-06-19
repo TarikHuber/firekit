@@ -18,6 +18,7 @@ You can find a full functional **DEMO** project (React Most Wanted) with source 
   - [Lists and Queries](#lists-and-queires)
   - [Paths](#paths)
   - [FireForm](#fireform)
+  - [Messaging](#messaging)
 - [TO DO](#to-do)
 - [License](#license)
 
@@ -409,6 +410,20 @@ And comes the cool thing. If you are in the Form working on fields and someone e
 
 //...
 
+```
+
+### Messaging
+
+Firebase offers a simple API for managing push notification messages. Firekit provides a simple API call `initMessaging` that manages all messaging events for you and syncs them to your redux store. The API call can recieve a function paramater you can use to hanlde new messages. That parameter is optional. Firekit stores the messaging token, permission and new messages to your store automaticaly. In future there will be added APIs to clear single and all messages.
+
+```js
+//...
+  componentDidMount(){
+    const { initMessaging }= this.props;
+    initMessaging((payload)=>{console.log(payload)}); //Here we initialise the Firbease messaging and log new messages to the console
+  }
+
+//...
 ```
 
 

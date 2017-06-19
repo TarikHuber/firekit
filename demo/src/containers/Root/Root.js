@@ -8,7 +8,7 @@ import { initAuth } from '../../store/auth/actions';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { IntlProvider } from 'react-intl'
 import {Routes} from '../../components/Routes';
-import {  withFirebase } from 'firekit';
+import { withFirebase } from '../../../../src';
 
 class Root extends Component {
 

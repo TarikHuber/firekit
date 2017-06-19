@@ -8,7 +8,6 @@ export function onConnectionStateChange(isConnected) {
 }
 
 export function initConnection(firebaseApp) {
-
   return dispatch => {
     firebaseApp.database().ref(".info/connected").on("value", snapshot => {
       dispatch(onConnectionStateChange(snapshot.val()));
@@ -23,5 +22,4 @@ export function unsubscribeConnection(firebaseApp) {
     firebaseApp.database().ref(".info/connected").off();
     onConnectionStateChange(false)
   }
-
 }

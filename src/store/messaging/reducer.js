@@ -1,18 +1,17 @@
 import * as types from './types';
-import Immutable from 'seamless-immutable';
 
-export const initialState=Immutable({
+export const initialState={
   hasPermission: false,
   token: undefined
-});
+};
 
 export default function messaging(state = initialState, {payload, type}) {
   switch (type) {
 
-    case types.ON_TOKEN_CHANGED:
-    return {...state, hasPermission:true, ...payload};
-
-    case types.ON_PERMISSION_CHANGED:
+    case types.PERMISSION_CHANGED:
+    case types.TOKEN_CHANGED:
+    case types.MESSAGING_ERROR:
+    case types.ON_MESSAGE:
     return {...state, ...payload};
 
     default:

@@ -1,0 +1,4 @@
+export const TOKEN_CHANGED = `@@firekit/MESSAGING@TOKEN_CHANGED`;
+export const PERMISSION_CHANGED = `@@firekit/MESSAGING@PERMISSION_CHANGED`;
+export const MESSAGING_ERROR = `@@firekit/MESSAGING@MESSAGING_ERROR`;
+export const ON_MESSAGE = `@@firekit/MESSAGING@ON_MESSAGE`;
