@@ -5,6 +5,7 @@ This project was bootstrapped with [nwb](https://github.com/insin/nwb)
 Firekit was created to help working with Firebase in React Projects that use Redux as state storage.
 
 You can find a full functional **DEMO** project (React Most Wanted) with source code [here](https://www.react-most-wanted.com/).
+You can also find more about the concepts used in this library [here](https://codeburst.io/firekit-concepts-to-sync-firebase-and-redux-606a1e3e50d6)
 
 **WARNING:** This project is still in early development so API changes will very likely happen.
 

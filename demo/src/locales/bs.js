@@ -80,6 +80,10 @@ const messages=defineMessages({
   description_hint: 'Unesi opis',
   name_label: 'Ime',
   name_hint: 'Puno ime',
+  'link_with_google.com': 'Link with Google',
+  'link_with_facebook.com': 'Link with Facebook',
+  'link_with_twitter.com': 'Link with Twitter',
+  'link_with_github.com': 'Link with Github',
 });
 
 export default messages;

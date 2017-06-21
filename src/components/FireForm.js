@@ -8,7 +8,6 @@ class FireForm extends Component {
   constructor(props, context){
     super();
     this.context=context;
-    console.log(context);
     this.state={
       initialized: false
     }
@@ -30,7 +29,7 @@ class FireForm extends Component {
 
   }
 
-  getUpdateValues = (values) => {
+  getUpdateValues = (values, dispatch, props) => {
     const { handleUpdateValues } = this.props;
 
     if(handleUpdateValues!==undefined && handleUpdateValues instanceof Function){
@@ -45,17 +44,29 @@ class FireForm extends Component {
     const { path, uid, onSubmitSuccess, firebaseApp} = this.props;
 
     if(uid){
-      firebaseApp.database().ref().child(`${path}${uid}`).update(this.getUpdateValues(this.clean(values))).then(()=>{
-        if(onSubmitSuccess && onSubmitSuccess instanceof Function){
-          onSubmitSuccess(values);
-        }
-      })
+
+      const updateValues=this.getUpdateValues(this.clean(values));
+
+      if(updateValues){
+        firebaseApp.database().ref().child(`${path}${uid}`).update(updateValues).then(()=>{
+          if(onSubmitSuccess && onSubmitSuccess instanceof Function){
+            onSubmitSuccess(values);
+          }
+        })
+      }
+
     }else{
-      firebaseApp.database().ref().child(`${path}`).push(this.getCreateValues(this.clean(values))).then(()=>{
-        if(onSubmitSuccess && onSubmitSuccess instanceof Function){
-          onSubmitSuccess(values);
-        }
-      })
+
+      const createValues=this.getCreateValues(this.clean(values));
+
+      if(createValues){
+        firebaseApp.database().ref().child(`${path}`).push().then(()=>{
+          if(onSubmitSuccess && onSubmitSuccess instanceof Function){
+            onSubmitSuccess(values);
+          }
+        })
+      }
+
     }
 
   }

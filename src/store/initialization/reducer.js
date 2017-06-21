@@ -1,9 +1,9 @@
 import * as listsTypes from '../lists/types';
 import * as pathsTypes from '../paths/types';
+import * as types from './types';
 
 
-
-export default function initialization (state = {}, action) {
+export default function initialization(state = {}, action) {
 
   switch (action.type) {
 
@@ -17,6 +17,8 @@ export default function initialization (state = {}, action) {
       ...state,[action.path]: true
     };
 
+    case types.CLEAR_INITIALIZATION:
+    return {};
 
     case listsTypes.DESTROY:
     case listsTypes.UNWATCH:

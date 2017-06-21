@@ -3,14 +3,14 @@ import * as types from './types';
 export function onTokenChanged(token) {
   return {
     type: types.TOKEN_CHANGED,
-    payload: {token}
+    payload: {token, isInitialized: true}
   };
 }
 
 export function onPermissionChanged(hasPermission, onMessage) {
   return {
     type: types.PERMISSION_CHANGED,
-    payload: {hasPermission}
+    payload: {hasPermission, isInitialized: true}
   };
 }
 
@@ -29,7 +29,7 @@ export function onMessagingError(error) {
 }
 
 
-export function initMessaging(firebaseApp, onMessageReceieved) {
+export function initMessaging(firebaseApp, handleTokenChange, onMessageReceieved) {
 
   return dispatch => {
     const messaging=firebaseApp.messaging();
@@ -40,6 +40,11 @@ export function initMessaging(firebaseApp, onMessageReceieved) {
         return messaging.getToken();
       })
       .then(token=>{
+
+        if(handleTokenChange!==undefined && handleTokenChange instanceof Function){
+          handleTokenChange(token);
+        }
+
         dispatch(onTokenChanged(token));
       })
       .catch(error=>{
