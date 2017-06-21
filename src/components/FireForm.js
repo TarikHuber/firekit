@@ -52,7 +52,7 @@ class FireForm extends Component {
           if(onSubmitSuccess && onSubmitSuccess instanceof Function){
             onSubmitSuccess(values);
           }
-        })
+        }, e=>{console.log(e);})
       }
 
     }else{
@@ -60,11 +60,11 @@ class FireForm extends Component {
       const createValues=this.getCreateValues(this.clean(values));
 
       if(createValues){
-        firebaseApp.database().ref().child(`${path}`).push().then(()=>{
+        firebaseApp.database().ref().child(`${path}`).push(createValues).then(()=>{
           if(onSubmitSuccess && onSubmitSuccess instanceof Function){
             onSubmitSuccess(values);
           }
-        })
+        }, e=>{console.log(e);})
       }
 
     }
