@@ -50,7 +50,7 @@ class FireForm extends Component {
       if(updateValues){
         firebaseApp.database().ref().child(`${path}${uid}`).update(updateValues).then(()=>{
           if(onSubmitSuccess && onSubmitSuccess instanceof Function){
-            onSubmitSuccess(values);
+            onSubmitSuccess(values, uid);
           }
         }, e=>{console.log(e);})
       }
@@ -60,9 +60,9 @@ class FireForm extends Component {
       const createValues=this.getCreateValues(this.clean(values));
 
       if(createValues){
-        firebaseApp.database().ref().child(`${path}`).push(createValues).then(()=>{
+        firebaseApp.database().ref().child(`${path}`).push(createValues).then((snap)=>{
           if(onSubmitSuccess && onSubmitSuccess instanceof Function){
-            onSubmitSuccess(values);
+            onSubmitSuccess(values, snap.key);
           }
         }, e=>{console.log(e);})
       }

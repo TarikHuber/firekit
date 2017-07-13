@@ -11,7 +11,7 @@ import { setDialogIsOpen } from '../../store/dialogs/actions';
 import { ImageCropDialog } from '../../containers/ImageCropDialog';
 import IconButton from 'material-ui/IconButton';
 import { withRouter } from 'react-router-dom';
-import { withFirebase } from 'firekit';
+import { withFirebase } from '../../../../src';
 import {GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon} from '../../components/Icons';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import config from '../../config';

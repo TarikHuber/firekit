@@ -88,7 +88,7 @@ class Companie extends Component {
           <FireForm
             name={'companie'}
             path={`${path}`}
-            onSubmitSuccess={(values)=>{history.push('/companies');}}
+            onSubmitSuccess={(values, key)=>{history.push('/companies');}}
             onDelete={(values)=>{history.push('/companies');}}
             handleCreateValues={this.handleCreateValues}
             uid={match.params.uid}>
