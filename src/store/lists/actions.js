@@ -78,8 +78,8 @@ const getLocation = (firebaseApp, path) => {
 
 export function watchList(firebaseApp, path) {
 
-  let ref =getRef(firebaseApp, path);
-  let location=getLocation(firebaseApp, path);
+  let ref = getRef(firebaseApp, path);
+  let location = getLocation(firebaseApp, path);
 
   return (dispatch, getState) => {
     let initialized = false;

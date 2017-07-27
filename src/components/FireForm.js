@@ -93,36 +93,27 @@ class FireForm extends Component {
         this.setState({initialized: true}, ()=>{
           this.props.dispatch(initialize(name, snapshot.val(), true))
         })
-      }
-    )
-  }else{
-    this.setState({initialValues: {}, initialized:true})
+      })
+    }else{
+      this.setState({initialValues: {}, initialized:true})
+    }
+
   }
 
-}
-
-componentWillUnmount(){
-  const { path, uid, firebaseApp} = this.props;
-  firebaseApp.database().ref(`${path}${uid}`).off()
-}
+  componentWillUnmount(){
+    const { path, uid, firebaseApp} = this.props;
+    firebaseApp.database().ref(`${path}${uid}`).off()
+  }
 
 
-render() {
+  render() {
 
-  const childrenWithProps = React.Children.map(this.props.children,
-    (child) => React.cloneElement(child, {
+    return React.Children.only(React.cloneElement(this.props.children, {
       onSubmit: this.handleSubmit,
       ...this.state,
       ...this.props
-    })
-  );
-
-  return (
-    <div>
-      {childrenWithProps}
-    </div>
-  );
-}
+    }))
+  }
 }
 
 FireForm.propTypes = {
