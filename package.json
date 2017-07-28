@@ -1,6 +1,6 @@
 {
   "name": "firekit",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "Toolkit for connecting Firebase with Redux store",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -20,20 +20,20 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "react": "15.x",
-    "firebase": "4.x",
-    "redux-form": "7.x"
+    "react": "^15.6.1",
+    "firebase": "^4.2.0",
+    "redux-form": "^7.0.3"
   },
   "devDependencies": {
-    "firebase": "^4.x",
-    "firebaseui": "^2.x",
+    "firebase": "^4.2.0",
+    "firebaseui": "^2.3.0",
     "github-markdown-css": "^2.8.0",
     "immutable": "^3.8.1",
     "intl": "^1.2.5",
     "intl-locales-supported": "^1.0.0",
     "lodash": "^4.17.4",
     "marked": "^0.3.6",
-    "material-ui": "^0.18.6",
+    "material-ui": "^0.18.7",
     "material-ui-responsive-drawer": "^1.1.31",
     "material-ui-selectable-menu-list": "^1.1.31",
     "material-ui-superselectfield": "^1.5.4",
