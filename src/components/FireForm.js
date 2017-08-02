@@ -84,7 +84,7 @@ class FireForm extends Component {
 
   }
 
-  componentDidMount(){
+  componentWillMount(){
     const { path, uid, name, firebaseApp} = this.props;
 
     if(uid){

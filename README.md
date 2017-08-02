@@ -1,4 +1,7 @@
 # Firekit
+[![Dependency Status][daviddm-image]][daviddm-url]
+[![License][license-image]][license-url]
+[![Code Style][code-style-image]][code-style-url]
 
 This project was bootstrapped with [nwb](https://github.com/insin/nwb)
 
@@ -6,8 +9,6 @@ Firekit was created to help working with Firebase in React Projects that use Red
 
 You can find a full functional **DEMO** project (React Most Wanted) with source code [here](https://www.react-most-wanted.com/).
 You can also find more about the concepts used in this library [here](https://codeburst.io/firekit-concepts-to-sync-firebase-and-redux-606a1e3e50d6)
-
-**WARNING:** This project is still in early development so API changes will very likely happen.
 
 ## Table of Contents
 
@@ -27,7 +28,7 @@ You can also find more about the concepts used in this library [here](https://co
 
 Firekit allows you to watch firebase data and sync it to your redux store with a minimum of code to write. It uses a `Provider` to server the `firebaseApp` to all Components that need it.
 
-Some features that are unque to this firebase toolkit are:
+Some features that are unique to this firebase toolkit are:
 * **persistant watchers** - the watchers are persistant and are not linked to components. You deside when to watch a value in your firebase database and when to unwatch (turn off listeners) it.
 
 * **your create firebaseApp** - you initialise the firebaseApp how you want and add it as prop to the firekit `FirebaseProvider` and all your components have access to the firebaseApp
@@ -378,8 +379,9 @@ The paths watcher exactly like the lists watcher with `watchPath` and `unwatchPa
   }
 
   componentWillUnmount() {
-    const { unwatchPath, }= this.props;
+    const { unwatchPath, destroyPath }= this.props;
     unwatchPath('users'); // We can unwatch the path on unmounting the Component
+    destroyPath('users'); // We can destory the path. This will remove the path data from redux.
   }
 
 //...
@@ -434,10 +436,19 @@ Firebase offers a simple API for managing push notification messages. Firekit pr
 
 - [X] compine all reducer to one import
 - [ ] integrate selectors
-- [ ] integrate firebase messaging
-- [ ] integrate firebase auth watcher
+- [X] integrate firebase messaging
+- [X] integrate firebase auth watcher
 - [X] integrate firebase queries watcher
+
+**HELP WANTED** for writing tests.
 
 ## License
 
-MIT
+MIT @TarikHuber
+
+[daviddm-image]: https://img.shields.io/david/TarikHuber/firekit.svg?style=flat-square
+[daviddm-url]: https://david-dm.org/TarikHuber/firekit
+[license-image]: https://img.shields.io/npm/l/express.svg
+[license-url]: https://github.com/TarikHuber/firekit/master/LICENSE
+[code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
+[code-style-url]: http://standardjs.com/
