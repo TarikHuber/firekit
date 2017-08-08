@@ -108,7 +108,7 @@ class FireForm extends Component {
       firebaseApp.database().ref(`${path}${uid}`).on('value',
       snapshot => {
         this.setState({initialized: true}, ()=>{
-          this.props.dispatch(initialize(name, snapshot.val(), true))
+          nextProps.dispatch(initialize(name, snapshot.val(), true))
         })
       })
     }
