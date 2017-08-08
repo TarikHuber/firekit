@@ -5,6 +5,18 @@ import { withFirebase } from '../../../../src';
 
 class About extends Component {
 
+  componentWillMount(){
+    const { watchPath, destroyPath }= this.props;
+
+    watchPath('/users_count');
+  }
+
+  componentWillUnmount(){
+    const { destroyPath }= this.props;
+
+    destroyPath('/users_count');
+  }
+
   render() {
     const { intl }= this.props;
 

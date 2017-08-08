@@ -100,6 +100,20 @@ class FireForm extends Component {
 
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    const {  uid, name, path, firebaseApp  } = this.props;
+    const {  uid: nextUid  } = nextProps;
+
+    if(uid && uid!==nextUid){
+      firebaseApp.database().ref(`${path}${uid}`).on('value',
+      snapshot => {
+        this.setState({initialized: true}, ()=>{
+          this.props.dispatch(initialize(name, snapshot.val(), true))
+        })
+      })
+    }
+  }
+
   componentWillUnmount(){
     const { path, uid, firebaseApp} = this.props;
     firebaseApp.database().ref(`${path}${uid}`).off()
