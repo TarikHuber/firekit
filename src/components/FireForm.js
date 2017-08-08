@@ -105,7 +105,7 @@ class FireForm extends Component {
     const {  uid: nextUid  } = nextProps;
 
     if(uid && uid!==nextUid){
-      firebaseApp.database().ref(`${path}${uid}`).on('value',
+      firebaseApp.database().ref(`${path}${nextUid}`).on('value',
       snapshot => {
         this.setState({initialized: true}, ()=>{
           nextProps.dispatch(initialize(name, snapshot.val(), true))
