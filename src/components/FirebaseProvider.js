@@ -17,8 +17,6 @@ class FirebaseProvider extends Component {
     };
   }
 
-
-
   render() {
     return this.props.children;
   }

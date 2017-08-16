@@ -56,6 +56,7 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^4.8.3",
     "redux-responsive": "^4.3.2",
+    "redux-testkit": "^1.0.6",
     "redux-thunk": "^2.2.0",
     "seamless-immutable": "^7.1.2"
   },
