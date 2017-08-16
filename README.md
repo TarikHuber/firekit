@@ -1,6 +1,8 @@
 # Firekit
+[![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
 [![License][license-image]][license-url]
+[![Code Coverage][coverage-image]][coverage-url]
 [![Code Style][code-style-image]][code-style-url]
 
 This project was bootstrapped with [nwb](https://github.com/insin/nwb)
@@ -446,8 +448,12 @@ Firebase offers a simple API for managing push notification messages. Firekit pr
 
 MIT @TarikHuber
 
+[travis-image]: https://travis-ci.org/TarikHuber/firekit.svg?branch=master
+[travis-url]: https://travis-ci.org/TarikHuber/firekit
 [daviddm-image]: https://img.shields.io/david/TarikHuber/firekit.svg?style=flat-square
 [daviddm-url]: https://david-dm.org/TarikHuber/firekit
+[coverage-image]: https://img.shields.io/codecov/c/github/TarikHuber/firekit.svg?style=flat-square
+[coverage-url]: https://codecov.io/gh/TarikHuber/firekit
 [license-image]: https://img.shields.io/npm/l/express.svg
 [license-url]: https://github.com/TarikHuber/firekit/master/LICENSE
 [code-style-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
