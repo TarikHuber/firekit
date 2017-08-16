@@ -1,71 +1,62 @@
-import * as types from './types';
+import * as types from './types'
 
-export function onTokenChanged(token) {
+export function onTokenChanged (token) {
   return {
     type: types.TOKEN_CHANGED,
     payload: {token, isInitialized: true}
-  };
+  }
 }
 
-export function onPermissionChanged(hasPermission, onMessage) {
+export function onPermissionChanged (hasPermission, onMessage) {
   return {
     type: types.PERMISSION_CHANGED,
     payload: {hasPermission, isInitialized: true}
-  };
+  }
 }
 
-export function onMessage(message) {
+export function onMessage (message) {
   return {
     type: types.ON_MESSAGE,
     payload: {message}
-  };
+  }
 }
 
-export function onMessagingError(error) {
+export function onMessagingError (error) {
   return {
     type: types.MESSAGING_ERROR,
     payload: {error}
-  };
+  }
 }
 
-
-export function initMessaging(firebaseApp, handleTokenChange, onMessageReceieved) {
-
+export function initMessaging (firebaseApp, handleTokenChange, onMessageReceieved) {
   return dispatch => {
-    const messaging=firebaseApp.messaging();
+    const messaging = firebaseApp.messaging()
 
-    try{
+    try {
       messaging.requestPermission()
-      .then(()=>{
-        return messaging.getToken();
+      .then(() => {
+        return messaging.getToken()
       })
-      .then(token=>{
-
-        if(handleTokenChange!==undefined && handleTokenChange instanceof Function){
-          handleTokenChange(token);
+      .then(token => {
+        if (handleTokenChange !== undefined && handleTokenChange instanceof Function) {
+          handleTokenChange(token)
         }
 
-        dispatch(onTokenChanged(token));
+        dispatch(onTokenChanged(token))
       })
-      .catch(error=>{
-        dispatch(onPermissionChanged(false));
+      .catch(error => {
+        dispatch(onPermissionChanged(false))
       })
-    }catch(e){
-      dispatch(onTokenChanged(token));
+    } catch (e) {
+      dispatch(onTokenChanged(token))
     }
 
     messaging.onMessage(payload => {
-
-      if(onMessageReceieved!==undefined && onMessageReceieved instanceof Function){
-        onMessageReceieved(payload);
+      if (onMessageReceieved !== undefined && onMessageReceieved instanceof Function) {
+        onMessageReceieved(payload)
       }
 
-      dispatch(onMessage(payload));
-
-    });
+      dispatch(onMessage(payload))
+    })
   }
-
-
-
-
 }

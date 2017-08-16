@@ -1,11 +1,11 @@
 import expect from 'expect'
 import reducer from './reducer'
-import * as actions from './actions';
+import * as actions from './actions'
 
-const initialState={
+const initialState = {
   hasPermission: false,
   token: undefined
-};
+}
 
 describe('locale reducer', () => {
   it('should return the initial state', () => {
@@ -18,13 +18,13 @@ describe('locale reducer', () => {
     expect(
       reducer(initialState, {type: 'NOT_EXISTING'})
     ).toEqual(initialState)
-  });
+  })
 
   it('should handle onTokenChanged', () => {
     expect(
       reducer(initialState, actions.onTokenChanged('testToken'))
     ).toEqual({...initialState, isInitialized: true, token: 'testToken'})
-  });
+  })
 
   it('should handle onMessage', () => {
     expect(
@@ -33,7 +33,7 @@ describe('locale reducer', () => {
       token: undefined,
       message: 'testMessage'}
     )
-  });
+  })
 
   it('should handle onMessagingError', () => {
     expect(
@@ -43,7 +43,5 @@ describe('locale reducer', () => {
       error: 'testError',
       token: undefined}
     )
-  });
-
-
+  })
 })

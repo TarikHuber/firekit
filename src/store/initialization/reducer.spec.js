@@ -3,7 +3,6 @@ import reducer from './reducer'
 import * as actions from './actions'
 
 const initialState = {
-  isConnected: true
 }
 
 describe('locale reducer', () => {
@@ -19,9 +18,10 @@ describe('locale reducer', () => {
     ).toEqual(initialState)
   })
 
-  it('should handle onConnectionStateChange', () => {
+  it('should handle clearInitialization', () => {
     expect(
-      reducer(initialState, actions.onConnectionStateChange(true))
-    ).toEqual({...initialState, isConnected: true})
+      reducer(initialState, actions.clearInitialization())
+    ).toEqual({})
   })
+
 })

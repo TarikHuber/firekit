@@ -1,9 +1,7 @@
-export function isInitialised(state, path){
-
-  if(state.initialization!==undefined ){
-    return state.initialization[path];
+export function isInitialised (state, path) {
+  if (state.initialization !== undefined) {
+    return state.initialization[path]
   }
 
-  return false;
-
+  return false
 }

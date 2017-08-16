@@ -1,6 +1,4 @@
 
-export function getAllPaths(state){
-
-  return state.paths;
-
+export function getAllPaths (state) {
+  return state.paths
 }

@@ -1,6 +1,4 @@
 
-export function getAllLists(state){
-
-  return state.lists;
-
+export function getAllLists (state) {
+  return state.lists
 }
