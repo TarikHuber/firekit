@@ -23,4 +23,11 @@ export { default as messagingReducer } from './store/messaging/reducer'
 export { default as listsReducer } from './store/lists/reducer'
 export { default as pathsReducer } from './store/paths/reducer'
 export { default as initializationReducer } from './store/initialization/reducer'
+export { initMessaging, clearMessage } from './store/messaging/actions'
+export { clearInitialization } from './store/initialization/actions'
+export { initConnection, unsubscribeConnection } from './store/connection/actions'
+export { watchAuth, authStateChanged, authError} from './store/auth/actions'
+export { watchList, unwatchList, destroyList, unwatchAllLists } from './store/lists/actions'
+export { watchPath, unwatchPath, destroyPath, unwatchAllPaths } from './store/paths/actions'
+
 export default firekitReducers

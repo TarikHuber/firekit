@@ -5,7 +5,7 @@ import { initConnection, unsubscribeConnection } from './store/connection/action
 import { watchAuth, authStateChanged, authError} from './store/auth/actions'
 import { watchList, unwatchList, destroyList, unwatchAllLists } from './store/lists/actions'
 import { watchPath, unwatchPath, destroyPath, unwatchAllPaths } from './store/paths/actions'
-import { initMessaging } from './store/messaging/actions'
+import { initMessaging, clearMessage } from './store/messaging/actions'
 
 const withFirebase = (Component) => {
   const ChildComponent = (props, context) => {
@@ -45,6 +45,7 @@ const withFirebase = (Component) => {
       }}
 
       initMessaging={(handleTokenChange, onMessageReceieved) => { dispatch(initMessaging(firebaseApp, handleTokenChange, onMessageReceieved)) }}
+      clearMessage={() => { dispatch(clearMessage()) }}
 
       {...props}
     />

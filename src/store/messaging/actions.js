@@ -20,6 +20,11 @@ export function onMessage (message) {
     payload: {message}
   }
 }
+export function clearMessage () {
+  return {
+    type: types.ON_CLEAR_MESSAGE,
+  }
+}
 
 export function onMessagingError (error) {
   return {

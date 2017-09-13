@@ -13,6 +13,10 @@ export default function messaging (state = initialState, {payload, type}) {
     case types.ON_MESSAGE:
       return {...state, ...payload}
 
+    case types.ON_CLEAR_MESSAGE:
+      const { message, ...rest }= state
+      return {...rest}
+
     default:
       return state
   }

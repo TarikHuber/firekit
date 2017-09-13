@@ -34,11 +34,26 @@ describe('locale reducer', () => {
       message: 'testMessage'}
     )
   })
+  it('should handle clearMessage', () => {
+    expect(
+      reducer(
+        {
+          hasPermission: true,
+          token: 'test',
+          message: 'test'
+        },
+        actions.clearMessage()
+      )
+    ).toEqual({
+      hasPermission: true,
+      token: 'test'}
+    )
+  })
 
   it('should handle onMessagingError', () => {
     expect(
       reducer(initialState, actions.onMessagingError('testError'))
-    ).toEqual({...initialState,
+    ).toEqual({ ...initialState,
       hasPermission: false,
       error: 'testError',
       token: undefined}
