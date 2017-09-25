@@ -2,16 +2,34 @@ import * as listsTypes from '../lists/types'
 import * as pathsTypes from '../paths/types'
 import * as types from './types'
 
-export default function initialization (state = {}, action) {
+
+function locations (state = [], action) {
+  const {path, location} = action
   switch (action.type) {
     case listsTypes.INIIALIZE:
       return {
-        ...state, [action.path]: true
+        ...state, [location]:true
+      }
+
+    default:
+      return state
+  }
+}
+
+export default function initialization (state = {}, action) {
+  const { path, location } = action
+
+  switch (action.type) {
+    case listsTypes.INIIALIZE:
+      return {
+        ...state,
+        [path]: locations(state[path], action)
       }
 
     case pathsTypes.VALUE_CHANGED:
       return {
-        ...state, [action.path]: true
+        ...state,
+        [path]: locations(state[path], action)
       }
 
     case types.CLEAR_INITIALIZATION:
@@ -21,7 +39,7 @@ export default function initialization (state = {}, action) {
     case listsTypes.UNWATCH:
     case pathsTypes.DESTROY:
     case pathsTypes.UNWATCH:
-      let {[action.path]: omit, ...rest} = state
+      let {[path]: omit, ...rest} = state
       return { ...rest}
 
     default:

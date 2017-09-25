@@ -5,7 +5,7 @@ import * as actions from './actions'
 const initialState = {
 }
 
-describe('locale reducer', () => {
+describe('initialization reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})

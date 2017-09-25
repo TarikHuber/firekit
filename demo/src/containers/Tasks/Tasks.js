@@ -46,8 +46,14 @@ class Tasks extends Component {
     const {watchList, firebaseApp}=this.props;
 
     let tasksRef=firebaseApp.database().ref('public_tasks').orderByKey().limitToLast(20);
-    watchList(tasksRef)
+    watchList(tasksRef, 'tasks')
     this.scrollToBottom();
+  }
+
+  componentWillUnmount() {
+    const {unwatchList}=this.props;
+
+    //unwatchList('public_tasks', 'tasks')
   }
 
   handleKeyDown = (event, onSucces) => {
@@ -239,7 +245,7 @@ const mapStateToProps = (state) => {
   const { lists, auth, browser, dialogs } = state;
 
   return {
-    tasks: lists.public_tasks,
+    tasks: lists.tasks,
     auth,
     browser,
     dialogs

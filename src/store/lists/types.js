@@ -1,3 +1,4 @@
+export const APPEND_INIIALIZE = `@@firekit/LISTS@APPEND_INIIALIZE`
 export const INIIALIZE = `@@firekit/LISTS@INIIALIZE`
 export const DESTROY = `@@firekit/LISTS@DESTROY`
 export const UNWATCH = `@@firekit/LISTS@UNWATCH`

@@ -43,9 +43,8 @@ Some features that are unique to this firebase toolkit are:
 
 * **realtime forms** - firekit has a special Warapper for `redux-forms` witch allows to sync them with the realtime database very simple and plus it is automaticaly synced on field changes in real time if they ocure while your are in the Form
 
-Features like populating values in the database are omited with purpose. The firebase `cloud functions` are the place where you should populate data that must be saved in multiple places.
+Features like populating values in the database are omited with purpose. The [Firebase Cloud Functions](https://firebase.google.com/docs/functions/) are the place where you should populate data that must be saved in multiple places.
 
-There are more features coming soon :smile:
 
 ## Configuration
 
@@ -135,7 +134,7 @@ const reducers = combineReducers({
 export default reducers;
 
 ```
-To add all firekti reducers to your redux store just spread the firekitReducers object into your `comineReducers` object.
+To add all firekit reducers to your redux store just spread the firekitReducers object into your `comineReducers` object.
 
 **WARNING:** if you are using persistance take care that the reducer `initialization` is not persisted! He saves the watchers. If he would be persisted the watcher would not initialize again after a page reload. If you are using `redux-persist` just add him to the black list.
 
@@ -165,6 +164,7 @@ class MyComponent extends Component {
   componentDidMount(){
     const { watchList }= this.props;
     watchList('companies'); //Here we started watching a list
+
   }
 
   render() {
@@ -295,9 +295,12 @@ class MyComponent extends Component {
 
     watchList('users'); //Here we started watching the users list
 
-    //Her we watch a simple firebase query
+    //Here we watch a simple firebase query
     let tasksRef= firebaseApp.database().ref('tasks').limitToFirst(10);
     watchList(tasksRef);
+
+    //Here we watch a list and save the data on a specific location in our redux store
+    watchList('public_tasks', 'tasks');
 
   }
 
@@ -305,6 +308,7 @@ class MyComponent extends Component {
     const { unwatchList, }= this.props;
     unwatchList('users'); // We can unwatch the list on unmounting the Component
     unwatchList('tasks'); // To unwatch a query qe can use just the ref path string
+    unwatchList('public_tasks'); // To unwatch a watcher that is stored in a specific location we call the unwatchList with the path
   }
 
   rednerList = () => {
@@ -337,6 +341,7 @@ const mapStateToProps = (state) => {
   const { lists } = state;
   return {
     users: lists.users,
+    tasks: lists.tasks, //the data from 'public_tasks' path
   };
 };
 
@@ -384,6 +389,8 @@ The paths watcher exactly like the lists watcher with `watchPath` and `unwatchPa
     const { unwatchPath, destroyPath }= this.props;
     unwatchPath('users'); // We can unwatch the path on unmounting the Component
     destroyPath('users'); // We can destory the path. This will remove the path data from redux.
+
+    //INFO: calling destroy will automaticaly unwatch the path or list
   }
 
 //...
@@ -433,16 +440,16 @@ Firebase offers a simple API for managing push notification messages. Firekit pr
 //...
 ```
 
-
 ## TO DO
 
 - [X] compine all reducer to one import
-- [ ] integrate selectors
 - [X] integrate firebase messaging
 - [X] integrate firebase auth watcher
 - [X] integrate firebase queries watcher
-
-**HELP WANTED** for writing tests.
+- [X] implement alias names (custom destination locations) for path and list watchers
+- [ ] integrate selectors for lists
+- [ ] integrate error hanling
+- [ ] integrate loading indicators in redux state
 
 ## License
 

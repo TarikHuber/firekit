@@ -2,54 +2,65 @@ import * as types from './types'
 import * as selectors from './selectors'
 import * as initSelectors from '../initialization/selectors'
 
-const valueChanged = (value, path) => {
+export const valueChanged = (value, location, path) => {
   return {
     type: types.VALUE_CHANGED,
     payload: value,
-    path
+    path,
+    location
   }
 }
 
-const destroy = (path) => {
+export const destroy = (location) => {
   return {
     type: types.DESTROY,
-    path
+    location
   }
 }
 
-const unWatch = (path) => {
+export const unWatch = (location) => {
   return {
     type: types.UNWATCH,
-    path
+    location
   }
 }
 
-export function watchPath (firebaseApp, path) {
+export function watchPath (firebaseApp, firebasePath, reduxPath=false) {
+
+  const location = reduxPath?reduxPath:firebasePath
+
   return (dispatch, getState) => {
-    const isInitialized = initSelectors.isInitialised(getState(), path)
+    const isInitialized = initSelectors.isInitialised(getState(), location)
 
     if (!isInitialized) {
-      const ref = firebaseApp.database().ref(path)
+      const ref = firebaseApp.database().ref(firebasePath)
+      const path = ref.toString()
 
       ref.on('value', snapshot => {
-        dispatch(valueChanged(snapshot.val(), path))
+        dispatch(valueChanged(snapshot.val(), location, path))
       })
     }
   }
 }
 
-export function unwatchPath (firebaseApp, path) {
+export function unwatchPath (firebaseApp, path, reduxPath=false) {
+
+  const location = reduxPath?reduxPath:path
+
   return dispatch => {
     firebaseApp.database().ref(path).off()
-    dispatch(unWatch(path))
+    dispatch(unWatch(dispatch))
   }
 }
 
-export function destroyPath (firebaseApp, path) {
+export function destroyPath (firebaseApp, path, reduxPath=false) {
+
+  const location = reduxPath?reduxPath:path
+
   return dispatch => {
     firebaseApp.database().ref(path).off()
-    dispatch(unWatch(path))
-    dispatch(destroy(path))
+    dispatch(unWatch(location))
+    dispatch(destroy(location))
   }
 }
 
@@ -58,7 +69,7 @@ export function unwatchAllPaths (firebaseApp) {
     const allPaths = selectors.getAllPaths(getState())
 
     Object.keys(allPaths).forEach(function (key, index) {
-      firebaseApp.database().ref(key).off()
+      firebaseApp.database().ref(allPaths[index]).off()
       dispatch(unWatch(key))
     })
   }

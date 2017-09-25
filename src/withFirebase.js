@@ -28,14 +28,14 @@ const withFirebase = (Component) => {
       watchConnection={() => { dispatch(initConnection(firebaseApp)) }}
       unwatchConnection={() => { dispatch(unsubscribeConnection(firebaseApp)) }}
 
-      watchList={(path) => { dispatch(watchList(firebaseApp, path)) }}
-      unwatchList={(path) => { dispatch(unwatchList(firebaseApp, path)) }}
-      destroyList={(path) => { dispatch(destroyList(firebaseApp, path)) }}
+      watchList={(path, alias, append) => { dispatch(watchList(firebaseApp, path, alias, append)) }}
+      unwatchList={(path, alias) => { dispatch(unwatchList(firebaseApp, path, alias)) }}
+      destroyList={(path, alias) => { dispatch(destroyList(firebaseApp, path, alias)) }}
       unwatchAllLists={() => { dispatch(unwatchAllLists(firebaseApp)) }}
 
-      watchPath={(path) => { dispatch(watchPath(firebaseApp, path)) }}
-      unwatchPath={(path) => { dispatch(unwatchPath(firebaseApp, path)) }}
-      destroyPath={(path) => { dispatch(destroyPath(firebaseApp, path)) }}
+      watchPath={(path, alias) => { dispatch(watchPath(firebaseApp, path, alias)) }}
+      unwatchPath={(path, alias) => { dispatch(unwatchPath(firebaseApp, path, alias)) }}
+      destroyPath={(path, alias) => { dispatch(destroyPath(firebaseApp, path, alias)) }}
       unwatchAllPaths={() => { dispatch(unwatchAllPaths(firebaseApp)) }}
 
       clearApp={() => {

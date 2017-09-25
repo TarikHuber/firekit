@@ -7,7 +7,7 @@ const initialState = {
   token: undefined
 }
 
-describe('locale reducer', () => {
+describe('messaging reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})

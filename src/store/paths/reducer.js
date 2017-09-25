@@ -1,14 +1,14 @@
 import * as types from './types'
 
 export default function paths (state = {}, action) {
-  const { path } = action
+  const { location } = action
 
   switch (action.type) {
     case types.VALUE_CHANGED:
-      return {...state, [path]: action.payload}
+      return {...state, [location]: action.payload}
 
     case types.DESTROY:
-      const {[path]: omitData, ...rest} = state
+      const {[location]: omitData, ...rest} = state
       return {...rest}
 
     default:

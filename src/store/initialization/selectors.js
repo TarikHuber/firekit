@@ -1,6 +1,6 @@
-export function isInitialised (state, path) {
-  if (state.initialization !== undefined) {
-    return state.initialization[path]
+export function isInitialised (state, path, location) {
+  if (state.initialization !== undefined && state.initialization[path]) {
+    return state.initialization[path][location]
   }
 
   return false

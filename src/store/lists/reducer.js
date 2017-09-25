@@ -2,10 +2,11 @@ import _ from 'lodash'
 import * as types from './types'
 
 function list (list = [], action) {
-  const {payload} = action
+  const { payload, append } = action
   switch (action.type) {
+
     case types.INIIALIZE:
-      return payload
+      return append?[ ...list, ...payload]:payload
 
     case types.CHILD_ADDED:
       return [ ...list, payload]
@@ -22,22 +23,22 @@ function list (list = [], action) {
 }
 
 export default function lists (state = {}, action) {
-  const { path } = action
+  const { location } = action
 
   switch (action.type) {
     case types.INIIALIZE:
       return {
         ...state,
-        [path]: list(state[action.path], action)
+        [location]: list(state[action.location], action)
       }
 
     case types.CHILD_ADDED:
     case types.CHILD_CHANGED:
     case types.CHILD_REMOVED:
-      return {...state, [path]: list(state[action.path], action)}
+      return {...state, [location]: list(state[action.location], action)}
 
     case types.DESTROY:
-      const {[path]: omitData, ...rest} = state
+      const {[location]: omitData, ...rest} = state
       return {...rest}
 
     default:
