@@ -85,7 +85,7 @@ export class ResetPassword extends Component {
               label={intl.formatMessage({id: 'reset_password'})}
               secondary={true}
               fullWidth={true}
-              onTouchTap={this.hanleSignInSubmit}
+              onClick={this.hanleSignInSubmit}
               icon={
                 <FontIcon
                   className="material-icons">

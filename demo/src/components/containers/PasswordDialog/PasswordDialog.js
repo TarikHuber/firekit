@@ -61,12 +61,12 @@ export class PasswordDialog extends Component {
       <FlatButton
         label={intl.formatMessage({id: 'submit'})}
         primary={true}
-        onTouchTap={this.hanldePasswordSubmit}
+        onClick={this.hanldePasswordSubmit}
       />,
       <FlatButton
         label={intl.formatMessage({id: 'cancel'})}
         primary={true}
-        onTouchTap={this.handleClose}
+        onClick={this.handleClose}
       />,
     ];
 

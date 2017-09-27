@@ -45,7 +45,7 @@ class Vehicles extends Component {
           key={key}
           primaryText={row.name}
           secondaryText={row.full_name}
-          onTouchTap={()=>{history.push(`/companies/edit/${key}`)}}
+          onClick={()=>{history.push(`/companies/edit/${key}`)}}
           id={key}
         />
         <Divider inset={true}/>
@@ -72,7 +72,7 @@ class Vehicles extends Component {
           </div>
 
           <div style={{position: 'fixed', right: 18, zIndex:3, bottom: 18, }}>
-            <FloatingActionButton secondary={true} onTouchTap={()=>{history.push(`/companies/create`)}} style={{zIndex:3}}>
+            <FloatingActionButton secondary={true} onClick={()=>{history.push(`/companies/create`)}} style={{zIndex:3}}>
             <FontIcon className="material-icons" >add</FontIcon>
           </FloatingActionButton>
         </div>

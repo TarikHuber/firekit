@@ -38,12 +38,12 @@ export const DeleteAccountDialog = (props) => {
     <FlatButton
       label={intl.formatMessage({id: 'delete'})}
       secondary={true}
-      onTouchTap={hanldeSubmit}
+      onClick={hanldeSubmit}
     />,
     <FlatButton
       label={intl.formatMessage({id: 'cancel'})}
       primary={true}
-      onTouchTap={handleClose}
+      onClick={handleClose}
     />,
   ];
 

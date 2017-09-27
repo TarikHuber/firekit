@@ -135,7 +135,7 @@ export class MyAccount extends Component {
       return <IconButton
         key={provider}
         disabled={isLinkedWithProvider(auth, provider)}
-        onTouchTap={()=>{linkUserWithPopup(provider)}}
+        onClick={()=>{linkUserWithPopup(provider)}}
         tooltip={intl.formatMessage({id: `link_with_google`})}>
         <GoogleIcon color={color}/>
       </IconButton>
@@ -143,7 +143,7 @@ export class MyAccount extends Component {
       return <IconButton
         key={provider}
         disabled={isLinkedWithProvider(auth, provider)}
-        onTouchTap={()=>{linkUserWithPopup(provider)}}
+        onClick={()=>{linkUserWithPopup(provider)}}
         tooltip={intl.formatMessage({id: `link_with_facebook`})}>
         <FacebookIcon color={color}/>
       </IconButton>
@@ -151,7 +151,7 @@ export class MyAccount extends Component {
       return <IconButton
         key={provider}
         disabled={isLinkedWithProvider(auth, provider)}
-        onTouchTap={()=>{linkUserWithPopup(provider)}}
+        onClick={()=>{linkUserWithPopup(provider)}}
         tooltip={intl.formatMessage({id: `link_with_twitter`})}>
         <TwitterIcon color={color}/>
       </IconButton>
@@ -159,7 +159,7 @@ export class MyAccount extends Component {
       return <IconButton
         key={provider}
         disabled={isLinkedWithProvider(auth, provider)}
-        onTouchTap={()=>{linkUserWithPopup(provider)}}
+        onClick={()=>{linkUserWithPopup(provider)}}
         tooltip={intl.formatMessage({id: `link_with_github`})}>
         <GitHubIcon color={color}/>
       </IconButton>
@@ -206,7 +206,7 @@ export class MyAccount extends Component {
 
               { auth.isEditing &&
                 <FlatButton
-                  onTouchTap={()=>{
+                  onClick={()=>{
                     setDialogIsOpen('new_user_photo_url', true)
                   }}
                   containerElement='label'
@@ -263,7 +263,7 @@ export class MyAccount extends Component {
                 {auth.email}
                 { auth.email &&
                   <IconButton
-                    onTouchTap={auth.emailVerified===true?undefined:()=>{sendEmailVerification()}}
+                    onClick={auth.emailVerified===true?undefined:()=>{sendEmailVerification()}}
                     tooltip={intl.formatMessage({id: auth.emailVerified===true?'email_verified':'email_not_verified'})}>
                     <FontIcon
                       color={auth.emailVerified===true?muiTheme.palette.primary1Color:muiTheme.palette.accent1Color}
@@ -290,7 +290,7 @@ export class MyAccount extends Component {
           disabled={auth.isFetching}
           style={styles.button}
           fullWidth={true}
-          onTouchTap={()=>{setIsEditing(!auth.isEditing)}}
+          onClick={()=>{setIsEditing(!auth.isEditing)}}
           icon={
             <FontIcon
               className="material-icons">
@@ -305,7 +305,7 @@ export class MyAccount extends Component {
           primary={true}
           fullWidth={true}
           style={styles.button}
-          onTouchTap={this.handlePasswordChange}
+          onClick={this.handlePasswordChange}
           icon={
             <FontIcon
               className="material-icons">
@@ -318,7 +318,7 @@ export class MyAccount extends Component {
           disabled={auth.isFetching}
           secondary={true}
           fullWidth={true}
-          onTouchTap={this.handleDeleteAccount}
+          onClick={this.handleDeleteAccount}
           icon={
             <FontIcon
               className="material-icons">
