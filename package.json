@@ -1,6 +1,6 @@
 {
   "name": "firekit",
-  "version": "0.2.1",
+  "version": "0.2.11",
   "description": "Firebase toolkit for sync with redux",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -30,7 +30,6 @@
     "immutable": "^3.8.1",
     "intl": "^1.2.5",
     "intl-locales-supported": "^1.0.0",
-    "lodash": "^4.17.4",
     "marked": "^0.3.6",
     "material-ui": "^0.19.0",
     "material-ui-responsive-drawer": "^1.19.1",

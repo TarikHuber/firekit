@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import * as types from './types'
 
 function list (list = [], action) {
