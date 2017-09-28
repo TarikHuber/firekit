@@ -9,7 +9,7 @@ import {RMWIcon} from '../Icons';
 import {injectIntl} from 'react-intl';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import CircularProgress from 'material-ui/CircularProgress';
-import { withFirebase } from '../../../../src';
+import withFirebase from '../../../firekit-provider/withFirebase';;
 
 const DrawerHeader = ({muiTheme, intl, auth, setAuthMenuOpen, fetchUser, dialogs, setDialogIsOpen, firebaseApp}) => {
   const styles={

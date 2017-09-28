@@ -9,7 +9,8 @@ import firebase from 'firebase';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
-import { withFirebase, FireForm } from '../../../../src';
+import withFirebase from '../../../firekit-provider/withFirebase';
+import FireForm from 'fireform'
 
 const path='/companies/';
 
@@ -56,7 +57,7 @@ class Companie extends Component {
 
   render() {
 
-    const {history, intl, setDialogIsOpen, dialogs, match}=this.props;
+    const {history, intl, setDialogIsOpen, dialogs, match, firebaseApp}=this.props;
 
     const actions = [
       <FlatButton
@@ -86,6 +87,7 @@ class Companie extends Component {
         <div style={{margin: 15, display: 'flex'}}>
 
           <FireForm
+            firebaseApp={firebaseApp}
             name={'companie'}
             path={`${path}`}
             onSubmitSuccess={(values, key)=>{history.push('/companies');}}

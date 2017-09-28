@@ -1,6 +1,6 @@
 {
   "name": "firekit",
-  "version": "0.1.31",
+  "version": "0.2.1",
   "description": "Firebase toolkit for sync with redux",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -20,14 +20,12 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {},
-  "peerDependencies": {
-    "react": "15.x || 16.x",
-    "firebase": "4.x",
-    "redux-form": "7.x"
-  },
+  "peerDependencies": {},
   "devDependencies": {
     "firebase": "^4.4.0",
     "firebaseui": "^2.3.0",
+    "fireform": "^0.2.1",
+    "firekit-provider": "^0.2.0",
     "github-markdown-css": "^2.8.0",
     "immutable": "^3.8.1",
     "intl": "^1.2.5",
@@ -65,9 +63,8 @@
   "license": "MIT",
   "repository": "https://github.com/TarikHuber/firekit",
   "keywords": [
-    "react-component",
     "firebase",
     "redux",
-    "react"
+    "sync"
   ]
 }

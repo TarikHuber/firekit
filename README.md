@@ -59,7 +59,7 @@ When we have the `firebaseApp` we just add it as paramater to our Provider.
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { FirebaseProvider } from 'firekit'; // Import the FirebaseProvider from firekit
+import { FirebaseProvider } from 'firekit-provider'; // Import the FirebaseProvider from firekit
 import configureStore from './store';
 import { Root } from './containers/Root';
 import { addLocalizationData } from './locales';
@@ -157,7 +157,7 @@ Let us take a look on a simple component.
 import React, { Component }  from 'react';
 import {injectIntl, intlShape} from 'react-intl';
 import { Activity } from '../../containers/Activity';
-import { withFirebase } from 'firekit';
+import { withFirebase } from 'firekit-provider';
 
 class MyComponent extends Component {
 
@@ -201,7 +201,7 @@ The `FirebaseProvider` provides the `firebaseApp` trought the rect context and `
 import React, { Component }  from 'react';
 import {injectIntl, intlShape} from 'react-intl';
 import { Activity } from '../../containers/Activity';
-import { withFirebase } from 'firekit';
+import { withFirebase } from 'firekit-provider';
 
 class MyComponent extends Component {
 
@@ -239,7 +239,7 @@ Firebase has integrated a listener to observe the connection state to your fireb
 ```js
 import React, { Component }  from 'react';
 import { connect } from 'react-redux';
-import { withFirebase } from 'firekit';
+import { withFirebase } from 'firekit-provider';
 
 class MyComponent extends Component {
 
@@ -285,7 +285,7 @@ We can easely observe lists in the realtime database using the `watchList` and `
 ```js
 import React, { Component }  from 'react';
 import { connect } from 'react-redux';
-import { withFirebase } from 'firekit';
+import { withFirebase } from 'firekit-provider';
 import _ from 'lodash';
 
 class MyComponent extends Component {
@@ -413,6 +413,7 @@ And comes the cool thing. If you are in the Form working on fields and someone e
 //...
 
     <FireForm
+      firebaseApp={firebaseApp}
       name={'companie'}
       path={`${path}`}
       onSubmitSuccess={(values)=>{history.push('/companies');}}
@@ -447,6 +448,7 @@ Firebase offers a simple API for managing push notification messages. Firekit pr
 - [X] integrate firebase auth watcher
 - [X] integrate firebase queries watcher
 - [X] implement alias names (custom destination locations) for path and list watchers
+- [X] seperate firekit-provider and fireform in seperate projects
 - [ ] integrate selectors for lists
 - [ ] integrate error hanling
 - [ ] integrate loading indicators in redux state

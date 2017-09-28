@@ -10,7 +10,7 @@ import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
 import {GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon} from '../../components/Icons';
 import IconButton from 'material-ui/IconButton';
-import { withFirebase } from '../../../../src';
+import withFirebase from '../../../firekit-provider/withFirebase';
 import ReactList from 'react-list';
 
 class Users extends Component {

@@ -11,7 +11,7 @@ import FontIcon from 'material-ui/FontIcon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import {withRouter} from 'react-router-dom';
 import Avatar from 'material-ui/Avatar';
-import { withFirebase } from '../../../../src';
+import withFirebase from '../../../firekit-provider/withFirebase';
 
 class Vehicles extends Component {
 

@@ -10,7 +10,8 @@ import firebase from 'firebase';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
-import { withFirebase, FireForm } from '../../../../src';
+import withFirebase from '../../../firekit-provider/withFirebase';
+import FireForm from 'fireform'
 
 const path='/public_tasks/';
 
@@ -57,7 +58,7 @@ class Task extends Component {
 
   render() {
 
-    const {history, intl, dialogs, match, setDialogIsOpen}=this.props;
+    const {history, intl, dialogs, match, setDialogIsOpen, firebaseApp}=this.props;
 
     const actions = [
       <FlatButton
@@ -85,6 +86,7 @@ class Task extends Component {
         title={intl.formatMessage({id: this.props.match.params.uid?'edit_task':'create_task'})}>
         <div style={{margin: 15, display: 'flex'}}>
           <FireForm
+            firebaseApp={firebaseApp}
             name={'task'}
             path={path}
             onSubmitSuccess={(values)=>{history.push('/tasks');}}

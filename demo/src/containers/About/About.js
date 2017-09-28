@@ -1,7 +1,7 @@
 import React, { Component }  from 'react';
 import {injectIntl, intlShape} from 'react-intl';
 import { Activity } from '../../containers/Activity';
-import { withFirebase } from '../../../../src';
+import withFirebase from '../../../firekit-provider/withFirebase';
 
 class About extends Component {
 
