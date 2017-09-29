@@ -53,7 +53,7 @@ export function initMessaging (firebaseApp, handleTokenChange, onMessageReceieve
         dispatch(onPermissionChanged(false))
       })
     } catch (e) {
-      dispatch(onTokenChanged(token))
+      dispatch(onPermissionChanged(false))
     }
 
     messaging.onMessage(payload => {
