@@ -84,6 +84,9 @@ const messages=defineMessages({
   'link_with_facebook.com': 'Link with Facebook',
   'link_with_twitter.com': 'Link with Twitter',
   'link_with_github.com': 'Link with Github',
+  firebase: 'Firebase',
+  hot_dog_status: 'Hot dog status',
+  firestore: 'Firestore',
 });
 
 export default messages;

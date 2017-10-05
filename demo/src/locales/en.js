@@ -80,6 +80,9 @@ const messages=defineMessages({
   description_hint: 'Enter description',
   name_label: 'Name',
   name_hint: 'Enter name',
+  firebase: 'Firebase',
+  hot_dog_status: 'Hot dog status',
+  firestore: 'Firestore',
 
 });
 

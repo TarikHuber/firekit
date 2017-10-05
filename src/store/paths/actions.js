@@ -7,7 +7,8 @@ export const valueChanged = (value, location, path) => {
     type: types.VALUE_CHANGED,
     payload: value,
     path,
-    location
+    location,
+    locationValue: true
   }
 }
 
@@ -18,10 +19,10 @@ export const destroy = (location) => {
   }
 }
 
-export const unWatch = (location) => {
+export const unWatch = (path) => {
   return {
     type: types.UNWATCH,
-    location
+    path
   }
 }
 
@@ -45,11 +46,10 @@ export function watchPath (firebaseApp, firebasePath, reduxPath=false) {
 
 export function unwatchPath (firebaseApp, path, reduxPath=false) {
 
-  const location = reduxPath?reduxPath:path
-
   return dispatch => {
+    const location = reduxPath?reduxPath:path
     firebaseApp.database().ref(path).off()
-    dispatch(unWatch(dispatch))
+    dispatch(unWatch(location))
   }
 }
 

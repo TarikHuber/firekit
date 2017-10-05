@@ -5,6 +5,7 @@ import { initConnection, unsubscribeConnection } from '../../src/store/connectio
 import { watchAuth, authStateChanged, authError} from '../../src/store/auth/actions'
 import { watchList, unwatchList, destroyList, unwatchAllLists } from '../../src/store/lists/actions'
 import { watchPath, unwatchPath, destroyPath, unwatchAllPaths } from '../../src/store/paths/actions'
+import { watchDoc, unwatchDoc, destroyDoc, unwatchAllDocs } from '../../src/store/docs/actions'
 import { initMessaging, clearMessage } from '../../src/store/messaging/actions'
 
 const withFirebase = (Component) => {
@@ -38,9 +39,15 @@ const withFirebase = (Component) => {
       destroyPath={(path, alias) => { dispatch(destroyPath(firebaseApp, path, alias)) }}
       unwatchAllPaths={() => { dispatch(unwatchAllPaths(firebaseApp)) }}
 
+      watchDoc={(path, alias) => { dispatch(watchDoc(firebaseApp, path, alias)) }}
+      unwatchDoc={(path, alias) => { dispatch(unwatchDoc(firebaseApp, path, alias)) }}
+      destroyDoc={(path, alias) => { dispatch(destroyDoc(firebaseApp, path, alias)) }}
+      unwatchAllDocs={() => { dispatch(unwatchAllDocs(firebaseApp)) }}
+
       clearApp={() => {
         dispatch(unwatchAllLists(firebaseApp))
         dispatch(unwatchAllPaths(firebaseApp))
+        dispatch(unwatchAllDocs(firebaseApp))
         dispatch(unsubscribeConnection(firebaseApp))
       }}
 

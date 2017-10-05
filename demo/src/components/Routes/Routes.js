@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dashboard } from '../../containers/Dashboard';
+import { Firestore } from '../../containers/Firestore';
 import { About } from '../../containers/About';
 import { MyAccount } from '../../containers/MyAccount';
 import { Tasks, Task } from '../../containers/Tasks';
@@ -27,6 +28,7 @@ const Routes = (props, context) => {
       <Switch >
         <RestrictedRoute type='private' path="/" exact component={Dashboard} />
         <RestrictedRoute type='private' path="/dashboard" exact component={Dashboard} />
+        <RestrictedRoute type='private' path="/firestore" exact component={Firestore} />
 
         <RestrictedRoute type='private' path="/tasks" exact component={Tasks} />
         <RestrictedRoute type='private' path="/tasks/edit/:uid" exact component={Task} />

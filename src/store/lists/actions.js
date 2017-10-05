@@ -8,7 +8,8 @@ export const initialize = (list, location, path, append) => {
     payload: list,
     path,
     location,
-    append
+    append,
+    locationValue: true
   }
 }
 

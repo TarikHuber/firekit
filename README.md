@@ -7,7 +7,7 @@
 
 This project was bootstrapped with [nwb](https://github.com/insin/nwb)
 
-Firekit was created to help working with Firebase in React Projects that use Redux as state storage.
+`Firekit` helps syncing the Firebase 'RealtimeDatabase' or the new 'Firestore' database with the `redux` state.
 
 You can find a full functional **DEMO** project (React Most Wanted) with source code [here](https://www.react-most-wanted.com/).
 You can also find more about the concepts used in this library [here](https://codeburst.io/firekit-concepts-to-sync-firebase-and-redux-606a1e3e50d6)
@@ -21,6 +21,7 @@ You can also find more about the concepts used in this library [here](https://co
   - [Connection](#connection)
   - [Lists and Queries](#lists-and-queires)
   - [Paths](#paths)
+  - [Docs](#docs)
   - [FireForm](#fireform)
   - [Messaging](#messaging)
 - [TO DO](#to-do)
@@ -398,6 +399,30 @@ The paths watcher exactly like the lists watcher with `watchPath` and `unwatchPa
 
 Here we also unwatch the path on `componentWillUnmount` but we could also leave the watcher persistand and unwatch it on application closing. This is useful if you need to load user data or user permissions from the database and you want that the permission changes take effect in realtime to the user.
 
+### Docs
+
+`firekit` can use the new Firebase `firestore` feature and enables you to watch changes on documents and collections.
+The docs watcher exactly like the paths watcher with `watchDoc` and `unwatchDoc`.
+
+```js
+//...
+  componentDidMount(){
+    const { watchDoc }= this.props;
+    watchDoc('samples/sandwichData');
+  }
+
+  componentWillUnmount() {
+    const { unwatchDoc, destroyDoc }= this.props;
+    unwatchDoc('samples/sandwichData');
+    destroyDoc('samples/sandwichData');
+
+  }
+
+//...
+```
+**IMPORTAND:**: The RealtimDatabase of Firebase enabled us to have global unsubsrciption to the watchers. This is no longer possible with the `firestore` so even it seems possible to work with persistent watchers it's unofrtunately NOT! You have to take care to unwatch every listener when leaving a component or the instance where the watcher was initialised.
+
+
 ### FireForm
 
 `FirForm` is a special component created for usage with `redux-form`. It takes a `path` and an `uid` paramater to know where to get its data. The `name` propertie is the name of the `redux-form` Form name. All other properties are optional and wil be described in further documentation. It is importand to know that `FireForm` can only be used in Components that have the `withFirebase` called to access the `firebaseApp`.
@@ -449,6 +474,9 @@ Firebase offers a simple API for managing push notification messages. Firekit pr
 - [X] integrate firebase queries watcher
 - [X] implement alias names (custom destination locations) for path and list watchers
 - [X] seperate firekit-provider and fireform in seperate projects
+- [X] integrate `firestore` documents watcher
+- [ ] integrate `firestore` collections watcher
+- [ ] integrate `firestore` queries watcher
 - [ ] integrate selectors for lists
 - [ ] integrate error hanling
 - [ ] integrate loading indicators in redux state
