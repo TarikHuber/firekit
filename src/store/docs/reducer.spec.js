@@ -6,7 +6,7 @@ const initialState = {
 
 }
 
-describe('paths reducer', () => {
+describe('docs reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})

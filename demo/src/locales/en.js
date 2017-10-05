@@ -83,6 +83,8 @@ const messages=defineMessages({
   firebase: 'Firebase',
   hot_dog_status: 'Hot dog status',
   firestore: 'Firestore',
+  document: 'Document',
+  collection: 'Collection',
 
 });
 

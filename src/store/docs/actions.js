@@ -66,11 +66,16 @@ export function unwatchDoc (firebaseApp, path, reduxPath=false) {
     const allInitializations = selectors.getAllInitializations(getState())
     const unsubs=allInitializations[location]
 
-    Object.keys(unsubs).map((key)=>{
-      const unsub=unsubs[key]
-      unsub()
-      dispatch(unWatch(location))
-    })
+    if(unsubs){
+      Object.keys(unsubs).map((key)=>{
+        const unsub=unsubs[key]
+        if(typeof unsub === "function"){
+          unsub()
+        }
+        dispatch(unWatch(location))
+      })
+    }
+
   }
 }
 
@@ -79,7 +84,7 @@ export function destroyDoc (firebaseApp, path, reduxPath=false) {
   const location = reduxPath?reduxPath:path
 
   return dispatch => {
-    firebaseApp.database().ref(path).off()
+    unwatchDoc(firebaseApp, location)
     dispatch(unWatch(location))
     dispatch(destroy(location))
   }
@@ -90,7 +95,7 @@ export function unwatchAllDocs (firebaseApp) {
     const allPaths = selectors.getAllDocs(getState())
 
     Object.keys(allPaths).forEach(function (key, index) {
-      firebaseApp.database().ref(allPaths[index]).off()
+      unwatchDoc(firebaseApp, allPaths[index])
       dispatch(unWatch(key))
     })
   }

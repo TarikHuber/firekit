@@ -7,7 +7,7 @@
 
 This project was bootstrapped with [nwb](https://github.com/insin/nwb)
 
-`Firekit` helps syncing the Firebase 'RealtimeDatabase' or the new 'Firestore' database with the `redux` state.
+`Firekit` helps syncing the Firebase `RealtimeDatabase` or the new `Firestore` database with the `redux` state.
 
 You can find a full functional **DEMO** project (React Most Wanted) with source code [here](https://www.react-most-wanted.com/).
 You can also find more about the concepts used in this library [here](https://codeburst.io/firekit-concepts-to-sync-firebase-and-redux-606a1e3e50d6)
@@ -16,12 +16,14 @@ You can also find more about the concepts used in this library [here](https://co
 
 - [Features](#features)
 - [Configuration](#configuration)
+- [Install](#install)
 - [Usage](#usage)
   - [Accessing firebaseApp](#accessing-firebaseapp)
   - [Connection](#connection)
   - [Lists and Queries](#lists-and-queires)
   - [Paths](#paths)
   - [Docs](#docs)
+  - [Collections](#collections)
   - [FireForm](#fireform)
   - [Messaging](#messaging)
 - [TO DO](#to-do)
@@ -46,6 +48,21 @@ Some features that are unique to this firebase toolkit are:
 
 Features like populating values in the database are omited with purpose. The [Firebase Cloud Functions](https://firebase.google.com/docs/functions/) are the place where you should populate data that must be saved in multiple places.
 
+
+## Install
+
+For using only the `redux` features
+
+```
+npm i -S firekit
+```
+
+In a `react` project where you want to have also the `Provider`
+
+
+```
+npm i -S firekit firekit-provider
+```
 
 ## Configuration
 
@@ -422,6 +439,27 @@ The docs watcher exactly like the paths watcher with `watchDoc` and `unwatchDoc`
 ```
 **IMPORTAND:**: The RealtimDatabase of Firebase enabled us to have global unsubsrciption to the watchers. This is no longer possible with the `firestore` so even it seems possible to work with persistent watchers it's unofrtunately NOT! You have to take care to unwatch every listener when leaving a component or the instance where the watcher was initialised.
 
+### Collections
+
+The collections watcher exactly like the docs watcher with `watchCol` and `unwatchCol`.
+
+```js
+//...
+  componentDidMount(){
+    const { watchCol }= this.props;
+    watchCol('posts');
+  }
+
+  componentWillUnmount() {
+    const { unwatchCol, destroyCol }= this.props;
+    unwatchCol('posts');
+
+  }
+
+//...
+```
+**IMPORTAND:**: Here we have the same restrictions as they are with docs on the global unwatch feature.
+
 
 ### FireForm
 
@@ -475,8 +513,8 @@ Firebase offers a simple API for managing push notification messages. Firekit pr
 - [X] implement alias names (custom destination locations) for path and list watchers
 - [X] seperate firekit-provider and fireform in seperate projects
 - [X] integrate `firestore` documents watcher
-- [ ] integrate `firestore` collections watcher
-- [ ] integrate `firestore` queries watcher
+- [X] integrate `firestore` collections watcher
+- [X] integrate `firestore` queries watcher
 - [ ] integrate selectors for lists
 - [ ] integrate error hanling
 - [ ] integrate loading indicators in redux state
