@@ -57,7 +57,7 @@ const getPayload = (snapshot) => {
 }
 
 const getPath = (firebaseApp, ref) => {
-  return ref.path
+  return ref._query.path.segments.join('/')
 }
 
 const getRef = (firebaseApp, path) => {
@@ -78,8 +78,8 @@ const getLocation = (firebaseApp, path) => {
 
 export function watchCol (firebaseApp, firebasePath, reduxPath=false, append=false) {
   let ref = getRef(firebaseApp, firebasePath)
-  let path = ref.path
-  let location = reduxPath?reduxPath:getLocation(firebaseApp, firebasePath)
+  const path = getLocation(firebaseApp, firebasePath)
+  let location = reduxPath?reduxPath:path
 
   return (dispatch, getState) => {
     const isInitialized = initSelectors.isInitialised(getState(), path, location)
