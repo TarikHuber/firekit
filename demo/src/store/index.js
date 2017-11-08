@@ -1,54 +1,50 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux'
 import { createLogger } from 'redux-logger'
-import thunk from 'redux-thunk';
-import reducers from './reducers';
-import { persistStore, autoRehydrate} from 'redux-persist';
-import { responsiveStoreEnhancer } from 'redux-responsive';
-import config from '../config';
+import thunk from 'redux-thunk'
+import reducers from './reducers'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/es/storage' // default: localStorage if web, AsyncStorage if react-native
+import { responsiveStoreEnhancer } from 'redux-responsive'
+import initState from './init'
 
 export default function configureStore() {
-  let store;
+  let store
 
-  const logger = createLogger({
+  const logger = createLogger({})
 
-  });
-
-  const isAuthorised = () => {
-
-    try{
-      const key = Object.keys(localStorage).find(e => e.match(/firebase:authUser/));
-      const data = JSON.parse(localStorage.getItem(key));
-      return data != null;
-    }catch(ex){
-      return false;
-    }
-
-
-  }
-
-  const initState={
-    auth: { isAuthorised: isAuthorised() },
-    ...config.initial_state
-  };
-
-  let middlewares=[thunk];
+  let middlewares = [thunk]
 
   if (process.env.NODE_ENV !== 'production') {
-    middlewares.push(logger); //DEV middlewares
+    middlewares.push(logger) // DEV middlewares
   }
 
-  store = createStore(reducers, initState, compose(
+  const composeEnhancers =
+    typeof window === 'object' &&
+      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+      }) : compose
+
+  const enhancer = composeEnhancers(
     applyMiddleware(...middlewares),
-    autoRehydrate(),
     responsiveStoreEnhancer
-  ));
+  )
 
-  try{
-    persistStore(store, {blacklist:['auth', 'form', 'connection', 'initialization', 'messaging'] }, ()=>{});
-  }catch(e){
+  const persistorConfig = {
+    key: 'root',
+    storage,
+    blacklist: ['auth', 'form', 'connection', 'initialization', 'messaging']
+  }
+
+  const reducer = persistReducer(persistorConfig, reducers)
+
+  store = createStore(reducer, initState, enhancer)
+
+  try {
+    persistStore(store)
+  } catch (e) {
 
   }
 
-
-  return store;
+  return store
 }
