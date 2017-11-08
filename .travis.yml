@@ -1,15 +1,29 @@
-sudo: false
-
 language: node_js
 node_js:
   - 6
 
+cache:
+  directories:
+  - node_modules
+
 before_install:
   - npm install codecov.io coveralls
+
+script:
+  - npm test
 
 after_success:
   - cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - npm run build
+
+deploy:
+  provider: npm
+  email: $NPM_EMAIL
+  api_key: $NPM_TOKEN
+  on:
+    branch: master
+    condition: $TRAVIS_PULL_REQUEST = false
 
 branches:
   only:
