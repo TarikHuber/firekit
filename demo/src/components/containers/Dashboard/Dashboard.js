@@ -1,39 +1,34 @@
-import React from 'react';
-import FlatButton from 'material-ui/FlatButton';
-import { injectIntl, intlShape } from 'react-intl';
-import { GitHubIcon } from '../../components/Icons';
-import { Activity } from '../../containers/Activity';
-import {MarkdownElement} from '../../components/MarkdownElement';
+import React from 'react'
+import FlatButton from 'material-ui/FlatButton'
+import { injectIntl, intlShape } from 'react-intl'
+import { GitHubIcon } from '../../components/Icons'
+import { Activity } from '../../containers/Activity'
 
-import readMe from './dashboard.md.js';
 
-const Dashboard = ({intl}) => {
-
+const Dashboard = ({ intl }) => {
   return (
     <Activity
       iconElementRight={
         <FlatButton
-          style={{marginTop: 4}}
-          href="https://github.com/TarikHuber/react-most-wanted"
-          target="_blank"
-          rel="noopener"
-          secondary={true}
-          icon={<GitHubIcon/>}
+          style={{ marginTop: 4 }}
+          href='https://github.com/TarikHuber/react-most-wanted'
+          target='_blank'
+          rel='noopener'
+          secondary
+          icon={<GitHubIcon />}
         />
       }
-      title={intl.formatMessage({id: 'dashboard'})}>
+      title={intl.formatMessage({ id: 'dashboard' })}>
 
-      <div style={{backgroundColor: 'white', marginTop: -20}}>
-        <MarkdownElement  text={readMe}  style={{padding: 15}}/>
-      </div>
+      <div style={{ backgroundColor: 'white', marginTop: -20 }} />
 
     </Activity>
-  );
+  )
 
 }
 
 Dashboard.propTypes = {
-  intl: intlShape.isRequired,
-};
+  intl: intlShape.isRequired
+}
 
-export default injectIntl(Dashboard);
+export default injectIntl(Dashboard)
