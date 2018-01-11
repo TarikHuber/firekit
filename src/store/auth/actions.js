@@ -37,9 +37,9 @@ export function watchAuth (firebaseApp, onAuthStateChanged, onAuthError) {
   return dispatch => {
     firebaseApp.auth().onAuthStateChanged(user => {
       if (onAuthStateChanged && onAuthStateChanged instanceof Function) {
-        dispatch(authStateChanged({isAuthorised: !!user, ...onAuthStateChanged(user)}))
+        dispatch(authStateChanged({ isAuthorised: !!user, ...onAuthStateChanged(user) }))
       } else {
-        dispatch(authStateChanged({isAuthorised: !!user, ...defaultUserData(user)}))
+        dispatch(authStateChanged({ isAuthorised: !!user, ...defaultUserData(user) }))
       }
     }, error => {
       if (onAuthError && onAuthError instanceof Function) {

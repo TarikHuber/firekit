@@ -14,19 +14,19 @@ describe('locale reducer', () => {
 
   it('should not affect state', () => {
     expect(
-      reducer(initialState, {type: 'NOT_EXISTING'})
+      reducer(initialState, { type: 'NOT_EXISTING' })
     ).toEqual(initialState)
   })
 
   it('should handle authStateChanged', () => {
     expect(
-      reducer(initialState, actions.authStateChanged({displayName: 'test'}))
-    ).toEqual({...initialState, ...{displayName: 'test'}})
+      reducer(initialState, actions.authStateChanged({ displayName: 'test' }))
+    ).toEqual({ ...initialState, ...{ displayName: 'test' } })
   })
 
   it('should handle authError', () => {
     expect(
-      reducer(initialState, actions.authError({message: 'test'}))
-    ).toEqual({...initialState, ...{error: {message: 'test'}}})
+      reducer(initialState, actions.authError({ message: 'test' }))
+    ).toEqual({ ...initialState, ...{ error: { message: 'test' } } })
   })
 })

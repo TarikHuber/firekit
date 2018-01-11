@@ -15,14 +15,14 @@ describe('collections reducer', () => {
 
   it('should not affect state', () => {
     expect(
-      reducer(initialState, {type: 'NOT_EXISTING'})
+      reducer(initialState, { type: 'NOT_EXISTING' })
     ).toEqual(initialState)
   })
 
   it('should handle initialize', () => {
     expect(
       reducer(initialState, actions.initialize(
-        [1,2,3],
+        [1, 2, 3],
         'test_location',
         'test_path',
         'unsub',
@@ -30,19 +30,18 @@ describe('collections reducer', () => {
       ))
     ).toEqual({
       ...initialState,
-      test_location: [1,2, 3]
+      test_location: [1, 2, 3]
     })
   })
 
   it('should handle initialize with append', () => {
-
-    const initState={
+    const initState = {
       test_location: [1]
     }
 
     expect(
       reducer(initState, actions.initialize(
-        [2,3],
+        [2, 3],
         'test_location',
         'test_path',
         'unsub',
@@ -50,54 +49,51 @@ describe('collections reducer', () => {
       ))
     ).toEqual({
       ...initState,
-      test_location: [1 , 2, 3]
+      test_location: [1, 2, 3]
     })
   })
 
   it('should handle childAdded', () => {
-
-    const initState={
+    const initState = {
       test_location: [1]
     }
 
     expect(
       reducer(initState, actions.childAdded(
         2,
-        'test_location',
+        'test_location'
       ))
     ).toEqual({
       ...initState,
-      test_location: [1 , 2]
+      test_location: [1, 2]
     })
   })
 
   it('should handle childChanged', () => {
-
-    const initState={
-      test_location: [{ id: 1, data: 'test'}]
+    const initState = {
+      test_location: [{ id: 1, data: 'test' }]
     }
 
     expect(
       reducer(initState, actions.childChanged(
-        { id: 1, data: 'test2'},
-        'test_location',
+        { id: 1, data: 'test2' },
+        'test_location'
       ))
     ).toEqual({
       ...initState,
-      test_location: [{ id: 1, data: 'test2'}]
+      test_location: [{ id: 1, data: 'test2' }]
     })
   })
 
   it('should handle childRemoved', () => {
-
-    const initState={
-      test_location: [{ id: 1, data: 'test'}]
+    const initState = {
+      test_location: [{ id: 1, data: 'test' }]
     }
 
     expect(
       reducer(initState, actions.childRemoved(
-        { id: 1, data: 'test2'},
-        'test_location',
+        { id: 1, data: 'test2' },
+        'test_location'
       ))
     ).toEqual({
       ...initState,
@@ -106,32 +102,29 @@ describe('collections reducer', () => {
   })
 
   it('should handle destroy', () => {
-
-    const initState={
-      test_location: [{ id: 1, data: 'test'}]
+    const initState = {
+      test_location: [{ id: 1, data: 'test' }]
     }
 
     expect(
       reducer(initState, actions.destroy(
-        'test_location',
+        'test_location'
       ))
     ).toEqual({
     })
   })
 
   it('should handle unWatch', () => {
-
-    const initState={
-      test_location: [{ id: 1, data: 'test'}]
+    const initState = {
+      test_location: [{ id: 1, data: 'test' }]
     }
 
     expect(
       reducer(initState, actions.unWatch(
-        'test_location',
+        'test_location'
       ))
     ).toEqual({
       ...initState
     })
   })
-
 })

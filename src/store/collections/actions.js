@@ -13,7 +13,6 @@ export const initialize = (list, location, path, locationValue, append) => {
   }
 }
 
-
 export const childAdded = (child, location) => {
   return {
     type: types.CHILD_ADDED,
@@ -53,7 +52,7 @@ export const unWatch = (path) => {
 }
 
 const getPayload = (snapshot) => {
-  return {key: snapshot.key, val: snapshot.val() }
+  return { key: snapshot.key, val: snapshot.val() }
 }
 
 const getPath = (firebaseApp, ref) => {
@@ -76,98 +75,90 @@ const getLocation = (firebaseApp, path) => {
   }
 }
 
-export function watchCol (firebaseApp, firebasePath, reduxPath=false, append=false) {
+export function watchCol(firebaseApp, firebasePath, reduxPath = false, append = false) {
   let ref = getRef(firebaseApp, firebasePath)
   const path = getLocation(firebaseApp, firebasePath)
-  let location = reduxPath?reduxPath:path
+  let location = reduxPath || path
 
   return (dispatch, getState) => {
     const isInitialized = initSelectors.isInitialised(getState(), path, location)
     let initialized = false
 
     if (!isInitialized) {
-
-      const unsub=ref.onSnapshot(snapshot => {
-
+      const unsub = ref.onSnapshot(snapshot => {
         snapshot.docChanges.forEach(change => {
-          if (change.type === "added") {
-
-            if(initialized){
+          if (change.type === 'added') {
+            if (initialized) {
               dispatch(childAdded({
                 id: change.doc.id,
                 data: change.doc.data()
               }, location))
-            }else{
-              initialized=true
+            } else {
+              initialized = true
               dispatch(initialize([{
                 id: change.doc.id,
                 data: change.doc.data()
-              }], location, path,unsub, append))
+              }], location, path, unsub, append))
             }
           }
-          if (change.type === "modified") {
+          if (change.type === 'modified') {
             dispatch(childChanged({
               id: change.doc.id,
               data: change.doc.data()
             }, location))
           }
-          if (change.type === "removed") {
+          if (change.type === 'removed') {
             dispatch(childRemoved({
               id: change.doc.id,
               data: change.doc.data()
             }, location))
           }
-        });
+        })
 
       })
-
     }
   }
 }
 
-export function unwatchCol (firebaseApp, firebasePath) {
-
+export function unwatchCol(firebaseApp, firebasePath) {
   return (dispatch, getState) => {
     const location = firebasePath
     const allInitializations = selectors.getAllInitializations(getState())
-    const unsubs=allInitializations[location]
+    const unsubs = allInitializations[location]
 
-    if(unsubs){
-      Object.keys(unsubs).map((key)=>{
-        const unsub=unsubs[key]
-        if(typeof unsub === "function"){
+    if (unsubs) {
+      Object.keys(unsubs).map((key) => {
+        const unsub = unsubs[key]
+        if (typeof unsub === 'function') {
           unsub()
         }
         dispatch(unWatch(location))
       })
     }
-
   }
 }
 
-export function destroyCol(firebaseApp, firebasePath, reduxPath=false) {
+export function destroyCol(firebaseApp, firebasePath, reduxPath = false) {
   return (dispatch, getState) => {
-    const location = reduxPath?reduxPath:getLocation(firebaseApp, firebasePath)
-    const locations=getState().initialization[location]
+    const location = reduxPath || getLocation(firebaseApp, firebasePath)
+    const locations = getState().initialization[location]
 
     dispatch(unWatch(location))
     dispatch(destroy(location))
 
-    if(reduxPath){
+    if (reduxPath) {
       dispatch(destroy(reduxPath))
       unwatchCol(firebaseApp, reduxPath)
-    }else if(locations){
-      Object.keys(locations).forEach(location=>{
+    } else if (locations) {
+      Object.keys(locations).forEach(location => {
         unwatchCol(firebaseApp, location)
         dispatch(destroy(location))
       })
     }
-
   }
 }
 
-
-export function unwatchAllCol (firebaseApp, path) {
+export function unwatchAllCol(firebaseApp, path) {
   return (dispatch, getState) => {
     const allLists = selectors.getAllCols(getState())
 
@@ -178,7 +169,7 @@ export function unwatchAllCol (firebaseApp, path) {
   }
 }
 
-export function unwatchAllCols (firebaseApp, path) {
+export function unwatchAllCols(firebaseApp, path) {
   return (dispatch, getState) => {
     const allLists = selectors.getAllCols(getState())
 
