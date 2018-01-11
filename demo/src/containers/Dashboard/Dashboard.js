@@ -1,38 +1,31 @@
-import React from 'react';
-import FlatButton from 'material-ui/FlatButton';
-import { injectIntl, intlShape } from 'react-intl';
-import { GitHubIcon } from '../../components/Icons';
-import { Activity } from '../../containers/Activity';
+import React, { Component } from 'react'
+import { injectIntl, intlShape } from 'react-intl'
+import { Activity } from '../../containers/Activity'
+import withFirebase from '../../../firekit-provider/withFirebase'
 
-import readMe from './dashboard.md.js';
+class Dashboard extends Component {
+  componentDidMount () {
+    const { watchList } = this.props
 
-const Dashboard = ({ intl }) => {
+    watchList('companies')
+    watchList('companies')
+  }
 
-  return (
-    <Activity
-      iconElementRight={
-        <FlatButton
-          style={{ marginTop: 4 }}
-          href="https://github.com/TarikHuber/react-most-wanted"
-          target="_blank"
-          rel="noopener"
-          secondary={true}
-          icon={<GitHubIcon />}
-        />
-      }
-      title={intl.formatMessage({ id: 'dashboard' })}>
+  render () {
+    const { intl } = this.props
+    return (
+      <Activity
+        title={intl.formatMessage({ id: 'dashboard' })}>
 
-      <div style={{ backgroundColor: 'white', marginTop: -20 }}>
+        <div style={{ backgroundColor: 'white', marginTop: -20 }} />
 
-      </div>
-
-    </Activity>
-  );
-
+      </Activity>
+    )
+  }
 }
 
 Dashboard.propTypes = {
-  intl: intlShape.isRequired,
-};
+  intl: intlShape.isRequired
+}
 
-export default injectIntl(Dashboard);
+export default injectIntl(withFirebase(Dashboard))

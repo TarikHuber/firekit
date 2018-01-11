@@ -13,7 +13,6 @@ export const initialize = (list, location, path, append) => {
   }
 }
 
-
 export const childAdded = (child, location) => {
   return {
     type: types.CHILD_ADDED,
@@ -53,7 +52,7 @@ export const unWatch = (path) => {
 }
 
 const getPayload = (snapshot) => {
-  return {key: snapshot.key, val: snapshot.val() }
+  return { key: snapshot.key, val: snapshot.val() }
 }
 
 const getPath = (firebaseApp, ref) => {
@@ -76,16 +75,17 @@ const getLocation = (firebaseApp, path) => {
   }
 }
 
-export function watchList (firebaseApp, firebasePath, reduxPath=false, append=false) {
+export function watchList (firebaseApp, firebasePath, reduxPath = false, append = false) {
   let ref = getRef(firebaseApp, firebasePath)
   let path = ref.toString()
-  let location = reduxPath?reduxPath:getLocation(firebaseApp, firebasePath)
+  let location = reduxPath || getLocation(firebaseApp, firebasePath)
 
   return (dispatch, getState) => {
     let initialized = false
     const isInitialized = initSelectors.isInitialised(getState(), path, location)
 
     if (!isInitialized) {
+      dispatch(initialize([], location, path, append))
       ref.once('value', snapshot => {
         initialized = true
 
@@ -95,11 +95,10 @@ export function watchList (firebaseApp, firebasePath, reduxPath=false, append=fa
           let childKey = childSnapshot.key
           let childData = childSnapshot.val()
 
-          list.push({key: childKey, val: childData})
+          list.push({ key: childKey, val: childData })
         })
 
         dispatch(initialize(list, location, path, append))
-
       })
 
       ref.on('child_added', snapshot => {
@@ -127,25 +126,23 @@ export function unwatchList (firebaseApp, firebasePath) {
   }
 }
 
-export function destroyList (firebaseApp, firebasePath, reduxPath=false) {
+export function destroyList (firebaseApp, firebasePath, reduxPath = false) {
   return (dispatch, getState) => {
     let ref = getRef(firebaseApp, firebasePath)
-    const locations=getState().initialization[ref.toString()]
+    const locations = getState().initialization[ref.toString()]
 
     ref.off()
     dispatch(unWatch(ref.toString()))
 
-    if(reduxPath){
+    if (reduxPath) {
       dispatch(destroy(reduxPath))
-    }else if(locations){
-      Object.keys(locations).forEach(location=>{
+    } else if (locations) {
+      Object.keys(locations).forEach(location => {
         dispatch(destroy(location))
       })
     }
-
   }
 }
-
 
 export function unwatchAllLists (firebaseApp, path) {
   return (dispatch, getState) => {

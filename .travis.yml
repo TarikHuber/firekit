@@ -11,11 +11,11 @@ before_install:
 
 script:
   - npm test
+  - npm run build
 
 after_success:
   - cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-  - npm run build
 
 deploy:
   provider: npm
