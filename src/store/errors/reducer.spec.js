@@ -36,7 +36,7 @@ describe('errors reducer', () => {
     })
   })
 
-  it('should handle clearError', () => {
+  it('should handle clearAllErrors', () => {
     expect(
       reducer({
         'testPath': { errorId: 'id', erroMessage: 'error message' },
