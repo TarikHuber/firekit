@@ -2,6 +2,7 @@ import * as types from './types'
 import * as selectors from './selectors'
 import * as initSelectors from '../initialization/selectors'
 import { logError } from '../errors/actions'
+import { logLoading } from '../loadings/actions'
 
 export const initialize = (list, location, path, locationValue, append) => {
   return {
@@ -76,7 +77,7 @@ const getLocation = (firebaseApp, path) => {
   }
 }
 
-export function watchCol(firebaseApp, firebasePath, reduxPath = false, append = false) {
+export function watchCol (firebaseApp, firebasePath, reduxPath = false, append = false) {
   let ref = getRef(firebaseApp, firebasePath)
   const path = getLocation(firebaseApp, firebasePath)
   let location = reduxPath || path
@@ -86,6 +87,7 @@ export function watchCol(firebaseApp, firebasePath, reduxPath = false, append = 
     let initialized = false
 
     if (!isInitialized) {
+      dispatch(logLoading(location))
       const unsub = ref.onSnapshot(snapshot => {
         snapshot.docChanges.forEach(change => {
           if (change.type === 'added') {
@@ -123,7 +125,7 @@ export function watchCol(firebaseApp, firebasePath, reduxPath = false, append = 
   }
 }
 
-export function unwatchCol(firebaseApp, firebasePath) {
+export function unwatchCol (firebaseApp, firebasePath) {
   return (dispatch, getState) => {
     const location = firebasePath
     const allInitializations = selectors.getAllInitializations(getState())
@@ -141,7 +143,7 @@ export function unwatchCol(firebaseApp, firebasePath) {
   }
 }
 
-export function destroyCol(firebaseApp, firebasePath, reduxPath = false) {
+export function destroyCol (firebaseApp, firebasePath, reduxPath = false) {
   return (dispatch, getState) => {
     const location = reduxPath || getLocation(firebaseApp, firebasePath)
     const locations = getState().initialization[location]
@@ -161,7 +163,7 @@ export function destroyCol(firebaseApp, firebasePath, reduxPath = false) {
   }
 }
 
-export function unwatchAllCol(firebaseApp, path) {
+export function unwatchAllCol (firebaseApp, path) {
   return (dispatch, getState) => {
     const allLists = selectors.getAllCols(getState())
 
@@ -172,7 +174,7 @@ export function unwatchAllCol(firebaseApp, path) {
   }
 }
 
-export function unwatchAllCols(firebaseApp, path) {
+export function unwatchAllCols (firebaseApp, path) {
   return (dispatch, getState) => {
     const allLists = selectors.getAllCols(getState())
 

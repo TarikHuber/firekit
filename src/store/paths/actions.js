@@ -2,6 +2,7 @@ import * as types from './types'
 import * as selectors from './selectors'
 import * as initSelectors from '../initialization/selectors'
 import { logError } from '../errors/actions'
+import { logLoading } from '../loadings/actions'
 
 export const valueChanged = (value, location, path) => {
   return {
@@ -36,6 +37,8 @@ export function watchPath (firebaseApp, firebasePath, reduxPath = false) {
     if (!isInitialized) {
       const ref = firebaseApp.database().ref(firebasePath)
       const path = ref.toString()
+
+      dispatch(logLoading(location))
 
       ref.on('value', snapshot => {
         dispatch(valueChanged(snapshot.val(), location, path))

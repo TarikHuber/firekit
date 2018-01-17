@@ -2,6 +2,7 @@ import * as collectionsTypes from '../collections/types'
 import * as docsTypes from '../docs/types'
 import * as listsTypes from '../lists/types'
 import * as pathsTypes from '../paths/types'
+import * as errorTypes from '../errors/types'
 import * as types from './types'
 
 export default function loadings (state = {}, action) {
@@ -30,6 +31,7 @@ export default function loadings (state = {}, action) {
     case pathsTypes.UNWATCH:
     case docsTypes.DESTROY:
     case docsTypes.UNWATCH:
+    case errorTypes.LOG_ERROR:
       let { [location]: omit, ...rest } = state
       return { ...rest }
 
