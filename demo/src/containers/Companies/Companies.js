@@ -14,7 +14,7 @@ import Avatar from 'material-ui/Avatar'
 import withFirebase from '../../../firekit-provider/withFirebase'
 
 class Vehicles extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { watchList, firebaseApp } = this.props
 
     let ref = firebaseApp.database().ref('companies').limitToFirst(20)
@@ -22,7 +22,7 @@ class Vehicles extends Component {
     watchList(ref)
   }
 
-  renderList (companies) {
+  renderList(companies) {
     const { history } = this.props
 
     if (companies === undefined) {
@@ -54,7 +54,7 @@ class Vehicles extends Component {
     })
   }
 
-  render () {
+  render() {
     const { intl, companies, muiTheme, history } = this.props
 
     return (

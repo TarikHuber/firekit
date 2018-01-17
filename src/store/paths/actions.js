@@ -1,6 +1,7 @@
 import * as types from './types'
 import * as selectors from './selectors'
 import * as initSelectors from '../initialization/selectors'
+import { logError } from '../errors/actions'
 
 export const valueChanged = (value, location, path) => {
   return {
@@ -40,6 +41,7 @@ export function watchPath (firebaseApp, firebasePath, reduxPath = false) {
         dispatch(valueChanged(snapshot.val(), location, path))
       }, err => {
         console.error(err)
+        dispatch(logError(location, err))
       })
     }
   }

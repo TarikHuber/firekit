@@ -1,6 +1,7 @@
 import * as types from './types'
 import * as selectors from './selectors'
 import * as initSelectors from '../initialization/selectors'
+import { logError } from '../errors/actions'
 
 export const initialize = (list, location, path, append) => {
   return {
@@ -75,7 +76,7 @@ const getLocation = (firebaseApp, path) => {
   }
 }
 
-export function watchList(firebaseApp, firebasePath, reduxPath = false, append = false) {
+export function watchList (firebaseApp, firebasePath, reduxPath = false, append = false) {
   let ref = getRef(firebaseApp, firebasePath)
   let path = ref.toString()
   let location = reduxPath || getLocation(firebaseApp, firebasePath)
@@ -110,24 +111,27 @@ export function watchList(firebaseApp, firebasePath, reduxPath = false, append =
         }
       }, err => {
         console.error(err)
+        dispatch(logError(location, err))
       })
 
       ref.on('child_changed', snapshot => {
         dispatch(childChanged(getPayload(snapshot), location))
       }, err => {
         console.error(err)
+        dispatch(logError(location, err))
       })
 
       ref.on('child_removed', snapshot => {
         dispatch(childRemoved(getPayload(snapshot), location))
       }, err => {
         console.error(err)
+        dispatch(logError(location, err))
       })
     }
   }
 }
 
-export function unwatchList(firebaseApp, firebasePath) {
+export function unwatchList (firebaseApp, firebasePath) {
   return dispatch => {
     let ref = getRef(firebaseApp, firebasePath)
     ref.off()
@@ -135,7 +139,7 @@ export function unwatchList(firebaseApp, firebasePath) {
   }
 }
 
-export function destroyList(firebaseApp, firebasePath, reduxPath = false) {
+export function destroyList (firebaseApp, firebasePath, reduxPath = false) {
   return (dispatch, getState) => {
     let ref = getRef(firebaseApp, firebasePath)
     const locations = getState().initialization[ref.toString()]
@@ -153,7 +157,7 @@ export function destroyList(firebaseApp, firebasePath, reduxPath = false) {
   }
 }
 
-export function unwatchAllLists(firebaseApp, path) {
+export function unwatchAllLists (firebaseApp, path) {
   return (dispatch, getState) => {
     const allLists = selectors.getAllLists(getState())
 
@@ -165,7 +169,7 @@ export function unwatchAllLists(firebaseApp, path) {
   }
 }
 
-export function destroyAllLists(firebaseApp, path) {
+export function destroyAllLists (firebaseApp, path) {
   return (dispatch, getState) => {
     const allLists = selectors.getAllLists(getState())
 

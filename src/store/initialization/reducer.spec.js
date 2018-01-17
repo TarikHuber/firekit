@@ -14,7 +14,7 @@ describe('initialization reducer', () => {
 
   it('should not affect state', () => {
     expect(
-      reducer(initialState, {type: 'NOT_EXISTING'})
+      reducer(initialState, { type: 'NOT_EXISTING' })
     ).toEqual(initialState)
   })
 

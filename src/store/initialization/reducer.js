@@ -1,41 +1,40 @@
+import * as collectionsTypes from '../collections/types'
+import * as docsTypes from '../docs/types'
 import * as listsTypes from '../lists/types'
 import * as pathsTypes from '../paths/types'
-import * as docsTypes from '../docs/types'
-import * as collectionsTypes from '../collections/types'
 import * as types from './types'
 
-
 function locations (state = [], action) {
-  const {path, location, locationValue} = action
+  const { location, locationValue } = action
   switch (action.type) {
     case listsTypes.INIIALIZE:
     case collectionsTypes.INIIALIZE:
     case pathsTypes.VALUE_CHANGED:
     case docsTypes.VALUE_CHANGED:
-    return {
-      ...state, [location]:locationValue
-    }
+      return {
+        ...state, [location]: locationValue
+      }
 
     default:
-    return state
+      return state
   }
 }
 
 export default function initialization (state = {}, action) {
-  const { path, location } = action
+  const { path } = action
 
   switch (action.type) {
     case listsTypes.INIIALIZE:
     case collectionsTypes.INIIALIZE:
     case pathsTypes.VALUE_CHANGED:
     case docsTypes.VALUE_CHANGED:
-    return {
-      ...state,
-      [path]: locations(state[path], action)
-    }
+      return {
+        ...state,
+        [path]: locations(state[path], action)
+      }
 
     case types.CLEAR_INITIALIZATION:
-    return {}
+      return {}
 
     case listsTypes.DESTROY:
     case listsTypes.UNWATCH:
@@ -45,10 +44,10 @@ export default function initialization (state = {}, action) {
     case pathsTypes.UNWATCH:
     case docsTypes.DESTROY:
     case docsTypes.UNWATCH:
-    let {[path]: omit, ...rest} = state
-    return { ...rest}
+      let { [path]: omit, ...rest } = state
+      return { ...rest }
 
     default:
-    return state
+      return state
   }
 }
