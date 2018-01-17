@@ -75,7 +75,7 @@ const getLocation = (firebaseApp, path) => {
   }
 }
 
-export function watchCol(firebaseApp, firebasePath, reduxPath = false, append = false) {
+export function watchCol (firebaseApp, firebasePath, reduxPath = false, append = false) {
   let ref = getRef(firebaseApp, firebasePath)
   const path = getLocation(firebaseApp, firebasePath)
   let location = reduxPath || path
@@ -114,13 +114,14 @@ export function watchCol(firebaseApp, firebasePath, reduxPath = false, append = 
             }, location))
           }
         })
-
+      }, err => {
+        console.error(err)
       })
     }
   }
 }
 
-export function unwatchCol(firebaseApp, firebasePath) {
+export function unwatchCol (firebaseApp, firebasePath) {
   return (dispatch, getState) => {
     const location = firebasePath
     const allInitializations = selectors.getAllInitializations(getState())
@@ -138,7 +139,7 @@ export function unwatchCol(firebaseApp, firebasePath) {
   }
 }
 
-export function destroyCol(firebaseApp, firebasePath, reduxPath = false) {
+export function destroyCol (firebaseApp, firebasePath, reduxPath = false) {
   return (dispatch, getState) => {
     const location = reduxPath || getLocation(firebaseApp, firebasePath)
     const locations = getState().initialization[location]
@@ -158,7 +159,7 @@ export function destroyCol(firebaseApp, firebasePath, reduxPath = false) {
   }
 }
 
-export function unwatchAllCol(firebaseApp, path) {
+export function unwatchAllCol (firebaseApp, path) {
   return (dispatch, getState) => {
     const allLists = selectors.getAllCols(getState())
 
@@ -169,7 +170,7 @@ export function unwatchAllCol(firebaseApp, path) {
   }
 }
 
-export function unwatchAllCols(firebaseApp, path) {
+export function unwatchAllCols (firebaseApp, path) {
   return (dispatch, getState) => {
     const allLists = selectors.getAllCols(getState())
 

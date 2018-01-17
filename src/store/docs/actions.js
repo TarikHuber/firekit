@@ -42,46 +42,44 @@ const getLocation = (firebaseApp, path) => {
   }
 }
 
-export function watchDoc (firebaseApp, firebasePath, reduxPath=false) {
-
+export function watchDoc (firebaseApp, firebasePath, reduxPath = false) {
   let ref = getRef(firebaseApp, firebasePath)
   let path = ref.path
-  let location = reduxPath?reduxPath:getLocation(firebaseApp, firebasePath)
+  let location = reduxPath || getLocation(firebaseApp, firebasePath)
 
   return (dispatch, getState) => {
     const isInitialized = initSelectors.isInitialised(getState(), location)
 
     if (!isInitialized) {
-      let unsub = ref.onSnapshot( doc => {
+      let unsub = ref.onSnapshot(doc => {
         dispatch(valueChanged(doc.data(), location, path, unsub))
+      }, err => {
+        console.error(err)
       })
     }
   }
 }
 
-export function unwatchDoc (firebaseApp, path, reduxPath=false) {
-
+export function unwatchDoc (firebaseApp, path, reduxPath = false) {
   return (dispatch, getState) => {
-    const location = reduxPath?reduxPath:path
+    const location = reduxPath || path
     const allInitializations = selectors.getAllInitializations(getState())
-    const unsubs=allInitializations[location]
+    const unsubs = allInitializations[location]
 
-    if(unsubs){
-      Object.keys(unsubs).map((key)=>{
-        const unsub=unsubs[key]
-        if(typeof unsub === "function"){
+    if (unsubs) {
+      Object.keys(unsubs).map((key) => {
+        const unsub = unsubs[key]
+        if (typeof unsub === 'function') {
           unsub()
         }
         dispatch(unWatch(location))
       })
     }
-
   }
 }
 
-export function destroyDoc (firebaseApp, path, reduxPath=false) {
-
-  const location = reduxPath?reduxPath:path
+export function destroyDoc (firebaseApp, path, reduxPath = false) {
+  const location = reduxPath || path
 
   return dispatch => {
     unwatchDoc(firebaseApp, location)

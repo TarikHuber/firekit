@@ -100,20 +100,28 @@ export function watchList(firebaseApp, firebasePath, reduxPath = false, append =
         })
 
         dispatch(initialize(list, location, path, append))
+      }, err => {
+        console.error(err)
       })
 
       ref.on('child_added', snapshot => {
         if (initialized) {
           dispatch(childAdded(getPayload(snapshot), location))
         }
+      }, err => {
+        console.error(err)
       })
 
       ref.on('child_changed', snapshot => {
         dispatch(childChanged(getPayload(snapshot), location))
+      }, err => {
+        console.error(err)
       })
 
       ref.on('child_removed', snapshot => {
         dispatch(childRemoved(getPayload(snapshot), location))
+      }, err => {
+        console.error(err)
       })
     }
   }

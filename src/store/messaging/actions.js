@@ -3,33 +3,33 @@ import * as types from './types'
 export function onTokenChanged (token) {
   return {
     type: types.TOKEN_CHANGED,
-    payload: {token, isInitialized: true}
+    payload: { token, isInitialized: true }
   }
 }
 
 export function onPermissionChanged (hasPermission, onMessage) {
   return {
     type: types.PERMISSION_CHANGED,
-    payload: {hasPermission, isInitialized: true}
+    payload: { hasPermission, isInitialized: true }
   }
 }
 
 export function onMessage (message) {
   return {
     type: types.ON_MESSAGE,
-    payload: {message}
+    payload: { message }
   }
 }
 export function clearMessage () {
   return {
-    type: types.ON_CLEAR_MESSAGE,
+    type: types.ON_CLEAR_MESSAGE
   }
 }
 
 export function onMessagingError (error) {
   return {
     type: types.MESSAGING_ERROR,
-    payload: {error}
+    payload: { error }
   }
 }
 
@@ -39,21 +39,22 @@ export function initMessaging (firebaseApp, handleTokenChange, onMessageReceieve
 
     try {
       messaging.requestPermission()
-      .then(() => {
-        return messaging.getToken()
-      })
-      .then(token => {
-        if (handleTokenChange !== undefined && handleTokenChange instanceof Function) {
-          handleTokenChange(token)
-        }
+        .then(() => {
+          return messaging.getToken()
+        })
+        .then(token => {
+          if (handleTokenChange !== undefined && handleTokenChange instanceof Function) {
+            handleTokenChange(token)
+          }
 
-        dispatch(onTokenChanged(token))
-      })
-      .catch(error => {
-        dispatch(onPermissionChanged(false))
-      })
+          dispatch(onTokenChanged(token))
+        })
+        .catch(error => {
+          dispatch(onPermissionChanged(false))
+        })
     } catch (e) {
       dispatch(onPermissionChanged(false))
+      console.error(e)
     }
 
     messaging.onMessage(payload => {
