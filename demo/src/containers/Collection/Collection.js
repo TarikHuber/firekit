@@ -9,6 +9,7 @@ import TextField from 'material-ui/TextField'
 import { List, ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
+import { getCol } from '../../../../src'
 
 class Collection extends Component {
 
@@ -41,8 +42,6 @@ class Collection extends Component {
 
   handleDelete = (id) => {
     const { firebaseApp } = this.props
-
-    console.log(id);
 
     let firestore = firebaseApp.firestore()
 
@@ -138,13 +137,12 @@ Collection.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { collections, initialization } = state;
+  const { initialization } = state;
 
-  const posts = collections['posts'] ? collections['posts'] : []
   const isWatching = initialization['posts'] ? true : false
 
   return {
-    posts,
+    posts: getCol(state, 'posts'),
     isWatching
   };
 };

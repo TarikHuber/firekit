@@ -12,6 +12,7 @@ import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../compone
 import IconButton from 'material-ui/IconButton';
 import withFirebase from '../../../firekit-provider/withFirebase';
 import ReactList from 'react-list';
+import { getList } from '../../../../src'
 
 class Users extends Component {
 
@@ -135,10 +136,10 @@ Users.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { lists, auth } = state;
+  const { auth } = state;
 
   return {
-    users: lists.users,
+    users: getList(state, 'users'),
     auth
   };
 };

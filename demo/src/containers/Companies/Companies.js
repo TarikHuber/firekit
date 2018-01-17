@@ -12,9 +12,10 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import { withRouter } from 'react-router-dom'
 import Avatar from 'material-ui/Avatar'
 import withFirebase from '../../../firekit-provider/withFirebase'
+import { getList } from '../../../../src'
 
 class Vehicles extends Component {
-  componentDidMount() {
+  componentDidMount () {
     const { watchList, firebaseApp } = this.props
 
     let ref = firebaseApp.database().ref('companies').limitToFirst(20)
@@ -22,7 +23,7 @@ class Vehicles extends Component {
     watchList(ref)
   }
 
-  renderList(companies) {
+  renderList (companies) {
     const { history } = this.props
 
     if (companies === undefined) {
@@ -54,7 +55,7 @@ class Vehicles extends Component {
     })
   }
 
-  render() {
+  render () {
     const { intl, companies, muiTheme, history } = this.props
 
     return (
@@ -89,10 +90,10 @@ Vehicles.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const { auth, browser, lists } = state
+  const { auth, browser } = state
 
   return {
-    companies: lists.companies,
+    companies: getList(state, 'companies'),
     auth,
     browser
   }

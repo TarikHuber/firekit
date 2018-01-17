@@ -43,4 +43,14 @@ export { watchDoc, unwatchDoc, destroyDoc, unwatchAllDocs } from './store/docs/a
 export { watchList, unwatchList, destroyList, unwatchAllLists } from './store/lists/actions'
 export { watchPath, unwatchPath, destroyPath, unwatchAllPaths } from './store/paths/actions'
 
+export { default as listsSelectors } from './store/lists/selectors'
+export { default as collectionsSelectors } from './store/collections/selectors'
+export { default as pathsSelectors } from './store/paths/selectors'
+export { default as docsSelectors } from './store/docs/selectors'
+export { getList, getAllLists } from './store/lists/selectors'
+export { getCol, getAllCols, getAllInitializations } from './store/collections/selectors'
+export { getPath, getAllPaths } from './store/paths/selectors'
+export { getDoc, getAllDocs } from './store/docs/selectors'
+export { isInitialised } from './store/initialization/selectors'
+
 export default firekitReducers

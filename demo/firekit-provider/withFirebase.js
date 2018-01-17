@@ -1,18 +1,18 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import { clearInitialization } from '../../src/store/initialization/actions'
 import { initConnection, unsubscribeConnection } from '../../src/store/connection/actions'
-import { watchAuth, authStateChanged, authError} from '../../src/store/auth/actions'
-import { watchList, unwatchList, destroyList, unwatchAllLists } from '../../src/store/lists/actions'
-import { watchCol, unwatchCol, destroyCol, unwatchAllCols} from '../../src/store/collections/actions'
-import { watchPath, unwatchPath, destroyPath, unwatchAllPaths } from '../../src/store/paths/actions'
-import { watchDoc, unwatchDoc, destroyDoc, unwatchAllDocs } from '../../src/store/docs/actions'
 import { initMessaging, clearMessage } from '../../src/store/messaging/actions'
+import { watchAuth, authStateChanged, authError } from '../../src/store/auth/actions'
+import { watchCol, unwatchCol, destroyCol, unwatchAllCols } from '../../src/store/collections/actions'
+import { watchDoc, unwatchDoc, destroyDoc, unwatchAllDocs } from '../../src/store/docs/actions'
+import { watchList, unwatchList, destroyList, unwatchAllLists } from '../../src/store/lists/actions'
+import { watchPath, unwatchPath, destroyPath, unwatchAllPaths } from '../../src/store/paths/actions'
 
 const withFirebase = (Component) => {
   const ChildComponent = (props, context) => {
-    const {firebaseApp, store} = context
-    const {dispatch} = store
+    const { firebaseApp, store } = context
+    const { dispatch } = store
 
     return <Component
       dispatch={dispatch}

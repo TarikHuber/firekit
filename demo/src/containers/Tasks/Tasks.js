@@ -20,6 +20,7 @@ import { withRouter } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import withFirebase from '../../../firekit-provider/withFirebase';
+import { getList } from '../../../../src';
 
 class Tasks extends Component {
 
@@ -242,10 +243,10 @@ Tasks.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { lists, auth, browser, dialogs } = state;
+  const { auth, browser, dialogs } = state;
 
   return {
-    tasks: lists.tasks,
+    tasks: getList(state, 'tasks'),
     auth,
     browser,
     dialogs
