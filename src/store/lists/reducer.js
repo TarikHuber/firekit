@@ -14,9 +14,6 @@ function list (list = [], action) {
 
     case types.CHILD_REMOVED:
       return list.filter(child => payload.key !== child.key)
-
-    default:
-      return list
   }
 }
 

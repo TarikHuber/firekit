@@ -58,6 +58,18 @@ describe('lists actions', () => {
         ).toEqual('path2')
     })
 
+  it('getRef should return string', () => {
+      expect(
+            actions.getRef(firebase, 'path')
+        ).toEqual(firebase.database().ref('path'))
+    })
+
+  it('getRef should return object', () => {
+      expect(
+            actions.getRef(firebase, {})
+        ).toEqual({})
+    })
+
   it('watchList should call dispatch with proper payload', () => {
       const getState = () => ({})
       const dispatch = expect.createSpy()
@@ -109,6 +121,7 @@ describe('lists actions', () => {
       let ref = firebase.database().ref('path')
       var error = new Error('Oh no!')
       ref.failNext('on', error)
+      ref.failNext('once', error)
       actions.watchList(firebase, 'path', 'path2')(dispatch, getState)
       ref.flush()
 
@@ -127,7 +140,16 @@ describe('lists actions', () => {
     })
 
   it('destroyList should call dispatch ', () => {
-      const getState = () => ({ initialization: { 'foo': 'foo' } })
+      const getState = () => ({ initialization: { 'path': 'foo' } })
+      const dispatch = expect.createSpy()
+
+      actions.destroyList(firebase, 'path', 'path2')(dispatch, getState)
+
+      expect(dispatch.calls.length).toEqual(2)
+    })
+
+  it('destroyList should call dispatch ', () => {
+      const getState = () => ({ initialization: { 'path': ['foo', 'bar', 'lar'] } })
       const dispatch = expect.createSpy()
 
       actions.destroyList(firebase, 'path')(dispatch, getState)

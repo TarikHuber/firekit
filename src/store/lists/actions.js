@@ -57,7 +57,7 @@ const getPayload = (snapshot) => {
   return { key: snapshot.key, val: snapshot.val() }
 }
 
-const getRef = (firebaseApp, path) => {
+export const getRef = (firebaseApp, path) => {
   if (typeof path === 'string' || path instanceof String) {
     return firebaseApp.database().ref(path)
   } else {
@@ -101,6 +101,7 @@ export function watchList (firebaseApp, firebasePath, reduxPath = false, append 
         dispatch(initialize(list, location, path, append))
       }, err => {
         console.error(err)
+        dispatch(logError(location, err))
       })
 
       ref.on('child_added', snapshot => {
