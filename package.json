@@ -23,6 +23,7 @@
   "peerDependencies": {},
   "devDependencies": {
     "firebase": "^4.8.2",
+    "firebase-mock": "^2.0.15",
     "firebaseui": "^2.5.1",
     "fireform": "^0.2.13",
     "github-markdown-css": "^2.10.0",
