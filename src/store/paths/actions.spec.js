@@ -13,14 +13,26 @@ let mocksdk = new firebasemock.MockFirebaseSdk(path => {
 let firebase = mocksdk.initializeApp()
 
 describe('watchPath should be a function', () => {
-    it('should return a function', () => {
+    it('watchPath should return a function', () => {
         expect(
             actions.watchPath(firebase, 'path', 'path2')
         ).toBeA('function')
     })
 
+    it('destroyPath should return a function', () => {
+        expect(
+            actions.destroyPath(firebase, 'path')
+        ).toBeA('function')
+    })
+
+    it('unwatchAllPaths should return a function', () => {
+        expect(
+            actions.unwatchAllPaths(firebase, 'path')
+        ).toBeA('function')
+    })
+
     it('watchPath should call dispatch with proper payload', () => {
-        const getState = () => ({ users: 'foo' })
+        const getState = () => ({})
         const dispatch = expect.createSpy()
 
         actions.watchPath(firebase, 'path')(dispatch, getState)
@@ -64,7 +76,7 @@ describe('watchPath should be a function', () => {
             .toEqual(2)
     })
 
-    it('watchPath should call dispatch 3 times', () => {
+    it('watchPath should call dispatch 2 times', () => {
         const getState = () => ({ users: 'foo' })
         const dispatch = expect.createSpy()
 
@@ -76,5 +88,55 @@ describe('watchPath should be a function', () => {
 
         expect(dispatch.calls.length)
             .toEqual(2)
+    })
+
+    it('unwatchPath should return a function', () => {
+        expect(
+            actions.unwatchPath(firebase, 'path')
+        ).toBeA('function')
+    })
+
+    it('unwatchPath should call dispatch with proper payload', () => {
+        const getState = () => ({ path: 'foo' })
+        const dispatch = expect.createSpy()
+
+        actions.unwatchPath(firebase, 'path')(dispatch, getState)
+
+        expect(dispatch)
+            .toHaveBeenCalled()
+            .toHaveBeenCalledWith({ type: '@@firekit/PATHS@UNWATCH', path: 'path' })
+    })
+
+    it('destroyPath should call dispatch with proper payload', () => {
+        const getState = () => ({ path: 'foo' })
+        const dispatch = expect.createSpy()
+
+        actions.destroyPath(firebase, 'path')(dispatch, getState)
+
+        expect(dispatch)
+            .toHaveBeenCalled()
+            .toHaveBeenCalledWith({ type: '@@firekit/PATHS@UNWATCH', path: 'path' })
+            .toHaveBeenCalledWith({ type: '@@firekit/PATHS@DESTROY', location: 'path' })
+    })
+
+    it('unwatchAllPaths should call dispatch with proper payload', () => {
+        const getState = () => ({ paths: { 'path1': 'path1', 'path2': 'path2' } })
+        const dispatch = expect.createSpy()
+
+        actions.unwatchAllPaths(firebase, 'path')(dispatch, getState)
+
+        expect(dispatch)
+            .toHaveBeenCalled()
+            .toHaveBeenCalledWith({ type: '@@firekit/PATHS@UNWATCH', path: 'path1' })
+            .toHaveBeenCalledWith({ type: '@@firekit/PATHS@UNWATCH', path: 'path2' })
+    })
+
+    it('unwatchAllPaths should call dispatch 2 time', () => {
+        const getState = () => ({ paths: { 'path1': 'path1', 'path2': 'path2' } })
+        const dispatch = expect.createSpy()
+
+        actions.unwatchAllPaths(firebase, 'path')(dispatch, getState)
+
+        expect(dispatch.calls.length).toEqual(2)
     })
 })
