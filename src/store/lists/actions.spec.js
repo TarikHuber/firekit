@@ -179,6 +179,40 @@ describe('lists actions', () => {
             .toEqual(4)
     })
 
+    it('watchList should call dispatch 5 times', () => {
+        const getState = () => ({ users: 'foo' })
+        const dispatch = expect.createSpy()
+
+        actions.watchList(firebase, 'path', 'path2')(dispatch, getState)
+
+        let ref = firebase.database().ref('path')
+        var error = new Error('Oh no!')
+
+        ref.failNext('child_changed', error)
+        ref.fakeEvent('child_changed', 'bar', null)
+
+        ref.flush()
+
+        expect(dispatch.calls.length)
+            .toEqual(5)
+    })
+
+    it('watchList should call dispatch 5 times', () => {
+        const getState = () => ({ users: 'foo' })
+        const dispatch = expect.createSpy()
+
+        let ref = firebase.database().ref('path')
+        var error = new Error('Oh no!')
+
+        ref.failNext('child_removed', error)
+        ref.fakeEvent('child_removed', 'bar', null)
+        actions.watchList(firebase, 'path', 'path2')(dispatch, getState)
+        ref.flush()
+
+        expect(dispatch.calls.length)
+            .toEqual(5)
+    })
+
     it('unwatchList should call dispatch ', () => {
         const getState = () => ({ path: 'foo' })
         const dispatch = expect.createSpy()

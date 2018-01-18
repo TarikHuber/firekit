@@ -4,7 +4,7 @@ import * as listsTypes from '../lists/types'
 import * as pathsTypes from '../paths/types'
 import * as types from './types'
 
-function locations (state = [], action) {
+function locations(state = [], action) {
   const { location, locationValue } = action
   switch (action.type) {
     case listsTypes.INIIALIZE:
@@ -14,13 +14,10 @@ function locations (state = [], action) {
       return {
         ...state, [location]: locationValue
       }
-
-    default:
-      return state
   }
 }
 
-export default function initialization (state = {}, action) {
+export default function initialization(state = {}, action) {
   const { path } = action
 
   switch (action.type) {

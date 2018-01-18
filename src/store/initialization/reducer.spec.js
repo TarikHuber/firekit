@@ -18,10 +18,21 @@ describe('initialization reducer', () => {
     ).toEqual(initialState)
   })
 
+  it('should unwatch', () => {
+    expect(
+      reducer({ 'foo': 'foo', 'bar': 'bar' }, { type: '@@firekit/LISTS@UNWATCH', path: 'foo' })
+    ).toEqual({ 'bar': 'bar' })
+  })
+
+  it('should initisalize', () => {
+    expect(
+      reducer({}, { type: '@@firekit/LISTS@APPEND_INIIALIZE', path: 'foo' })
+    ).toEqual({})
+  })
+
   it('should handle clearInitialization', () => {
     expect(
       reducer(initialState, actions.clearInitialization())
     ).toEqual({})
   })
-
 })
