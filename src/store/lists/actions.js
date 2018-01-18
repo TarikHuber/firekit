@@ -57,10 +57,6 @@ const getPayload = (snapshot) => {
   return { key: snapshot.key, val: snapshot.val() }
 }
 
-const getPath = (firebaseApp, ref) => {
-  return ref.toString().substring(firebaseApp.database().ref().root.toString().length)
-}
-
 const getRef = (firebaseApp, path) => {
   if (typeof path === 'string' || path instanceof String) {
     return firebaseApp.database().ref(path)
@@ -69,11 +65,11 @@ const getRef = (firebaseApp, path) => {
   }
 }
 
-const getLocation = (firebaseApp, path) => {
+export const getLocation = (firebaseApp, path) => {
   if (typeof path === 'string' || path instanceof String) {
     return path
   } else {
-    return getPath(firebaseApp, path)
+    return path.toString().substring(firebaseApp.database().ref().root.toString().length)
   }
 }
 

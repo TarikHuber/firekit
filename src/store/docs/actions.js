@@ -44,7 +44,7 @@ const getLocation = (firebaseApp, path) => {
   }
 }
 
-export function watchDoc (firebaseApp, firebasePath, reduxPath = false) {
+export function watchDoc(firebaseApp, firebasePath, reduxPath = false) {
   let ref = getRef(firebaseApp, firebasePath)
   let path = ref.path
   let location = reduxPath || getLocation(firebaseApp, firebasePath)
@@ -65,7 +65,7 @@ export function watchDoc (firebaseApp, firebasePath, reduxPath = false) {
   }
 }
 
-export function unwatchDoc (firebaseApp, path, reduxPath = false) {
+export function unwatchDoc(firebaseApp, path, reduxPath = false) {
   return (dispatch, getState) => {
     const location = reduxPath || path
     const allInitializations = selectors.getAllInitializations(getState())
@@ -83,7 +83,7 @@ export function unwatchDoc (firebaseApp, path, reduxPath = false) {
   }
 }
 
-export function destroyDoc (firebaseApp, path, reduxPath = false) {
+export function destroyDoc(firebaseApp, path, reduxPath = false) {
   const location = reduxPath || path
 
   return dispatch => {
@@ -93,7 +93,7 @@ export function destroyDoc (firebaseApp, path, reduxPath = false) {
   }
 }
 
-export function unwatchAllDocs (firebaseApp) {
+export function unwatchAllDocs(firebaseApp) {
   return (dispatch, getState) => {
     const allPaths = selectors.getAllDocs(getState())
 
