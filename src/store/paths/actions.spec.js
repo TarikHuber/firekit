@@ -1,55 +1,94 @@
 import expect from 'expect'
+import firebasemock from 'firebase-mock'
 import * as actions from './actions'
 
-const firebasemock = require('firebase-mock')
-
-const mockdatabase = new firebasemock.MockFirebase()
-const mockauth = new firebasemock.MockFirebase()
-const mocksdk = new firebasemock.MockFirebaseSdk(path => {
-  return path ? mockdatabase.child(path) : mockdatabase
+let mockdatabase = new firebasemock.MockFirebase()
+let mockauth = new firebasemock.MockFirebase()
+let mocksdk = new firebasemock.MockFirebaseSdk(path => {
+    return path ? mockdatabase.child(path) : mockdatabase
 }, () => {
-  return mockauth
+    return mockauth
 })
 
-const firebase = mocksdk.initializeApp()
+let firebase = mocksdk.initializeApp()
 
-describe('paths actions', () => {
-  it('should return a function', () => {
-      expect(
+describe('watchPath should be a function', () => {
+    it('should return a function', () => {
+        expect(
             actions.watchPath(firebase, 'path', 'path2')
         ).toBeA('function')
     })
 
-  it('should dispatch the function', () => {
-      const getState = () => ({ users: 'foo' })
-      const dispatch = expect.createSpy()
+    it('watchPath should call dispatch with proper payload', () => {
+        const getState = () => ({ users: 'foo' })
+        const dispatch = expect.createSpy()
 
-      actions.watchPath(firebase, 'path', 'path2')(dispatch, getState)
+        actions.watchPath(firebase, 'path')(dispatch, getState)
 
-      expect(
-            dispatch
-        ).toHaveBeenCalled()
+        let ref = firebase.database().ref('path')
+        var snapshot
+        function onValue(_snapshot_) {
+            snapshot = _snapshot_
+        }
+        ref.on('value', onValue)
+        ref.set({
+            path: 'bar'
+        })
+        ref.flush()
+
+        expect(dispatch)
+            .toHaveBeenCalled()
+            .toHaveBeenCalledWith({ type: '@@firekit/LOADING@LOG_LOADING', location: 'path' })
+        // .toHaveBeenCalledWith({ type: '@@firekit/PATHS@VALUE_CHANGED', location: 'path', payload: 'bar', locationValue: true })
     })
 
-  it('should dispatch the function with proper type and payload', () => {
-      const getState = () => ({ users: 'foo' })
-      const dispatch = expect.createSpy()
+    it('watchPath should call dispatch 2 times', () => {
+        const getState = () => ({ users: 'foo' })
+        const dispatch = expect.createSpy()
 
-      actions.watchPath(firebase, 'path')(dispatch, getState)
+        actions.watchPath(firebase, 'path', 'path2')(dispatch, getState)
 
-      expect(
-            dispatch
-        ).toHaveBeenCalledWith({ type: '@@firekit/LOADING@LOG_LOADING', location: 'path' })
+        let ref = firebase.database().ref('path')
+
+        var snapshot
+        function onValue(_snapshot_) {
+            snapshot = _snapshot_
+        }
+        ref.on('value', onValue)
+        ref.set({
+            path: 'bar'
+        })
+        ref.flush()
+
+        expect(dispatch.calls.length)
+            .toEqual(2)
     })
 
-  it('should dispatch the function', () => {
-      const getState = () => ({ users: 'foo' })
-      const dispatch = expect.createSpy()
+    it('watchPath should call dispatch 3 times', () => {
+        const getState = () => ({ users: 'foo' })
+        const dispatch = expect.createSpy()
 
-      actions.watchPath(firebase, 'path')(dispatch, getState)
+        actions.watchPath(firebase, 'path', 'path2')(dispatch, getState)
 
-      expect(
-            dispatch.calls.length
-        ).toEqual(1)
+        let ref = firebase.database().ref('path')
+
+        var snapshot
+        function onValue(_snapshot_) {
+            snapshot = _snapshot_
+        }
+        ref.on('value', onValue)
+        ref.set({
+            path: 'bar'
+        })
+        var error = new Error('Oh no!')
+        ref.failNext('value', error)
+        var err
+        ref.set('data', function onComplete(_err_) {
+            err = _err_
+        })
+        ref.flush()
+
+        expect(dispatch.calls.length)
+            .toEqual(3)
     })
 })
