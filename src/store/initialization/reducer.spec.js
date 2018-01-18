@@ -24,10 +24,14 @@ describe('initialization reducer', () => {
     ).toEqual({ 'bar': 'bar' })
   })
 
-  it('should initisalize', () => {
+  it('should initialize', () => {
     expect(
-      reducer({}, { type: '@@firekit/LISTS@APPEND_INIIALIZE', path: 'foo' })
-    ).toEqual({})
+      reducer({}, { type: '@@firekit/LISTS@INIIALIZE', path: 'path', payload: [], location: 'location', append: false, locationValue: true })
+    ).toEqual({
+      'path': {
+        'location': true
+      }
+    })
   })
 
   it('should handle clearInitialization', () => {
