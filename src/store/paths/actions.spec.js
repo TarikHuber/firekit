@@ -68,27 +68,13 @@ describe('watchPath should be a function', () => {
         const getState = () => ({ users: 'foo' })
         const dispatch = expect.createSpy()
 
-        actions.watchPath(firebase, 'path', 'path2')(dispatch, getState)
-
         let ref = firebase.database().ref('path')
-
-        var snapshot
-        function onValue(_snapshot_) {
-            snapshot = _snapshot_
-        }
-        ref.on('value', onValue)
-        ref.set({
-            path: 'bar'
-        })
         var error = new Error('Oh no!')
-        ref.failNext('value', error)
-        var err
-        ref.set('data', function onComplete(_err_) {
-            err = _err_
-        })
+        ref.failNext('on', error)
+        actions.watchPath(firebase, 'path', 'path2')(dispatch, getState)
         ref.flush()
 
         expect(dispatch.calls.length)
-            .toEqual(3)
+            .toEqual(2)
     })
 })
