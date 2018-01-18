@@ -1,4 +1,5 @@
 import * as types from './types'
+import { logError } from '../errors/actions'
 
 export function onConnectionStateChange(isConnected) {
   return {
@@ -13,6 +14,7 @@ export function initConnection(firebaseApp) {
       dispatch(onConnectionStateChange(snapshot.val()))
     }, err => {
       console.error(err)
+      dispatch(logError('.info/connected', err))
     })
   }
 }
@@ -20,6 +22,6 @@ export function initConnection(firebaseApp) {
 export function unsubscribeConnection(firebaseApp) {
   return dispatch => {
     firebaseApp.database().ref('.info/connected').off()
-    onConnectionStateChange(false)
+    dispatch(onConnectionStateChange(false))
   }
 }
