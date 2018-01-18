@@ -32,7 +32,7 @@ describe('connection actions', () => {
 
     let ref = firebase.database().ref('path')
     var snapshot
-    function onValue (_snapshot_) {
+    function onValue(_snapshot_) {
       snapshot = _snapshot_
     }
     ref.on('value', onValue)
@@ -52,7 +52,7 @@ describe('connection actions', () => {
 
     let ref = firebase.database().ref('path')
     var snapshot
-    function onValue (_snapshot_) {
+    function onValue(_snapshot_) {
       snapshot = _snapshot_
     }
     ref.on('value', onValue)
@@ -70,10 +70,11 @@ describe('connection actions', () => {
     const getState = () => ({ users: 'foo' })
     const dispatch = expect.createSpy()
 
-    let ref = firebase.database().ref('path')
+    actions.initConnection(firebase)(dispatch)
+    let ref = firebase.database().ref('.info/connected')
     var error = new Error('Oh no!')
     ref.failNext('on', error)
-    actions.initConnection(firebase)(dispatch)
+
     ref.flush()
 
     expect(dispatch)

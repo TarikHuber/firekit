@@ -14,7 +14,7 @@ export function authError (error) {
   }
 }
 
-function defaultUserData (user) {
+export function defaultUserData (user) {
   if (user != null) {
     return {
       displayName: user.displayName,
