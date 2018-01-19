@@ -53,10 +53,6 @@ export const unWatch = (path) => {
   }
 }
 
-const getPayload = (snapshot) => {
-  return { key: snapshot.key, val: snapshot.val() }
-}
-
 const getPath = (firebaseApp, ref) => {
   return ref._query.path.segments.join('/')
 }

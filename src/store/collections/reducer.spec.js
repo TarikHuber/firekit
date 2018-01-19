@@ -176,4 +176,41 @@ describe('collections reducer', () => {
       actions.getRef(firebase, {})
     ).toEqual({})
   })
+
+  it('destroyCol should call dispatch with proper payload', () => {
+    const getState = () => ({ initialization: 'path2' })
+    const dispatch = expect.createSpy()
+
+    actions.destroyCol(firebase, 'path', 'path2')(dispatch, getState)
+
+    expect(dispatch.calls.length).toEqual(3)
+  })
+
+  it('unwatchAllCol should call dispatch 2 time', () => {
+    const getState = () => ({ collections: { 'path1': 'path1', 'path2': 'path2' } })
+    const dispatch = expect.createSpy()
+
+    actions.unwatchAllCol(firebase)(dispatch, getState)
+
+    expect(dispatch.calls.length).toEqual(2)
+  })
+
+  it('unwatchCol should call dispatch with proper payload', () => {
+    const getState = () => ({ initialization: { 'path': { 'path': true } } })
+    const dispatch = expect.createSpy()
+
+    actions.unwatchCol(firebase, 'path')(dispatch, getState)
+
+    expect(dispatch.calls.length).toEqual(1)
+  })
+
+  it('unwatchCol should call dispatch with proper payload', () => {
+    const unsub = expect.createSpy()
+    const getState = () => ({ initialization: { 'path': { 'path': unsub } } })
+    const dispatch = expect.createSpy()
+
+    actions.unwatchCol(firebase, 'path')(dispatch, getState)
+
+    expect(unsub.calls.length).toEqual(1)
+  })
 })
