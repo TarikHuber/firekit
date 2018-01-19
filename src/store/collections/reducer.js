@@ -1,6 +1,6 @@
 import * as types from './types'
 
-function collection (list = [], action) {
+function collection(list = [], action) {
   const { payload, append } = action
   switch (action.type) {
     case types.INIIALIZE:
@@ -15,12 +15,10 @@ function collection (list = [], action) {
     case types.CHILD_REMOVED:
       return list.filter(child => payload.id !== child.id)
 
-    default:
-      return list
   }
 }
 
-export default function collections (state = {}, action) {
+export default function collections(state = {}, action) {
   const { location } = action
 
   switch (action.type) {
