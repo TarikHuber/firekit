@@ -55,8 +55,8 @@ describe('docs actions', () => {
                         }
                     }
                 }
-            }, 'path2')
-        ).toEqual('path2')
+            }, {})
+        ).toEqual({})
     })
 
   it('getRef should return object', () => {
@@ -90,6 +90,16 @@ describe('docs actions', () => {
       actions.unwatchDoc(firebase, 'path')(dispatch, getState)
 
       expect(dispatch.calls.length).toEqual(1)
+    })
+
+  it('unwatchDoc should call dispatch with proper payload', () => {
+      const unsub = expect.createSpy()
+      const getState = () => ({ initialization: { 'path': { 'path': unsub } } })
+      const dispatch = expect.createSpy()
+
+      actions.unwatchDoc(firebase, 'path')(dispatch, getState)
+
+      expect(unsub.calls.length).toEqual(1)
     })
 
     /*
