@@ -11,18 +11,18 @@ let mocksdk = new firebasemock.MockFirebaseSdk(path => {
 
 let firebase = mocksdk.initializeApp()
 
-function onAuthStateChanged(user) {
+function onAuthStateChanged (user) {
   return user
 }
 
 describe('auth actions', () => {
-  it('defaultUserData should returne not authorised', () => {
+  it('defaultUserData should return not authorised', () => {
     expect(
       actions.defaultUserData(null)
     ).toEqual({ isAuthorised: false })
   })
 
-  it('defaultUserData should returne user', () => {
+  it('defaultUserData should return user', () => {
     expect(
       actions.defaultUserData({
         displayName: 'foo',
@@ -72,7 +72,7 @@ describe('auth actions', () => {
   it('watchAuth with onAuthStateChanged should call dispatch', () => {
     const dispatch = expect.createSpy()
 
-    function test(user) {
+    function test (user) {
       return user
     }
 
@@ -94,10 +94,10 @@ describe('auth actions', () => {
     actions.watchAuth(firebase)(dispatch)
 
     let ref = firebase.auth()
-    var error = new Error();
-    function onValue(snapshot) { }
-    function onCancel(_err_) {
-      err = _err_;
+    var error = new Error()
+    function onValue (snapshot) { }
+    function onCancel (_err_) {
+      err = _err_
     }
 
     ref.changeAuthState({
@@ -111,7 +111,7 @@ describe('auth actions', () => {
     })
 
     ref.flush()
-    ref.forceCancel(error, 'value', onValue);
+    ref.forceCancel(error, 'value', onValue)
     expect(dispatch.calls.length)
       .toEqual(1)
   })

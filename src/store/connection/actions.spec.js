@@ -74,7 +74,7 @@ describe('connection actions', () => {
     let ref = firebase.database().ref('.info/connected')
     var error = new Error('Oh no!')
     ref.failNext('on', error)
-
+    ref.forceCancel(error, 'value')
     ref.flush()
 
     expect(dispatch)
