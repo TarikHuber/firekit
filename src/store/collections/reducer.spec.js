@@ -1,10 +1,21 @@
 import expect from 'expect'
+import firebasemock from 'firebase-mock'
 import reducer from './reducer'
 import * as actions from './actions'
 
 const initialState = {
 
 }
+
+let mockfirestore = new firebasemock.MockFirestore()
+let mockauth = new firebasemock.MockFirebase()
+let mocksdk = new firebasemock.MockFirebaseSdk(path => {
+  return path ? mockfirestore.child(path) : mockfirestore
+}, () => {
+  return mockauth
+})
+
+let firebase = mocksdk.initializeApp()
 
 describe('collections reducer', () => {
   it('should return the initial state', () => {
@@ -126,5 +137,43 @@ describe('collections reducer', () => {
     ).toEqual({
       ...initState
     })
+  })
+
+  it('getLocation should return string', () => {
+    expect(
+      actions.getLocation(firebase, 'path')
+    ).toEqual('path')
+  })
+
+  it('getLocation should return object', () => {
+    expect(
+      actions.getLocation({
+        firestore: () => {
+          return {
+            doc: (path) => {
+              return {
+                path: path
+              }
+            }
+          }
+        }
+      }, {
+          '_query': {
+            path: {
+              segments: [
+                '123',
+                '456'
+              ]
+            }
+          }
+
+        })
+    ).toEqual('123/456')
+  })
+
+  it('getRef should return object', () => {
+    expect(
+      actions.getRef(firebase, {})
+    ).toEqual({})
   })
 })
