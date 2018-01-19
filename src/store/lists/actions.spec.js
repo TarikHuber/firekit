@@ -188,9 +188,10 @@ describe('lists actions', () => {
       let ref = firebase.database().ref('path')
       var error = new Error('Oh no!')
 
+      ref.failNext('on', error)
       ref.failNext('child_changed', error)
       ref.fakeEvent('child_changed', 'bar', null)
-
+      ref.forceCancel(error, 'child_changed')
       ref.flush()
 
       expect(dispatch.calls.length)
@@ -201,12 +202,14 @@ describe('lists actions', () => {
       const getState = () => ({ users: 'foo' })
       const dispatch = expect.createSpy()
 
+      actions.watchList(firebase, 'path', 'path2')(dispatch, getState)
       let ref = firebase.database().ref('path')
       var error = new Error('Oh no!')
 
+      ref.failNext('on', error)
       ref.failNext('child_removed', error)
       ref.fakeEvent('child_removed', 'bar', null)
-      actions.watchList(firebase, 'path', 'path2')(dispatch, getState)
+      ref.forceCancel(error, 'child_removed')
       ref.flush()
 
       expect(dispatch.calls.length)
@@ -249,12 +252,13 @@ describe('lists actions', () => {
     })
 
   it('destroyList should call dispatch ', () => {
-      const getState = () => ({ initialization: { 'path': ['foo', 'bar', 'lar'] } })
+      const getState = () => ({ initialization: { 'Mock://path': { 'foo': true, 'bar': true } } })
       const dispatch = expect.createSpy()
 
+      let ref = firebase.database().ref('path')
       actions.destroyList(firebase, 'path')(dispatch, getState)
 
-      expect(dispatch.calls.length).toEqual(1)
+      expect(dispatch.calls.length).toEqual(3)
     })
 
   it('destroyList should call dispatch 2times ', () => {
