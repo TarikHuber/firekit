@@ -172,11 +172,11 @@ export function unwatchAllCol(firebaseApp, path) {
 
 export function unwatchAllCols(firebaseApp, path) {
   return (dispatch, getState) => {
-    const allLists = selectors.getAllCols(getState())
+    const allColls = selectors.getAllCols(getState())
 
-    Object.keys(allLists).forEach(function (key, index) {
+    Object.keys(allColls).forEach(function (key, index) {
       unwatchCol(firebaseApp, key)
-      dispatch(destroyList(firebaseApp, ref.toString()))
+      dispatch(destroyCol(firebaseApp, allColls[index]))
     })
   }
 }
