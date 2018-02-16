@@ -1,14 +1,13 @@
 import * as types from './types';
-import Immutable from 'seamless-immutable';
 
-const locale = (state = Immutable('en') , action) => {
+const locale = (state = 'en', action) => {
 
   switch (action.type) {
     case types.UPDATE_LOCALE:
-    return action.locale;
+      return action.locale;
 
     default:
-    return state;
+      return state;
   }
 }
 
