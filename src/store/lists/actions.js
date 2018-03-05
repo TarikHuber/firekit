@@ -69,6 +69,8 @@ export const getLocation = (firebaseApp, path) => {
   if (typeof path === 'string' || path instanceof String) {
     return path
   } else {
+    console.log(firebaseApp.database().ref().root.toString())
+    console.log(firebaseApp.database().ref().root.toString().length)
     return path.toString().substring(firebaseApp.database().ref().root.toString().length)
   }
 }
