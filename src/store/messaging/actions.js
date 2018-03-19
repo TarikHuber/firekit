@@ -1,39 +1,39 @@
 import * as types from './types'
 
-export function onTokenChanged (token) {
+export function onTokenChanged(token) {
   return {
     type: types.TOKEN_CHANGED,
     payload: { token, isInitialized: true }
   }
 }
 
-export function onPermissionChanged (hasPermission, onMessage) {
+export function onPermissionChanged(hasPermission, onMessage) {
   return {
     type: types.PERMISSION_CHANGED,
     payload: { hasPermission, isInitialized: true }
   }
 }
 
-export function onMessage (message) {
+export function onMessage(message) {
   return {
     type: types.ON_MESSAGE,
     payload: { message }
   }
 }
-export function clearMessage () {
+export function clearMessage() {
   return {
     type: types.ON_CLEAR_MESSAGE
   }
 }
 
-export function onMessagingError (error) {
+export function onMessagingError(error) {
   return {
     type: types.MESSAGING_ERROR,
     payload: { error }
   }
 }
 
-export function initMessaging (firebaseApp, handleTokenChange, onMessageReceieved) {
+export function initMessaging(firebaseApp, handleTokenChange, onMessageReceieved, onBackgroundMessageReceived) {
   return dispatch => {
     const messaging = firebaseApp.messaging()
 
@@ -66,5 +66,22 @@ export function initMessaging (firebaseApp, handleTokenChange, onMessageReceieve
 
       dispatch(onMessage(payload))
     })
+
+    messaging.setBackgroundMessageHandler(payload => {
+      console.log('[firebase-messaging-sw.js] Received background message ', payload)
+      // Customize notification here
+      var notificationTitle = 'Background Message Title'
+      var notificationOptions = {
+        body: 'Background Message body.',
+        icon: '/firebase-logo.png'
+      }
+
+      return self.registration.showNotification(notificationTitle,
+        notificationOptions)
+    })
+
+
+
+
   }
 }
