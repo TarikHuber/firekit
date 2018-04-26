@@ -27,7 +27,7 @@ const withFirebase = (Component) => {
       authStateChanged={(user) => { dispatch(authStateChanged(user)) }}
       authError={(error) => { dispatch(authError(error)) }}
 
-      watchConnection={() => { dispatch(initConnection(firebaseApp)) }}
+      watchConnection={(onChange) => { dispatch(initConnection(firebaseApp, onChange)) }}
       unwatchConnection={() => { dispatch(unsubscribeConnection(firebaseApp)) }}
 
       watchList={(path, alias, append) => { dispatch(watchList(firebaseApp, path, alias, append)) }}
