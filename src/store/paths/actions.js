@@ -28,7 +28,7 @@ export const unWatch = (path) => {
   }
 }
 
-export function watchPath (firebaseApp, firebasePath, reduxPath = false) {
+export function watchPath(firebaseApp, firebasePath, reduxPath = false, logLoading = true) {
   const location = reduxPath || firebasePath
 
   return (dispatch, getState) => {
@@ -38,7 +38,10 @@ export function watchPath (firebaseApp, firebasePath, reduxPath = false) {
       const ref = firebaseApp.database().ref(firebasePath)
       const path = ref.toString()
 
-      dispatch(logLoading(location))
+      if (logLoading) {
+        dispatch(logLoading(location))
+      }
+
 
       ref.on('value', snapshot => {
         dispatch(valueChanged(snapshot.val(), location, path))
@@ -49,7 +52,7 @@ export function watchPath (firebaseApp, firebasePath, reduxPath = false) {
   }
 }
 
-export function unwatchPath (firebaseApp, path, reduxPath = false) {
+export function unwatchPath(firebaseApp, path, reduxPath = false) {
   return dispatch => {
     const location = reduxPath || path
     firebaseApp.database().ref(path).off()
@@ -57,7 +60,7 @@ export function unwatchPath (firebaseApp, path, reduxPath = false) {
   }
 }
 
-export function destroyPath (firebaseApp, path, reduxPath = false) {
+export function destroyPath(firebaseApp, path, reduxPath = false) {
   const location = reduxPath || path
 
   return dispatch => {
@@ -67,7 +70,7 @@ export function destroyPath (firebaseApp, path, reduxPath = false) {
   }
 }
 
-export function unwatchAllPaths (firebaseApp) {
+export function unwatchAllPaths(firebaseApp) {
   return (dispatch, getState) => {
     const allPaths = selectors.getAllPaths(getState())
 
