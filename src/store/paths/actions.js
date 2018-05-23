@@ -28,7 +28,7 @@ export const unWatch = (path) => {
   }
 }
 
-export function watchPath(firebaseApp, firebasePath, reduxPath = false, logLoading = true) {
+export function watchPath(firebaseApp, firebasePath, reduxPath = false, logLoad = true) {
   const location = reduxPath || firebasePath
 
   return (dispatch, getState) => {
@@ -38,7 +38,7 @@ export function watchPath(firebaseApp, firebasePath, reduxPath = false, logLoadi
       const ref = firebaseApp.database().ref(firebasePath)
       const path = ref.toString()
 
-      if (logLoading) {
+      if (logLoad) {
         dispatch(logLoading(location))
       }
 
