@@ -85,7 +85,7 @@ export function watchCol(firebaseApp, firebasePath, reduxPath = false, append = 
     if (!isInitialized) {
       dispatch(logLoading(location))
       const unsub = ref.onSnapshot(snapshot => {
-        snapshot.docChanges.forEach(change => {
+        snapshot.docChanges().forEach(change => {
           if (change.type === 'added') {
             if (initialized) {
               dispatch(childAdded({
