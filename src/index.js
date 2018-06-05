@@ -43,10 +43,8 @@ export { watchDoc, unwatchDoc, destroyDoc, unwatchAllDocs } from './store/docs/a
 export { watchList, unwatchList, destroyList, unwatchAllLists } from './store/lists/actions'
 export { watchPath, unwatchPath, destroyPath, unwatchAllPaths } from './store/paths/actions'
 
-export { listsSelectors } from './store/lists/selectors'
-export { collectionsSelectors } from './store/collections/selectors'
-export { pathsSelectors } from './store/paths/selectors'
-export { docsSelectors } from './store/docs/selectors'
+
+
 export { getList, getAllLists } from './store/lists/selectors'
 export { isLoading } from './store/loadings/selectors'
 export { hasError } from './store/errors/selectors'
