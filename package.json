@@ -34,7 +34,7 @@
     "material-ui-responsive-drawer": "^1.19.4",
     "material-ui-selectable-menu-list": "^1.19.5",
     "material-ui-superselectfield": "^1.9.2",
-    "nwb": "^0.21.5",
+    "nwb": "^0.22.0",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
