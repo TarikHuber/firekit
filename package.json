@@ -1,6 +1,6 @@
 {
   "name": "firekit",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Firebase toolkit for sync with redux",
   "main": "lib/index.js",
   "module": "es/index.js",
