@@ -21,7 +21,7 @@ class SignIn extends Component {
       signInSuccessUrl: '/',
       signInFlow: browser.greaterThan.medium?'popup':'redirect',
       callbacks: {
-        signInSuccess: function(user, credentials, redirect) {
+        signInSuccessWithAuthResult: function(user, credentials, redirect) {
 
           initMessaging();
 
