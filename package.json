@@ -22,6 +22,7 @@
   "dependencies": {},
   "peerDependencies": {},
   "devDependencies": {
+    "codecov": "^3.0.4",
     "firebase": "^5.0.4",
     "firebase-mock": "^2.2.4",
     "firebaseui": "^3.1.0",
