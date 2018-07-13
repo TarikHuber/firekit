@@ -6,15 +6,12 @@ cache:
   directories:
   - node_modules
 
-before_install:
-  - npm install codecov
-
 script:
-  - npm test
+  - npm test:coverage
   - npm run build
 
 after_success:
-  - cat ./coverage/lcov.info | ./node_modules/codecov/bin/codecov
+  - ./node_modules/codecov/bin/codecov
 
 deploy:
   provider: npm
