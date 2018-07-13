@@ -7,11 +7,12 @@ cache:
   - node_modules
 
 script:
-  - npm run test:coverage
+  - npm test
   - npm run build
 
 after_success:
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - npm run test:coverage && cat ./coverage/lcov.info
+  - ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
 
 deploy:
   provider: npm
