@@ -6,13 +6,15 @@ cache:
   directories:
   - node_modules
 
+before_install:
+  - npm install codecov coveralls
+
 script:
   - npm test
   - npm run build
 
 after_success:
-  - npm run test:coverage && cat ./coverage/lcov.info
-  - ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+  - cat ./coverage/lcov.info | ./node_modules/codecov/bin/codecov.js
 
 deploy:
   provider: npm
