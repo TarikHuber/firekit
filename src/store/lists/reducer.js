@@ -1,23 +1,23 @@
 import * as types from './types'
 
-function list (list = [], action) {
+function list(list = [], action) {
   const { payload, append } = action
   switch (action.type) {
     case types.INIIALIZE:
       return append ? [...list, ...payload] : payload
 
     case types.CHILD_ADDED:
-      return [...list, payload]
+      return list.findIndex(d => d.key === payload.key) === -1 ? [...list, payload] : [...list]
 
     case types.CHILD_CHANGED:
-      return list.map(child => payload.key === child.key ? payload : child)
+      return list.map(child => (payload.key === child.key ? payload : child))
 
     case types.CHILD_REMOVED:
       return list.filter(child => payload.key !== child.key)
   }
 }
 
-export default function lists (state = {}, action) {
+export default function lists(state = {}, action) {
   const { location } = action
 
   switch (action.type) {

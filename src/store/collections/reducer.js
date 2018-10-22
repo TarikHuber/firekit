@@ -7,7 +7,7 @@ function collection(list = [], action) {
       return append ? [...list, ...payload] : payload
 
     case types.CHILD_ADDED:
-      return [...list, payload]
+      return list.findIndex(d=>d.id===payload.id)===-1?[...list, payload]:[...list]
 
     case types.CHILD_CHANGED:
       return list.map(child => payload.id === child.id ? payload : child)
