@@ -12,7 +12,8 @@ function locations(state = [], action) {
     case pathsTypes.VALUE_CHANGED:
     case docsTypes.VALUE_CHANGED:
       return {
-        ...state, [location]: locationValue
+        ...state,
+        [location]: locationValue
       }
   }
 }

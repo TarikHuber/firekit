@@ -14,14 +14,14 @@ export const valueChanged = (value, location, path) => {
   }
 }
 
-export const destroy = (location) => {
+export const destroy = location => {
   return {
     type: types.DESTROY,
     location
   }
 }
 
-export const unWatch = (path) => {
+export const unWatch = path => {
   return {
     type: types.UNWATCH,
     path
@@ -42,12 +42,15 @@ export function watchPath(firebaseApp, firebasePath, reduxPath = false, logLoad 
         dispatch(logLoading(location))
       }
 
-
-      ref.on('value', snapshot => {
-        dispatch(valueChanged(snapshot.val(), location, path))
-      }, err => {
-        dispatch(logError(location, err))
-      })
+      ref.on(
+        'value',
+        snapshot => {
+          dispatch(valueChanged(snapshot.val(), location, path))
+        },
+        err => {
+          dispatch(logError(location, err))
+        }
+      )
     }
   }
 }
@@ -55,7 +58,10 @@ export function watchPath(firebaseApp, firebasePath, reduxPath = false, logLoad 
 export function unwatchPath(firebaseApp, path, reduxPath = false) {
   return dispatch => {
     const location = reduxPath || path
-    firebaseApp.database().ref(path).off()
+    firebaseApp
+      .database()
+      .ref(path)
+      .off()
     dispatch(unWatch(location))
   }
 }
@@ -64,7 +70,10 @@ export function destroyPath(firebaseApp, path, reduxPath = false) {
   const location = reduxPath || path
 
   return dispatch => {
-    firebaseApp.database().ref(path).off()
+    firebaseApp
+      .database()
+      .ref(path)
+      .off()
     dispatch(unWatch(location))
     dispatch(destroy(location))
   }
@@ -74,8 +83,11 @@ export function unwatchAllPaths(firebaseApp) {
   return (dispatch, getState) => {
     const allPaths = selectors.getAllPaths(getState())
 
-    Object.keys(allPaths).forEach(function (key, index) {
-      firebaseApp.database().ref(allPaths[index]).off()
+    Object.keys(allPaths).forEach(function(key, index) {
+      firebaseApp
+        .database()
+        .ref(allPaths[index])
+        .off()
       dispatch(unWatch(key))
     })
   }

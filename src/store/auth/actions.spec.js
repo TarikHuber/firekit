@@ -3,23 +3,24 @@ import firebasemock from 'firebase-mock'
 import * as actions from './actions'
 
 let mockauth = new firebasemock.MockFirebase()
-let mocksdk = new firebasemock.MockFirebaseSdk(path => {
-  return path ? mockauth : mockauth
-}, () => {
-  return mockauth
-})
+let mocksdk = new firebasemock.MockFirebaseSdk(
+  path => {
+    return path ? mockauth : mockauth
+  },
+  () => {
+    return mockauth
+  }
+)
 
 let firebase = mocksdk.initializeApp()
 
-function onAuthStateChanged (user) {
+function onAuthStateChanged(user) {
   return user
 }
 
 describe('auth actions', () => {
   it('defaultUserData should return not authorised', () => {
-    expect(
-      actions.defaultUserData(null)
-    ).toEqual({ isAuthorised: false })
+    expect(actions.defaultUserData(null)).toEqual({ isAuthorised: false })
   })
 
   it('defaultUserData should return user', () => {
@@ -65,14 +66,13 @@ describe('auth actions', () => {
 
     ref.flush()
 
-    expect(dispatch.calls.length)
-      .toEqual(1)
+    expect(dispatch.calls.length).toEqual(1)
   })
 
   it('watchAuth with onAuthStateChanged should call dispatch', () => {
     const dispatch = expect.createSpy()
 
-    function test (user) {
+    function test(user) {
       return user
     }
 
@@ -84,8 +84,7 @@ describe('auth actions', () => {
 
     ref.flush()
 
-    expect(dispatch.calls.length)
-      .toEqual(1)
+    expect(dispatch.calls.length).toEqual(1)
   })
 
   it('watchAuth should call dispatch', () => {
@@ -95,8 +94,8 @@ describe('auth actions', () => {
 
     let ref = firebase.auth()
     var error = new Error()
-    function onValue (snapshot) { }
-    function onCancel (_err_) {
+    function onValue(snapshot) {}
+    function onCancel(_err_) {
       err = _err_
     }
 
@@ -112,7 +111,6 @@ describe('auth actions', () => {
 
     ref.flush()
     ref.forceCancel(error, 'value', onValue)
-    expect(dispatch.calls.length)
-      .toEqual(1)
+    expect(dispatch.calls.length).toEqual(1)
   })
 })

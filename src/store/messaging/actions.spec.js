@@ -29,14 +29,13 @@ const firebaseApp = {
 
 describe('messaging actions', () => {
   it('onPermissionChanged should return proper type', () => {
-    expect(
-      actions.onPermissionChanged(true)
-    ).toEqual({ type: types.PERMISSION_CHANGED, payload: { hasPermission: true, isInitialized: true } })
+    expect(actions.onPermissionChanged(true)).toEqual({
+      type: types.PERMISSION_CHANGED,
+      payload: { hasPermission: true, isInitialized: true }
+    })
   })
 
   it('initMessaging should return a function', () => {
-    expect(
-      actions.initMessaging(firebaseApp)
-    ).toBeA('function')
+    expect(actions.initMessaging(firebaseApp)).toBeA('function')
   })
 })

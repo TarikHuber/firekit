@@ -4,7 +4,7 @@ import * as listsTypes from '../lists/types'
 import * as pathsTypes from '../paths/types'
 import * as types from './types'
 
-export default function errors (state = {}, action) {
+export default function errors(state = {}, action) {
   const { location, err } = action
 
   switch (action.type) {

@@ -1,4 +1,3 @@
-
 export function getAllDocs(state) {
   return state.docs
 }

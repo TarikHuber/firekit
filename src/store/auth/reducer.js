@@ -1,9 +1,8 @@
 import * as types from './types'
 
-export const initialState = {
-}
+export const initialState = {}
 
-export default function auth (state = initialState, { payload, type }) {
+export default function auth(state = initialState, { payload, type }) {
   switch (type) {
     case types.AUTH_STATE_CHANGED:
       return { ...state, ...payload }

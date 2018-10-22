@@ -5,7 +5,7 @@ import * as pathsTypes from '../paths/types'
 import * as errorTypes from '../errors/types'
 import * as types from './types'
 
-export default function loadings (state = {}, action) {
+export default function loadings(state = {}, action) {
   const { location } = action
 
   switch (action.type) {

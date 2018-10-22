@@ -5,25 +5,24 @@ import * as types from './types'
 
 let mockdatabase = new firebasemock.MockFirebase()
 let mockauth = new firebasemock.MockFirebase()
-let mocksdk = new firebasemock.MockFirebaseSdk(path => {
-  return path ? mockdatabase.child(path) : mockdatabase
-}, () => {
-  return mockauth
-})
+let mocksdk = new firebasemock.MockFirebaseSdk(
+  path => {
+    return path ? mockdatabase.child(path) : mockdatabase
+  },
+  () => {
+    return mockauth
+  }
+)
 
 let firebase = mocksdk.initializeApp()
 
 describe('connection actions', () => {
   it('initConnection should return a function', () => {
-    expect(
-      actions.initConnection(firebase)
-    ).toBeA('function')
+    expect(actions.initConnection(firebase)).toBeA('function')
   })
 
   it('unsubscribeConnection should return a function', () => {
-    expect(
-      actions.unsubscribeConnection(firebase)
-    ).toBeA('function')
+    expect(actions.unsubscribeConnection(firebase)).toBeA('function')
   })
 
   it('initConnection should call dispatch with proper payload', () => {
@@ -42,8 +41,7 @@ describe('connection actions', () => {
     actions.initConnection(firebase)(dispatch)
     ref.flush()
 
-    expect(dispatch)
-      .toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalled()
   })
 
   it('unsubscribeConnection should call dispatch with proper payload', () => {
@@ -62,8 +60,7 @@ describe('connection actions', () => {
     actions.unsubscribeConnection(firebase)(dispatch)
     ref.flush()
 
-    expect(dispatch)
-      .toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalled()
   })
 
   it('initConnection should log error', () => {
@@ -77,7 +74,6 @@ describe('connection actions', () => {
     ref.forceCancel(error, 'value')
     ref.flush()
 
-    expect(dispatch)
-      .toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalled()
   })
 })

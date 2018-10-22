@@ -4,25 +4,24 @@ import * as actions from './actions'
 
 let mockfirestore = new firebasemock.MockFirestore()
 let mockauth = new firebasemock.MockFirebase()
-let mocksdk = new firebasemock.MockFirebaseSdk(path => {
-  return path ? mockfirestore.child(path) : mockfirestore
-}, () => {
-  return mockauth
-})
+let mocksdk = new firebasemock.MockFirebaseSdk(
+  path => {
+    return path ? mockfirestore.child(path) : mockfirestore
+  },
+  () => {
+    return mockauth
+  }
+)
 
 let firebase = mocksdk.initializeApp()
 
 describe('collections actions', () => {
-
   it('watchCol should return a function', () => {
-    expect(
-      actions.watchCol(firebase, 'path', 'path2')
-    ).toBeA('function')
+    expect(actions.watchCol(firebase, 'path', 'path2')).toBeA('function')
   })
 
-
   it('destroyCol should call dispatch 7 time', () => {
-    const getState = () => ({ initialization: { 'path1': 'path1', 'path2': 'path2' } })
+    const getState = () => ({ initialization: { path1: 'path1', path2: 'path2' } })
     const dispatch = expect.createSpy()
 
     actions.destroyCol(firebase, 'path1')(dispatch, getState)
@@ -31,7 +30,7 @@ describe('collections actions', () => {
   })
 
   it('unwatchAllCols should call dispatch 2 time', () => {
-    const getState = () => ({ collections: { 'path1': 'path1', 'path2': 'path2' } })
+    const getState = () => ({ collections: { path1: 'path1', path2: 'path2' } })
     const dispatch = expect.createSpy()
 
     actions.unwatchAllCols(firebase)(dispatch, getState)
@@ -40,16 +39,19 @@ describe('collections actions', () => {
   })
 
   it('getRef should return path string', () => {
-    expect(actions.getRef({
-      firestore: () => {
-        return {
-          collection: (path) => {
-            return path
+    expect(
+      actions.getRef(
+        {
+          firestore: () => {
+            return {
+              collection: path => {
+                return path
+              }
+            }
           }
-        }
-      }
-    }, 'path')).toEqual(
-      'path'
+        },
+        'path'
       )
+    ).toEqual('path')
   })
 })

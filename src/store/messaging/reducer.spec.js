@@ -9,30 +9,27 @@ const initialState = {
 
 describe('messaging reducer', () => {
   it('should return the initial state', () => {
-    expect(
-      reducer(undefined, {})
-    ).toEqual(initialState)
+    expect(reducer(undefined, {})).toEqual(initialState)
   })
 
   it('should not affect state', () => {
-    expect(
-      reducer(initialState, {type: 'NOT_EXISTING'})
-    ).toEqual(initialState)
+    expect(reducer(initialState, { type: 'NOT_EXISTING' })).toEqual(initialState)
   })
 
   it('should handle onTokenChanged', () => {
-    expect(
-      reducer(initialState, actions.onTokenChanged('testToken'))
-    ).toEqual({...initialState, isInitialized: true, token: 'testToken'})
+    expect(reducer(initialState, actions.onTokenChanged('testToken'))).toEqual({
+      ...initialState,
+      isInitialized: true,
+      token: 'testToken'
+    })
   })
 
   it('should handle onMessage', () => {
-    expect(
-      reducer(initialState, actions.onMessage('testMessage'))
-    ).toEqual({...initialState,
+    expect(reducer(initialState, actions.onMessage('testMessage'))).toEqual({
+      ...initialState,
       token: undefined,
-      message: 'testMessage'}
-    )
+      message: 'testMessage'
+    })
   })
   it('should handle clearMessage', () => {
     expect(
@@ -46,17 +43,16 @@ describe('messaging reducer', () => {
       )
     ).toEqual({
       hasPermission: true,
-      token: 'test'}
-    )
+      token: 'test'
+    })
   })
 
   it('should handle onMessagingError', () => {
-    expect(
-      reducer(initialState, actions.onMessagingError('testError'))
-    ).toEqual({ ...initialState,
+    expect(reducer(initialState, actions.onMessagingError('testError'))).toEqual({
+      ...initialState,
       hasPermission: false,
       error: 'testError',
-      token: undefined}
-    )
+      token: undefined
+    })
   })
 })

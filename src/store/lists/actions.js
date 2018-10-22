@@ -39,21 +39,21 @@ export const childRemoved = (child, location) => {
   }
 }
 
-export const destroy = (location) => {
+export const destroy = location => {
   return {
     type: types.DESTROY,
     location
   }
 }
 
-export const unWatch = (path) => {
+export const unWatch = path => {
   return {
     type: types.UNWATCH,
     path
   }
 }
 
-const getPayload = (snapshot) => {
+const getPayload = snapshot => {
   return { key: snapshot.key, val: snapshot.val() }
 }
 
@@ -69,11 +69,16 @@ export const getLocation = (firebaseApp, path) => {
   if (typeof path === 'string' || path instanceof String) {
     return path
   } else {
-    return path.toString().substring(firebaseApp.database().ref().root.toString().length)
+    return path.toString().substring(
+      firebaseApp
+        .database()
+        .ref()
+        .root.toString().length
+    )
   }
 }
 
-export function watchList (firebaseApp, firebasePath, reduxPath = false, append = false) {
+export function watchList(firebaseApp, firebasePath, reduxPath = false, append = false) {
   let ref = getRef(firebaseApp, firebasePath)
   let path = ref.toString()
   let location = reduxPath || getLocation(firebaseApp, firebasePath)
@@ -86,51 +91,67 @@ export function watchList (firebaseApp, firebasePath, reduxPath = false, append 
     if (!isInitialized) {
       dispatch(initialize(persistetList, location, path, append))
       dispatch(logLoading(location))
-      ref.once('value', snapshot => {
-        initialized = true
+      ref.once(
+        'value',
+        snapshot => {
+          initialized = true
 
-        let list = []
+          let list = []
 
-        snapshot.forEach(function (childSnapshot) {
-          let childKey = childSnapshot.key
-          let childData = childSnapshot.val()
+          snapshot.forEach(function(childSnapshot) {
+            let childKey = childSnapshot.key
+            let childData = childSnapshot.val()
 
-          list.push({ key: childKey, val: childData })
-        })
+            list.push({ key: childKey, val: childData })
+          })
 
-        dispatch(initialize(list, location, path, append))
-      }, err => {
-        console.error(err)
-        dispatch(logError(location, err))
-      })
-
-      ref.on('child_added', snapshot => {
-        if (initialized) {
-          dispatch(childAdded(getPayload(snapshot), location))
+          dispatch(initialize(list, location, path, append))
+        },
+        err => {
+          console.error(err)
+          dispatch(logError(location, err))
         }
-      }, err => {
-        console.error(err)
-        dispatch(logError(location, err))
-      })
+      )
 
-      ref.on('child_changed', snapshot => {
-        dispatch(childChanged(getPayload(snapshot), location))
-      }, err => {
-        console.error(err)
-        dispatch(logError(location, err))
-      })
+      ref.on(
+        'child_added',
+        snapshot => {
+          if (initialized) {
+            dispatch(childAdded(getPayload(snapshot), location))
+          }
+        },
+        err => {
+          console.error(err)
+          dispatch(logError(location, err))
+        }
+      )
 
-      ref.on('child_removed', snapshot => {
-        dispatch(childRemoved(getPayload(snapshot), location))
-      }, err => {
-        console.error(err)
-        dispatch(logError(location, err))
-      })
+      ref.on(
+        'child_changed',
+        snapshot => {
+          dispatch(childChanged(getPayload(snapshot), location))
+        },
+        err => {
+          console.error(err)
+          dispatch(logError(location, err))
+        }
+      )
+
+      ref.on(
+        'child_removed',
+        snapshot => {
+          dispatch(childRemoved(getPayload(snapshot), location))
+        },
+        err => {
+          console.error(err)
+          dispatch(logError(location, err))
+        }
+      )
     }
   }
 }
 
-export function unwatchList (firebaseApp, firebasePath) {
+export function unwatchList(firebaseApp, firebasePath) {
   return dispatch => {
     let ref = getRef(firebaseApp, firebasePath)
     ref.off()
@@ -138,7 +159,7 @@ export function unwatchList (firebaseApp, firebasePath) {
   }
 }
 
-export function destroyList (firebaseApp, firebasePath, reduxPath = false) {
+export function destroyList(firebaseApp, firebasePath, reduxPath = false) {
   return (dispatch, getState) => {
     let ref = getRef(firebaseApp, firebasePath)
     const locations = getState().initialization[ref.toString()]
@@ -156,11 +177,11 @@ export function destroyList (firebaseApp, firebasePath, reduxPath = false) {
   }
 }
 
-export function unwatchAllLists (firebaseApp, path) {
+export function unwatchAllLists(firebaseApp, path) {
   return (dispatch, getState) => {
     const allLists = selectors.getAllLists(getState())
 
-    Object.keys(allLists).forEach(function (key, index) {
+    Object.keys(allLists).forEach(function(key, index) {
       const ref = firebaseApp.database().ref(key)
       ref.off()
       dispatch(unWatch(ref.toString()))
@@ -168,11 +189,11 @@ export function unwatchAllLists (firebaseApp, path) {
   }
 }
 
-export function destroyAllLists (firebaseApp, path) {
+export function destroyAllLists(firebaseApp, path) {
   return (dispatch, getState) => {
     const allLists = selectors.getAllLists(getState())
 
-    Object.keys(allLists).forEach(function (key, index) {
+    Object.keys(allLists).forEach(function(key, index) {
       const ref = firebaseApp.database().ref(key)
       ref.off()
       dispatch(destroyList(firebaseApp, ref.toString()))

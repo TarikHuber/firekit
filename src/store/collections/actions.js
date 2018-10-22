@@ -39,14 +39,14 @@ export const childRemoved = (child, location) => {
   }
 }
 
-export const destroy = (location) => {
+export const destroy = location => {
   return {
     type: types.DESTROY,
     location
   }
 }
 
-export const unWatch = (path) => {
+export const unWatch = path => {
   return {
     type: types.UNWATCH,
     path
@@ -84,39 +84,67 @@ export function watchCol(firebaseApp, firebasePath, reduxPath = false, append = 
 
     if (!isInitialized) {
       dispatch(logLoading(location))
-      const unsub = ref.onSnapshot(snapshot => {
-        snapshot.docChanges().forEach(change => {
-          if (change.type === 'added') {
-            if (initialized) {
-              dispatch(childAdded({
-                id: change.doc.id,
-                data: change.doc.data()
-              }, location))
-            } else {
-              initialized = true
-              dispatch(initialize([{
-                id: change.doc.id,
-                data: change.doc.data()
-              }], location, path, unsub, append))
+      const unsub = ref.onSnapshot(
+        snapshot => {
+          snapshot.docChanges().forEach(change => {
+            if (change.type === 'added') {
+              if (initialized) {
+                dispatch(
+                  childAdded(
+                    {
+                      id: change.doc.id,
+                      data: change.doc.data()
+                    },
+                    location
+                  )
+                )
+              } else {
+                initialized = true
+                dispatch(
+                  initialize(
+                    [
+                      {
+                        id: change.doc.id,
+                        data: change.doc.data()
+                      }
+                    ],
+                    location,
+                    path,
+                    unsub,
+                    append
+                  )
+                )
+              }
             }
-          }
-          if (change.type === 'modified') {
-            dispatch(childChanged({
-              id: change.doc.id,
-              data: change.doc.data()
-            }, location))
-          }
-          if (change.type === 'removed') {
-            dispatch(childRemoved({
-              id: change.doc.id,
-              data: change.doc.data()
-            }, location))
-          }
-        })
-      }, err => {
-        console.error(err)
-        dispatch(logError(location, err))
-      })
+            if (change.type === 'modified') {
+              dispatch(
+                childChanged(
+                  {
+                    id: change.doc.id,
+                    data: change.doc.data()
+                  },
+                  location
+                )
+              )
+            }
+            if (change.type === 'removed') {
+              dispatch(
+                childRemoved(
+                  {
+                    id: change.doc.id,
+                    data: change.doc.data()
+                  },
+                  location
+                )
+              )
+            }
+          })
+        },
+        err => {
+          console.error(err)
+          dispatch(logError(location, err))
+        }
+      )
     }
   }
 }
@@ -128,7 +156,7 @@ export function unwatchCol(firebaseApp, firebasePath) {
     const unsubs = allInitializations[location]
 
     if (unsubs) {
-      Object.keys(unsubs).map((key) => {
+      Object.keys(unsubs).map(key => {
         const unsub = unsubs[key]
         if (typeof unsub === 'function') {
           unsub()
@@ -163,7 +191,7 @@ export function unwatchAllCol(firebaseApp, path) {
   return (dispatch, getState) => {
     const allLists = selectors.getAllCols(getState())
 
-    Object.keys(allLists).forEach(function (key, index) {
+    Object.keys(allLists).forEach(function(key, index) {
       unwatchCol(firebaseApp, key)
       dispatch(unWatch(key))
     })
@@ -174,7 +202,7 @@ export function unwatchAllCols(firebaseApp, path) {
   return (dispatch, getState) => {
     const allColls = selectors.getAllCols(getState())
 
-    Object.keys(allColls).forEach(function (key, index) {
+    Object.keys(allColls).forEach(function(key, index) {
       unwatchCol(firebaseApp, key)
       dispatch(destroyCol(firebaseApp, allColls[index]))
     })

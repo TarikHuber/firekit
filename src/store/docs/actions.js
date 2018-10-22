@@ -14,14 +14,14 @@ export const valueChanged = (value, location, path, locationValue) => {
   }
 }
 
-export const destroy = (location) => {
+export const destroy = location => {
   return {
     type: types.DESTROY,
     location
   }
 }
 
-export const unWatch = (path) => {
+export const unWatch = path => {
   return {
     type: types.UNWATCH,
     path
@@ -44,7 +44,7 @@ export const getLocation = (firebaseApp, path) => {
   }
 }
 
-export function watchDoc (firebaseApp, firebasePath, reduxPath = false) {
+export function watchDoc(firebaseApp, firebasePath, reduxPath = false) {
   let ref = getRef(firebaseApp, firebasePath)
   let path = ref.path
   let location = reduxPath || getLocation(firebaseApp, firebasePath)
@@ -55,24 +55,27 @@ export function watchDoc (firebaseApp, firebasePath, reduxPath = false) {
     if (!isInitialized) {
       dispatch(logLoading(location))
 
-      let unsub = ref.onSnapshot(doc => {
-        dispatch(valueChanged(doc.data(), location, path, unsub))
-      }, err => {
-        console.error(err)
-        dispatch(logError(location, err))
-      })
+      let unsub = ref.onSnapshot(
+        doc => {
+          dispatch(valueChanged(doc.data(), location, path, unsub))
+        },
+        err => {
+          console.error(err)
+          dispatch(logError(location, err))
+        }
+      )
     }
   }
 }
 
-export function unwatchDoc (firebaseApp, path, reduxPath = false) {
+export function unwatchDoc(firebaseApp, path, reduxPath = false) {
   return (dispatch, getState) => {
     const location = reduxPath || path
     const allInitializations = selectors.getAllInitializations(getState())
     const unsubs = allInitializations[location]
 
     if (unsubs) {
-      Object.keys(unsubs).map((key) => {
+      Object.keys(unsubs).map(key => {
         const unsub = unsubs[key]
         if (typeof unsub === 'function') {
           unsub()
@@ -83,7 +86,7 @@ export function unwatchDoc (firebaseApp, path, reduxPath = false) {
   }
 }
 
-export function destroyDoc (firebaseApp, path, reduxPath = false) {
+export function destroyDoc(firebaseApp, path, reduxPath = false) {
   const location = reduxPath || path
 
   return dispatch => {
@@ -93,11 +96,11 @@ export function destroyDoc (firebaseApp, path, reduxPath = false) {
   }
 }
 
-export function unwatchAllDocs (firebaseApp) {
+export function unwatchAllDocs(firebaseApp) {
   return (dispatch, getState) => {
     const allPaths = selectors.getAllDocs(getState())
 
-    Object.keys(allPaths).forEach(function (key, index) {
+    Object.keys(allPaths).forEach(function(key, index) {
       unwatchDoc(firebaseApp, allPaths[index])
       dispatch(unWatch(key))
     })

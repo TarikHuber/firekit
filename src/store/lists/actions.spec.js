@@ -4,70 +4,58 @@ import * as actions from './actions'
 
 let mockdatabase = new firebasemock.MockFirebase()
 let mockauth = new firebasemock.MockFirebase()
-let mocksdk = new firebasemock.MockFirebaseSdk(path => {
-  return path ? mockdatabase.child(path) : mockdatabase
-}, () => {
-  return mockauth
-})
+let mocksdk = new firebasemock.MockFirebaseSdk(
+  path => {
+    return path ? mockdatabase.child(path) : mockdatabase
+  },
+  () => {
+    return mockauth
+  }
+)
 
 let firebase = mocksdk.initializeApp()
 
 describe('lists actions', () => {
   it('watchList should return a function', () => {
-    expect(
-      actions.watchList(firebase, 'path', 'path2')
-    ).toBeA('function')
+    expect(actions.watchList(firebase, 'path', 'path2')).toBeA('function')
   })
 
   it('unwatchList should return a function', () => {
-    expect(
-      actions.unwatchList(firebase, 'path')
-    ).toBeA('function')
+    expect(actions.unwatchList(firebase, 'path')).toBeA('function')
   })
 
   it('destroyList should return a function', () => {
-    expect(
-      actions.destroyList(firebase, 'path')
-    ).toBeA('function')
+    expect(actions.destroyList(firebase, 'path')).toBeA('function')
   })
 
   it('destroyAllLists should return a function', () => {
-    expect(
-      actions.destroyAllLists(firebase, 'path')
-    ).toBeA('function')
+    expect(actions.destroyAllLists(firebase, 'path')).toBeA('function')
   })
 
   it('unwatchAllLists should return a function', () => {
-    expect(
-      actions.unwatchAllLists(firebase, 'path')
-    ).toBeA('function')
+    expect(actions.unwatchAllLists(firebase, 'path')).toBeA('function')
   })
 
   it('getLocation should return string', () => {
-    expect(
-      actions.getLocation(firebase, 'path')
-    ).toEqual('path')
+    expect(actions.getLocation(firebase, 'path')).toEqual('path')
   })
 
   it('getLocation should return object', () => {
     expect(
       actions.getLocation(firebase, {
-        'toString':
-          () => { return 'Mock://path2' }
+        toString: () => {
+          return 'Mock://path2'
+        }
       })
     ).toEqual('path2')
   })
 
   it('getRef should return string', () => {
-    expect(
-      actions.getRef(firebase, 'path')
-    ).toEqual(firebase.database().ref('path'))
+    expect(actions.getRef(firebase, 'path')).toEqual(firebase.database().ref('path'))
   })
 
   it('getRef should return object', () => {
-    expect(
-      actions.getRef(firebase, {})
-    ).toEqual({})
+    expect(actions.getRef(firebase, {})).toEqual({})
   })
 
   it('watchList should call dispatch with proper payload', () => {
@@ -76,7 +64,7 @@ describe('lists actions', () => {
 
     let ref = firebase.database().ref('path')
     var snapshot
-    function onValue (_snapshot_) {
+    function onValue(_snapshot_) {
       snapshot = _snapshot_
     }
     ref.on('value', onValue)
@@ -101,7 +89,7 @@ describe('lists actions', () => {
     let ref = firebase.database().ref('path')
 
     var snapshot
-    function onValue (_snapshot_) {
+    function onValue(_snapshot_) {
       snapshot = _snapshot_
     }
     ref.on('value', onValue)
@@ -114,8 +102,7 @@ describe('lists actions', () => {
 
     ref.flush()
 
-    expect(dispatch.calls.length)
-      .toEqual(5)
+    expect(dispatch.calls.length).toEqual(5)
   })
 
   it('watchList should call dispatch 7 times', () => {
@@ -127,7 +114,7 @@ describe('lists actions', () => {
     let ref = firebase.database().ref('path')
 
     var snapshot
-    function onValue (_snapshot_) {
+    function onValue(_snapshot_) {
       snapshot = _snapshot_
     }
     ref.on('value', onValue)
@@ -137,8 +124,7 @@ describe('lists actions', () => {
     ref.fakeEvent('child_removed', 'bar', null)
     ref.flush()
 
-    expect(dispatch.calls.length)
-      .toEqual(7)
+    expect(dispatch.calls.length).toEqual(7)
   })
 
   it('watchList should call dispatch 5 times', () => {
@@ -150,7 +136,7 @@ describe('lists actions', () => {
     let ref = firebase.database().ref('path')
 
     var snapshot
-    function onValue (_snapshot_) {
+    function onValue(_snapshot_) {
       snapshot = _snapshot_
     }
     ref.on('value', onValue)
@@ -160,8 +146,7 @@ describe('lists actions', () => {
     ref.fakeEvent('child_changed', 'bar', null)
     ref.flush()
 
-    expect(dispatch.calls.length)
-      .toEqual(5)
+    expect(dispatch.calls.length).toEqual(5)
   })
 
   it('watchList should call dispatch 4 times', () => {
@@ -175,8 +160,7 @@ describe('lists actions', () => {
     actions.watchList(firebase, 'path', 'path2')(dispatch, getState)
     ref.flush()
 
-    expect(dispatch.calls.length)
-      .toEqual(4)
+    expect(dispatch.calls.length).toEqual(4)
   })
 
   it('watchList should call dispatch 5 times', () => {
@@ -194,8 +178,7 @@ describe('lists actions', () => {
     ref.forceCancel(error, 'child_changed')
     ref.flush()
 
-    expect(dispatch.calls.length)
-      .toEqual(5)
+    expect(dispatch.calls.length).toEqual(5)
   })
 
   it('watchList should call dispatch 5 times', () => {
@@ -212,8 +195,7 @@ describe('lists actions', () => {
     ref.forceCancel(error, 'child_removed')
     ref.flush()
 
-    expect(dispatch.calls.length)
-      .toEqual(5)
+    expect(dispatch.calls.length).toEqual(5)
   })
 
   it('watchList should call dispatch 5 times', () => {
@@ -228,8 +210,7 @@ describe('lists actions', () => {
     actions.watchList(firebase, 'path', 'path2')(dispatch, getState)
     ref.flush()
 
-    expect(dispatch.calls.length)
-      .toEqual(5)
+    expect(dispatch.calls.length).toEqual(5)
   })
 
   it('unwatchList should call dispatch ', () => {
@@ -238,12 +219,11 @@ describe('lists actions', () => {
 
     actions.unwatchList(firebase, 'path')(dispatch, getState)
 
-    expect(dispatch)
-      .toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalled()
   })
 
   it('destroyList should call dispatch ', () => {
-    const getState = () => ({ initialization: { 'path': 'foo' } })
+    const getState = () => ({ initialization: { path: 'foo' } })
     const dispatch = expect.createSpy()
 
     actions.destroyList(firebase, 'path', 'path2')(dispatch, getState)
@@ -252,7 +232,7 @@ describe('lists actions', () => {
   })
 
   it('destroyList should call dispatch ', () => {
-    const getState = () => ({ initialization: { 'Mock://path': { 'foo': true, 'bar': true } } })
+    const getState = () => ({ initialization: { 'Mock://path': { foo: true, bar: true } } })
     const dispatch = expect.createSpy()
 
     let ref = firebase.database().ref('path')
@@ -262,7 +242,7 @@ describe('lists actions', () => {
   })
 
   it('destroyList should call dispatch 2times ', () => {
-    const getState = () => ({ initialization: { 'foo': 'foo' } })
+    const getState = () => ({ initialization: { foo: 'foo' } })
     const dispatch = expect.createSpy()
 
     actions.destroyList(firebase, 'path', 'path2')(dispatch, getState)
@@ -271,7 +251,7 @@ describe('lists actions', () => {
   })
 
   it('unwatchAllLists should call dispatch 2 times', () => {
-    const getState = () => ({ lists: { 'path1': 'path1', 'path2': 'path2' } })
+    const getState = () => ({ lists: { path1: 'path1', path2: 'path2' } })
     const dispatch = expect.createSpy()
 
     actions.unwatchAllLists(firebase, 'path')(dispatch, getState)
@@ -280,7 +260,7 @@ describe('lists actions', () => {
   })
 
   it('destroyAllLists should call dispatch 3 times', () => {
-    const getState = () => ({ lists: { 'path1': 'path1', 'path2': 'path2' } })
+    const getState = () => ({ lists: { path1: 'path1', path2: 'path2' } })
     const dispatch = expect.createSpy()
 
     actions.destroyAllLists(firebase, 'path')(dispatch, getState)
