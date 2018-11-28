@@ -24,6 +24,7 @@
   "devDependencies": {
     "expect": "^23.6.0",
     "firebase-mock": "^2.2.10",
+    "nwb": "^0.23.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3"
   },
