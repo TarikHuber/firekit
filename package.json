@@ -25,8 +25,8 @@
     "expect": "^23.6.0",
     "firebase-mock": "^2.2.10",
     "nwb": "^0.23.0",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
   },
   "author": "Tarik Huber",
   "homepage": "https://www.react-most-wanted.com/",
