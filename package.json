@@ -23,10 +23,10 @@
   "peerDependencies": {},
   "devDependencies": {
     "expect": "^24.9.0",
-    "firebase-mock": "^2.2.10",
+    "firebase-mock": "^2.3.2",
     "nwb": "^0.23.0",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2"
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   },
   "author": "Tarik Huber",
   "homepage": "https://www.react-most-wanted.com/",
