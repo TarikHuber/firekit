@@ -53,8 +53,8 @@ export const unWatch = path => {
   }
 }
 
-const getPath = (firebaseApp, ref) => {
-  return ref._query.path.segments.join('/')
+const getPath = (ref) => {
+  return ref.path
 }
 
 export const getRef = (firebaseApp, path) => {
@@ -65,17 +65,17 @@ export const getRef = (firebaseApp, path) => {
   }
 }
 
-export const getLocation = (firebaseApp, path) => {
+export const getLocation = (path) => {
   if (typeof path === 'string' || path instanceof String) {
     return path
   } else {
-    return getPath(firebaseApp, path)
+    return getPath(path)
   }
 }
 
 export function watchCol(firebaseApp, firebasePath, reduxPath = false, append = false) {
   let ref = getRef(firebaseApp, firebasePath)
-  const path = getLocation(firebaseApp, firebasePath)
+  const path = getLocation(firebasePath)
   let location = reduxPath || path
 
   return (dispatch, getState) => {
@@ -172,7 +172,7 @@ export function unwatchCol(firebaseApp, firebasePath) {
 
 export function destroyCol(firebaseApp, firebasePath, reduxPath = false) {
   return (dispatch, getState) => {
-    const location = reduxPath || getLocation(firebaseApp, firebasePath)
+    const location = reduxPath || getLocation(firebasePath)
     const locations = getState().initialization[location]
 
     dispatch(unWatch(location))
