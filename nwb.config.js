@@ -1,17 +1,12 @@
 module.exports = {
-  type: 'react-component',
+  type: "react-component",
   npm: {
     esModules: true,
-    umd: {
-      global: 'firekit',
-      externals: {
-        react: 'React'
-      }
-    }
+    umd: false,
   },
   webpack: {
     html: {
-      template: 'demo/public/index.html'
-    }
-  }
-}
+      template: "demo/public/index.html",
+    },
+  },
+};
