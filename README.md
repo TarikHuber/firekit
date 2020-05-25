@@ -12,9 +12,10 @@
 
 This project was bootstrapped with [nwb](https://github.com/insin/nwb)
 
-`Firekit` helps syncing the Firebase `RealtimeDatabase` or the new `Firestore` database with the `redux` state.
+`Firekit` helps syncing the Firebase `RealtimeDatabase` or `Firestore` database with the `redux` state.
 
 You can find a full functional **DEMO** project (React Most Wanted) with source code [here](https://www.react-most-wanted.com/).
+
 You can also find more about the concepts used in this library [here](https://codeburst.io/firekit-concepts-to-sync-firebase-and-redux-606a1e3e50d6)
 
 ## Table of Contents
@@ -36,33 +37,33 @@ You can also find more about the concepts used in this library [here](https://co
 
 ## Features
 
-Firekit allows you to watch firebase data and sync it to your redux store with a minimum of code to write. It uses a `Provider` to server the `firebaseApp` to all Components that need it.
+Firekit allows you to watch firebase data and sync it to your redux store with minimum of code to write. It uses a `Provider` to serve the `firebaseApp` to all Components that need it.
 
-Some features that are unique to this firebase toolkit are:
+Some features that are unique to this Firebase toolkit are:
 
-- **persistant watchers** - the watchers are persistant and are not linked to components. You deside when to watch a value in your firebase database and when to unwatch (turn off listeners) it.
+- **persistant watchers** - the watchers are persistant and are not linked to components. You decide when to watch a value in your Firebase database and when to unwatch it (i.e. turn off listeners).
 
-- **your create firebaseApp** - you initialise the firebaseApp how you want and add it as prop to the firekit `FirebaseProvider` and all your components have access to the firebaseApp
+- **create your firebaseApp** - you initialise the `firebaseApp` however you want, add it as prop to the firekit `FirebaseProvider`, and all of your components have access to the `firebaseApp`.
 
-- **easy persistance** - firekit saves in your store only simple json data so that persistance is no nightmare any more!
+- **easy persistance** - firekit saves in your store in a simple json format so that persistance is no longer a nightmare!
 
-- **normalised redux store** - the firekit reducers are structured with normalisation in mind
+- **normalized redux store** - the firekit reducers are structured with normalization in mind
 
-- **native firebase** - you can use firebases native sdk for the web. Firekit is just listening on changes. Every change on the data you can make as it is described in the official firebase documentation
+- **native Firebase** - you can use Firebase's native sdk for the web. Firekit just listens for data changes. You can make any and every change to the data as described in the official Firebase documentation.
 
-- **realtime forms** - firekit has a special Warapper for `redux-forms` witch allows to sync them with the realtime database very simple and plus it is automaticaly synced on field changes in real time if they ocure while your are in the Form
+- **realtime forms** - firekit has a special wrapper for `redux-forms` that allows it to sync with Firebase's Realtime Database (RTDB) very easily and it is automatically synchronizes field changes in real-time if they occur while your are in the form
 
-Features like populating values in the database are omited with purpose. The [Firebase Cloud Functions](https://firebase.google.com/docs/functions/) are the place where you should populate data that must be saved in multiple places.
+Features such as populating values in the database are omitted with good reason. [Firebase Cloud Functions](https://firebase.google.com/docs/functions/) are meant for tasks such as populating data in multiple places.
 
 ## Install
 
-For using only the `redux` features
+If only using the `redux` features
 
 ```
 npm i -S firekit
 ```
 
-In a `react` project where you want to have also the `Provider`
+In a `React` project where you want to have also the `Provider`
 
 ```
 npm i -S firekit firekit-provider
@@ -70,13 +71,14 @@ npm i -S firekit firekit-provider
 
 ## Configuration
 
-We will use code snipets from the demo project to explan how to configure firekit. There are two main steps for the configuration:
+We will use code snippets from the demo project to explan how to configure firekit. These are the main steps for the configuration:
 
-- prepare the `FirebaseProvider`
-- add the firekit reducers to your redux reducer
+1. prepare the `FirebaseProvider`
+1. add the firekit reducers to your redux reducer
 
-To initialize the `FirebaseReducer` we need to initialize our firebase app as it is described in the official firebase documentation.
-When we have the `firebaseApp` we just add it as paramater to our Provider.
+To initialize the `FirebaseReducer` we need to initialize our Firebase app as described in the official Firebase documentation.
+
+When we have the `firebaseApp` we add it as paramater to our Provider.
 
 ```js
 import React from 'react'
@@ -93,7 +95,7 @@ import firebase from 'firebase'
 const store = configureStore()
 addLocalizationData()
 
-//Get the configs of your firerbase project
+// Get the configs of your firerbase project
 const firebaseConf = {
   apiKey: 'AIzaSyBQAmNJ2DbRyw8PqdmNWlePYtMP0hUcjpY',
   authDomain: 'react-most-wanted-3b1b2.firebaseapp.com',
@@ -103,14 +105,14 @@ const firebaseConf = {
   messagingSenderId: '258373383650'
 }
 
-//Initialise your firebase app
+// Initialise your firebase app
 const firebaseApp = firebase.initializeApp(firebaseConf)
 
-//The part above can be done in a seperate file so it can be acessed from everiwhere in your application
-//It is moved here in this snipped for simplicity purpose
+// The part above can be done in a seperate file so it can be accessed from anywhere in your application.
+// It is moved here in this snippet for simplicity.
 
-//Now in your root part of your application add the FirebaseProvider as you have done with the redux Provoder
-//Take care that the FirebaseProvider comes after the redux Provider to have access to the redux store
+// In the root of your application, add the FirebaseProvider as you have done with the Redux Provider.
+// Take care that the FirebaseProvider comes after the Redux Provider to have access to the Redux store.
 ReactDOM.render(
   <Provider store={store}>
     <FirebaseProvider firebaseApp={firebaseApp}>
@@ -123,8 +125,8 @@ ReactDOM.render(
 registerServiceWorker()
 ```
 
-Take care that adding the `FirebaseProvider` happens in a root part of your application and after the redux Provider.
-That would be the first part. In the second one we just add the firekit reducers to our redux reduxer.
+Take care that adding the `FirebaseProvider` happens in the root of your application, and after the Redux Provider.
+Secondly, we add the firekit reducers to our redux reduxer.
 
 ```js
 import { responsiveStateReducer } from 'redux-responsive'
@@ -155,19 +157,21 @@ const reducers = combineReducers({
 export default reducers
 ```
 
-To add all firekit reducers to your redux store just spread the firekitReducers object into your `comineReducers` object.
+To add all firekit reducers to your redux store, spread the firekitReducers object into your `combineReducers` object.
 
-**WARNING:** if you are using persistance take care that the reducer `initialization` is not persisted! He saves the watchers. If he would be persisted the watcher would not initialize again after a page reload. If you are using `redux-persist` just add him to the black list.
+**WARNING:** if you are using persistance take care that the reducer `initialization` is not persisted! It saves the watchers. If persisted, the watcher would not initialize again after a page reload. If you are using `redux-persist` just add it to the black list.
 
 ```js
-persistStore(store, { blacklist: ['auth', 'form', 'connection', 'initialization'] }, () => {}) //Add initialization to persistance blacklist if you use persistance
+// Add initialization to persistance blacklist if you use persistance
+persistStore(store, { blacklist: ['auth', 'form', 'connection', 'initialization'] }, () => {})
 ```
 
-**INFO:** the reducers are not customasable. In future we could add customatisation for this so they could have any name you want.
+**INFO:** the reducers are not customizable. In the future, we could add customatization for this so they could have any name you want.
 
 ## Usage
 
 Let us now do something with our firekit :smile:
+
 To use `firekit` in a component we need to tell the component to get all `firekit` props from the context.
 We use for that a simple call `withFirebase`. It is very similar to the `react-router` call `withRouter`. The usage is exactly the same.
 
@@ -196,16 +200,17 @@ MyComponent.propTypes = {
   intl: intlShape.isRequired
 }
 
-export default injectIntl(withFirebase(MyComponent)) //Here using 'withFirebase()' we added all we need to our component
+// Use 'withFirebase()' to add what we need for our component
+export default injectIntl(withFirebase(MyComponent))
 ```
 
-As you can see calling `withFirebase(Component)` adds to our Component all props we need to work with firekit. `watchList` is one of more API calls we can make. More about every one is writen below in the [API](#api) section.
+As you can see calling `withFirebase(Component)` adds to our Component the props we need to work with firekit. `watchList` is another API call we can make. More about each one is written below in the [API](#api) section.
 
-Now that we know how to add the `firekit` props to our Compont lets take a look what we can do with it.
+Now that we know how to add the `firekit` props to our Component, let us take a look what we can do with it.
 
 ### Accessing firebaseApp
 
-The `FirebaseProvider` provides the `firebaseApp` trought the rect context and `withFirebase` allows us to get it easely as Component property. We can then do with the `firebaseApp` whatever we want: create, update, delete data in the realtime databae, work with the auth or with the storage. You have all your freedom with firebase cause `firebaseApp` is the same one you initialised and put into the `FirebaseProvider`.
+The `FirebaseProvider` provides the `firebaseApp` through the React context and `withFirebase` allows us to get it easily as a Component property. We can then do with `firebaseApp` whatever we want: create, get, update, or delete data in the realtime database, work with the auth or with the storage. You have all your freedom with Firebase because `firebaseApp` is the same one you initialized and put into the `FirebaseProvider`.
 
 ```js
 import React, { Component } from 'react'
@@ -219,7 +224,7 @@ class MyComponent extends Component {
     firebaseApp
       .database()
       .ref('some_value')
-      .update(55) //Here we just changed a value in our database
+      .update(55) // change a value in our database
   }
 
   render() {
@@ -233,7 +238,7 @@ MyComponent.propTypes = {
   intl: intlShape.isRequired
 }
 
-export default injectIntl(withFirebase(MyComponent)) //Here using 'withFirebase()' we added all we need to our component
+export default injectIntl(withFirebase(MyComponent)) // add what we need to our component
 ```
 
 ### Connection
@@ -253,7 +258,7 @@ class MyComponent extends Component {
 
   componentWillUnmount() {
     const { unsubscribeConnection } = this.props
-    unsubscribeConnection() // Here we unsunscribe the listening to the connection state
+    unsubscribeConnection() // Unsunscribe the listener of the connection state
   }
 
   render() {
@@ -267,7 +272,7 @@ const mapStateToProps = state => {
   const { connection } = state
 
   return {
-    isConnected: connection ? connection.isConnected : false // Here we get the connection state from the redux store
+    isConnected: connection ? connection.isConnected : false // Get the connection state from the redux store
   }
 }
 
@@ -276,9 +281,9 @@ export default connect(mapStateToProps)(withFirebase(MyComponent))
 
 ### Lists and Queries
 
-We can easely observe lists in the realtime database using the `watchList` and `unwatchList` API calls. The same calls are used to observe Firebase queries. `watchList` and `unwatchList` can recieve as parameter a string to a database path or a Firebase reference to that path. If you have a simple reference to a path using just the string of the path is the right choice. But if you have a Firebase query reference you can send that reference with all its query calls as parameter.
+We can easily observe lists in the realtime database using the `watchList` and `unwatchList` API calls. The same calls are used to observe Firebase queries. `watchList` and `unwatchList` can receive, as parameters, a string to a database path or a Firebase reference to that path. If you have a simple string reference to a path, that is an optimal choice. But if you have a Firebase query reference you can send that reference with all its query calls as parameter.
 
-**IMPORTAND:**: the list will be a Array contained of objects witch have the props `key` and `val` where the `key` is the child key in the list and `val` the value of the child. This is similar to the snapshot you get from a Firebase list `on` event.
+**IMPORTANT:**: the list will be an Array containing objects that have props {`key` and `val`} where the `key` is the child key in the list and `val` the value of that child. This is similar to the snapshot you get from a Firebase list `on` event.
 
 ```js
 import React, { Component } from 'react'
@@ -290,27 +295,27 @@ class MyComponent extends Component {
   componentDidMount() {
     const { watchList, firebaseApp } = this.props
 
-    watchList('users') //Here we started watching the users list
+    watchList('users') // start watching the 'users' list
 
-    //Here we watch a simple firebase query
+    // Watch a simple firebase query for 'tasks'
     let tasksRef = firebaseApp
       .database()
       .ref('tasks')
       .limitToFirst(10)
     watchList(tasksRef)
 
-    //Here we watch a list and save the data on a specific location in our redux store
+    // Watch the 'public_task' list and save its data in the location 'tasks' in our redux store
     watchList('public_tasks', 'tasks')
   }
 
   componentWillUnmount() {
     const { unwatchList } = this.props
-    unwatchList('users') // We can unwatch the list on unmounting the Component
-    unwatchList('tasks') // To unwatch a query qe can use just the ref path string
-    unwatchList('public_tasks') // To unwatch a watcher that is stored in a specific location we call the unwatchList with the path
+    unwatchList('users') // Unwatch the 'users' list
+    unwatchList('tasks') // To unwatch a query we can use just the ref path string
+    unwatchList('public_tasks') // Unwatch a watcher that is stored in a specific location/path
   }
 
-  rednerList = () => {
+  renderList = () => {
     const { users } = this.props
 
     if (users === undefined) {
@@ -325,7 +330,7 @@ class MyComponent extends Component {
   render() {
     const { isConnected } = this.props
 
-    return <div>{this.rednerList()}</div>
+    return <div>{this.renderList()}</div>
   }
 }
 
@@ -333,7 +338,7 @@ const mapStateToProps = state => {
   const { lists } = state
   return {
     users: lists.users,
-    tasks: lists.tasks //the data from 'public_tasks' path
+    tasks: lists.tasks // data from 'public_tasks' path
   }
 }
 
@@ -342,15 +347,14 @@ export default connect(mapStateToProps)(withFirebase(MyComponent))
 
 Here we unwatched the list on `componentWillUnmount`. We could also leave this away and the list will change in realtime in the background and it will not load all data on revisiting the Component again.
 
-If you are using persistand watcher you would have to unwatch them in some point of your application or on application exit.
-Because of that there are special calls that allow us to unwatch all persistand watcher in a single call. That could be calles in the root component of your application like this:
+If you are using a persistant watcher you would have to unwatch them in some point of your application, or on application exit.  There are special calls to unwatch all persistant watchers in a single call. That could be called in the root component of your application like this:
 
 ```js
 
 //... other code of your root Component
 
   componentWillUnmount() {
-    const { unsubscribeConnection, unwatchAllLists, unwatchAllPaths }= this.props;
+    const { unsubscribeConnection, unwatchAllLists, unwatchAllPaths } = this.props;
     unsubscribeConnection();
     unwatchAllLists();
     unwatchAllPaths();
@@ -360,25 +364,25 @@ Because of that there are special calls that allow us to unwatch all persistand 
 
 ```
 
-**INFO:** You can call the `watchList` and `watchPath` as often you want. The library caches initialized lists and paths to the `initialization` state so it knows if you are trying to initialize a list or path that is already initialized and is already observed and in that case the library just doesn't do anything. So if you call `watchList('users')` in multiple places in your application you don't have to care about if it is already initialized or not and can be shure that if it is you just have your data in the redux store ready to use.
+**INFO:** You can call the `watchList` and `watchPath` as often you want. The library caches initialized lists and paths to the `initialization` state so it knows if you are trying to initialize an already-initialized (and observed) list or path.  In that case the library does nothing. If you call `watchList('users')` in multiple places in your application you don't have to worry about it.  Your data is in the redux store ready to use.
 
-As you noticed we here unwatch not only the lists but also the connection and the paths watcher.
+As you noticed we here unwatch disconnects not only the lists but also the connection and the paths watchers.
 
 ### Paths
 
-The paths watcher exactly like the lists watcher with `watchPath` and `unwatchPath`.
+The paths watcher are configured similarly to the lists watcher with `watchPath` and `unwatchPath`.
 
 ```js
 //...
   componentDidMount(){
     const { watchPath }= this.props;
-    watchPath('users_count'); //Here we started watching the path
+    watchPath('users_count'); // Start watching the path
   }
 
   componentWillUnmount() {
     const { unwatchPath, destroyPath }= this.props;
-    unwatchPath('users'); // We can unwatch the path on unmounting the Component
-    destroyPath('users'); // We can destory the path. This will remove the path data from redux.
+    unwatchPath('users'); // Unwatch the path on unmounting the Component
+    destroyPath('users'); // Destory the path. This will remove the path data from redux.
 
     //INFO: calling destroy will automaticaly unwatch the path or list
   }
@@ -386,22 +390,22 @@ The paths watcher exactly like the lists watcher with `watchPath` and `unwatchPa
 //...
 ```
 
-Here we also unwatch the path on `componentWillUnmount` but we could also leave the watcher persistand and unwatch it on application closing. This is useful if you need to load user data or user permissions from the database and you want that the permission changes take effect in realtime to the user.
+Here we also unwatch the path on `componentWillUnmount` but we could also leave the watcher persistant and unwatch it on application closing. This is useful if you need to load user data or user permissions from the database and you want that permission changes take effect in realtime to the user.
 
 ### Docs
 
-`firekit` can use the new Firebase `firestore` feature and enables you to watch changes on documents and collections.
-The docs watcher exactly like the paths watcher with `watchDoc` and `unwatchDoc`.
+`firekit` also supports `Firestore`, enabling you to watch changes on documents and collections.
+The docs watcher works similarly to the paths watcher with `watchDoc` and `unwatchDoc`.
 
 ```js
 //...
   componentDidMount(){
-    const { watchDoc }= this.props;
+    const { watchDoc } = this.props;
     watchDoc('samples/sandwichData');
   }
 
   componentWillUnmount() {
-    const { unwatchDoc, destroyDoc }= this.props;
+    const { unwatchDoc, destroyDoc } = this.props;
     unwatchDoc('samples/sandwichData');
     destroyDoc('samples/sandwichData');
 
@@ -410,21 +414,21 @@ The docs watcher exactly like the paths watcher with `watchDoc` and `unwatchDoc`
 //...
 ```
 
-**IMPORTAND:**: The RealtimDatabase of Firebase enabled us to have global unsubsrciption to the watchers. This is no longer possible with the `firestore` so even it seems possible to work with persistent watchers it's unofrtunately NOT! You have to take care to unwatch every listener when leaving a component or the instance where the watcher was initialised.
+**IMPORTANT:**: Firebase RealtimDatabase (RTDB) enables us to have global unsubscription of watchers. This is not possible with Firestore! You must take care to unwatch each listener when leaving a component or instance where the watcher was initialised.
 
 ### Collections
 
-The collections watcher exactly like the docs watcher with `watchCol` and `unwatchCol`.
+The collections watcher is similar to the docs watcher with `watchCol` and `unwatchCol`.
 
 ```js
 //...
   componentDidMount(){
-    const { watchCol }= this.props;
+    const { watchCol } = this.props;
     watchCol('posts');
   }
 
   componentWillUnmount() {
-    const { unwatchCol, destroyCol }= this.props;
+    const { unwatchCol, destroyCol } = this.props;
     unwatchCol('posts');
 
   }
@@ -432,33 +436,33 @@ The collections watcher exactly like the docs watcher with `watchCol` and `unwat
 //...
 ```
 
-**IMPORTAND:**: Here we have the same restrictions as they are with docs on the global unwatch feature.
+**IMPORTANT:**: Here we have the same restrictions as with Docs for the global unwatch feature.
 
 ### FireForm
 
-`FirForm` is a special component created for usage with `redux-form`. It takes a `path` and an `uid` paramater to know where to get its data. The `name` propertie is the name of the `redux-form` Form name. All other properties are optional and wil be described in further documentation. It is importand to know that `FireForm` can only be used in Components that have the `withFirebase` called to access the `firebaseApp`.
+`FireForm` is a special component created for usage with `redux-form`. It takes a `path` and an `uid` paramater to know where to get its data. The `name` property is the name of the `redux-form` Form name. All other properties are optional and are described later in this documentat. It is important to know that `FireForm` can only be used in Components that have the `withFirebase` called to access the `firebaseApp`.
 
-Inside the `FireForm` we put as child our Form with the fields we want and the macig hapens :smile:
+Inside the `FireForm` we put as child our Form with the fields we want and the magic happens :smile:
 
-All fields will be filled with the data from the `path` and `uid` and if no `uid` is provided the form will be a Form that creates a new entry in your `path`.
+All fields will be filled with the data from the `path` and `uid`. If no `uid` is provided, the form will create a new entry in your `path`.
 
-And comes the cool thing. If you are in the Form working on fields and someone else changes some data. Every field that you haven't changed will be in realtime updated! Isn't that cool :smile:
+And now comes the cool thing! If you are in the Form working on fields and someone else changes some data. Every field that you haven't modified will be updated in realtime! Isn't that cool ??!!?? :smile:
 
 ```js
 //...
 
 <FireForm
-  firebaseApp={firebaseApp}
-  name={'companie'}
-  path={`${path}`}
-  onSubmitSuccess={values => {
+  firebaseApp = {firebaseApp}
+  name = {'company'}
+  path = {`${path}`}
+  onSubmitSuccess = {values => {
     history.push('/companies')
   }}
-  onDelete={values => {
+  onDelete = {values => {
     history.push('/companies')
   }}
-  handleCreateValues={this.handleCreateValues}
-  uid={match.params.uid}
+  handleCreateValues = {this.handleCreateValues}
+  uid = {match.params.uid}
 >
   <Form /> // Here is your simple form
 </FireForm>
@@ -468,13 +472,13 @@ And comes the cool thing. If you are in the Form working on fields and someone e
 
 ### Messaging
 
-Firebase offers a simple API for managing push notification messages. Firekit provides a simple API call `initMessaging` that manages all messaging events for you and syncs them to your redux store. The API call can recieve a function paramater you can use to hanlde new messages. That parameter is optional. Firekit stores the messaging token, permission and new messages to your store automaticaly. In future there will be added APIs to clear single and all messages.
+Firebase offers a simple API for managing push notification messages. Firekit provides a simple API call `initMessaging` that manages all messaging events for you and syncs them to your redux store. The API receives a function paramater you can use to handle new messages. That parameter is optional. Firekit stores the messaging token, permission and new messages to your store automatically. In future there will be additional APIs to clear single and all messages.
 
 ```js
 //...
   componentDidMount(){
-    const { initMessaging }= this.props;
-    initMessaging((payload)=>{console.log(payload)}); //Here we initialise the Firbease messaging and log new messages to the console
+    const { initMessaging } = this.props;
+    initMessaging((payload) => {console.log(payload)}); // Initialise Firebase messaging and log messages to the console
   }
 
 //...
