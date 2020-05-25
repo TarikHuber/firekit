@@ -486,17 +486,17 @@ Firebase offers a simple API for managing push notification messages. Firekit pr
 
 ## TO DO
 
-- [x] compine all reducer to one import
+- [x] combine all reducers into one import
 - [x] integrate firebase messaging
 - [x] integrate firebase auth watcher
 - [x] integrate firebase queries watcher
 - [x] implement alias names (custom destination locations) for path and list watchers
-- [x] seperate firekit-provider and fireform in seperate projects
+- [x] separate firekit-provider and fireform in seperate projects
 - [x] integrate `firestore` documents watcher
 - [x] integrate `firestore` collections watcher
 - [x] integrate `firestore` queries watcher
 - [x] integrate selectors for lists
-- [x] integrate error hanling
+- [x] integrate error handling
 - [x] integrate loading indicators in redux state
 
 ## License
